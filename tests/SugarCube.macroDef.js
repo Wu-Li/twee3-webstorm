@@ -1,5 +1,5 @@
 Macro.add("MySpecialMacro", {
-	handler() {
-		console.log("I am special!");
-	}
+    handler() {
+        console.log("I am special!");
+    }
 });

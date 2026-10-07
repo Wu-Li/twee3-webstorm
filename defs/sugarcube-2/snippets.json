@@ -1,498 +1,498 @@
 {
-	"StoryData": {
-		"prefix": "StoryData",
-		"body": [
-			":: StoryData",
-			"{",
-			"\t\"ifid\": \"${UUID/(.*)/${1:/upcase}/}\",",
-			"\t\"format\": \"$1\",",
-			"\t\"format-version\": \"$2\"",
-			"}"
-		],
-		"description": "StoryData JSON chunk."
-	},
-	"StoryInterface": {
-		"prefix": "StoryInterface",
-		"body": [
-			":: StoryInterface",
-			"<!-- https://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinterface --> ",
-			"<!-- take note of 'data-init-passage' and 'data-passage' --> ",
-			"<div id=\"${1:interface}\">",
-			"\t<div id=\"${2:menu}\" data-init-passage=\"${2/(.*)/${1:/capitalize}/}\"></div>",
-			"\t<div id=\"${3:notifications}\" data-passage=\"${3/(.*)/${1:/capitalize}/}\"></div>\n",
-			"\t<!-- you must have one element with #id of 'passages' --> ",
-			"\t<div id=\"passages\"></div>",
-			"\t${4:<div id=\"${5}\" ${6|data-passage,data-init-passage|}=\"${5/(.*)/${1:/capitalize}/}\"></div>}",
-			"</div>"
-		],
-		"description": "Adds default markup for StoryInterface."
-	},
-	"Macro: link": {
-		"prefix": ":link",
-		"body": [
-			"<<link \"${1:title}\" \"${2:passage}\">>$3<</link>>"
-		]
-	},
-	"Macro: Link (wrap title)": {
-		"prefix": ":linkwrap",
-		"body": [
-			"<<link \"$TM_SELECTED_TEXT\" \"${1:passage}\">>$0<</link>>"
-		]
-	},
-	"Macro: link (no passage)": {
-		"prefix": ":linknp",
-		"body": [
-			"<<link \"${1:title}\">>$2<</link>>"
-		]
-	},
-	"Macro: link (same passage)": {
-		"prefix": ":linksp",
-		"body": [
-			"<<link \"${1:title}\" `passage()`>>$0<</link>>"
-		]
-	},
-	"Macro: capture": {
-		"prefix": ":capture",
-		"body": [
-			"<<capture ${1:variables}>>\n\t$2\n<</capture>>"
-		]
-	},
-	"Macro: set": {
-		"prefix": ":set",
-		"body": [
-			"<<set $1>>"
-		]
-	},
-	"Macro: unset": {
-		"prefix": ":unset",
-		"body": [
-			"<<unset ${1:variable}>>"
-		]
-	},
-	"Macro: run": {
-		"prefix": ":run",
-		"body": [
-			"<<run $1>>"
-		]
-	},
-	"Macro: script": {
-		"prefix": ":script",
-		"body": [
-			"<<script>>$1<</script>>"
-		]
-	},
-	"Macro: script (wrap)": {
-		"prefix": ":scriptwrap",
-		"body": [
-			"<<script>>$TM_SELECTED_TEXT<</script>>"
-		]
-	},
-	"Macro: =": {
-		"prefix": ":=",
-		"body": [
-			"<<= $1>>"
-		]
-	},
-	"Macro: -": {
-		"prefix": ":-",
-		"body": [
-			"<<- $1>>"
-		]
-	},
-	"Macro: include": {
-		"prefix": ":include",
-		"body": [
-			"<<include \"${1:passage}\">>"
-		]
-	},
-	"Macro: nobr": {
-		"prefix": ":nobr",
-		"body": [
-			"<<nobr>>\n\t${1:contents}\n<</nobr>>"
-		]
-	},
-	"Macro: nobr (wrap)": {
-		"prefix": ":nobrwrap",
-		"body": [
-			"<<nobr>>\n\t$TM_SELECTED_TEXT\n<</nobr>>"
-		]
-	},
-	"Macro: print": {
-		"prefix": ":print",
-		"body": [
-			"<<print $1>>"
-		]
-	},
-	"Macro: print (wrap)": {
-		"prefix": ":printwrap",
-		"body": [
-			"<<print \"$TM_SELECTED_TEXT\">>"
-		]
-	},
-	"Macro: silent": {
-		"prefix": ":silent",
-		"body": [
-			"<<silent>>\n\t${1:contents}\n<</silent>>"
-		]
-	},
-	"Macro: silent (wrap)": {
-		"prefix": ":silentwrap",
-		"body": [
-			"<<silent>>\n\t$TM_SELECTED_TEXT\n<</silent>>"
-		]
-	},
-	"Macro: silently": {
-		"prefix": ":silently",
-		"body": [
-			"<<silently>>\n\t${1:contents}\n<</silently>>"
-		]
-	},
-	"Macro: silently (wrap)": {
-		"prefix": ":silentlywrap",
-		"body": [
-			"<<silently>>\n\t$TM_SELECTED_TEXT\n<</silently>>"
-		]
-	},
-	"Macro: type": {
-		"prefix": ":type",
-		"body": [
-			"<<type ${1:speed} $2>>\n\t$0\n<</type>>"
-		]
-	},
-	"Macro: if": {
-		"prefix": ":if",
-		"body": [
-			"<<if ${1:condition}>>\n\t$2\n<</if>>"
-		]
-	},
-	"Macro: else": {
-		"prefix": ":else",
-		"body": [
-			"<<else>>\n\t"
-		]
-	},
-	"Macro: elseIf": {
-		"prefix": ":elseif",
-		"body": [
-			"<<elseif ${1:condition}>>\n\t"
-		]
-	},
-	"Macro: for (Empty)": {
-		"prefix": ":for",
-		"body": [
-			"<<for $1>>\n\t$2\n<</for>>"
-		]
-	},
-	"Macro: for (While)": {
-		"prefix": ":forwhile",
-		"body": [
-			"<<for ${1:condition}>>\n\t$2\n<</for>>"
-		]
-	},
-	"Macro: for (Each)": {
-		"prefix": ":foreach",
-		"body": [
-			"<<for ${1:_val} range ${2:collection}>>\n\t$3\n<</for>>"
-		]
-	},
-	"Macro: for (Count)": {
-		"prefix": ":forloop",
-		"body": [
-			"<<for ${1:init}; ${2:condition}; ${3:post}>>\n\t$4\n<</for>>"
-		]
-	},
-	"Macro: break": {
-		"prefix": ":break",
-		"body": [
-			"<<break>>"
-		]
-	},
-	"Macro: continue": {
-		"prefix": ":continue",
-		"body": [
-			"<<continue>>"
-		]
-	},
-	"Macro: switch": {
-		"prefix": ":switch",
-		"body": [
-			"<<switch ${1:expression}>>\n\t<<case ${2:valueList}>>\n\t${3:content}\n$0\n<</switch>>"
-		]
-	},
-	"Macro: case": {
-		"prefix": ":case",
-		"body": [
-			"<<case ${1:valueList}>>\n\t${2:content}\n"
-		]
-	},
-	"Macro: default": {
-		"prefix": ":default",
-		"body": [
-			"<<default>>\n\t${2:content}"
-		]
-	},
-	"Macro: button": {
-		"prefix": ":button",
-		"body": [
-			"<<button \"${1:title}\" \"${2:passage}\">>$3<</button>>"
-		]
-	},
-	"Macro: button (no passage)": {
-		"prefix": ":buttonnp",
-		"body": [
-			"<<button \"${1:title}\">>$0<</button>>"
-		]
-	},
-	"Macro: checkbox": {
-		"prefix": ":checkbox",
-		"body": [
-			"<<checkbox \"${1:receiverName}\" ${2:uncheckedValue} ${3:checkedValue} ${4|autocheck,checked|}>>"
-		]
-	},
-	"Macro: cycle": {
-		"prefix": ":cycle",
-		"body": [
-			"<<cycle \"${1:receiverName}\">>\n\t$2\n<</cycle>>"
-		]
-	},
-	"Macro: option": {
-		"prefix": ":option",
-		"body": [
-			"<<option ${1:label}>>\n"
-		]
-	},
-	"Macro: optionsfrom": {
-		"prefix": ":optionsfrom",
-		"body": [
-			"<<optionsfrom ${1:collection}>>\n"
-		]
-	},
-	"Macro: linkappend": {
-		"prefix": ":linkappend",
-		"body": [
-			"<<linkappend \"${1:linktext}\">>${2:content}<</linkappend>>"
-		]
-	},
-	"Macro: linkprepend": {
-		"prefix": ":linkprepend",
-		"body": [
-			"<<linkprepend \"${1:linktext}\">>${2:content}<</linkprepend>>"
-		]
-	},
-	"Macro: linkreplace": {
-		"prefix": ":linkreplace",
-		"body": [
-			"<<linkreplace \"${1:linktext}\">>${2:content}<</linkreplace>>"
-		]
-	},
-	"Macro: listbox": {
-		"prefix": ":listbox",
-		"body": [
-			"<<listbox \"${1:receiverName}\">>\n\t$0\n<</listbox>>"
-		]
-	},
-	"Macro: numberbox": {
-		"prefix": ":numberbox",
-		"body": [
-			"<<numberbox \"${1:receiverName}\" ${2:defaultValue}>>"
-		]
-	},
-	"Macro: radiobutton": {
-		"prefix": ":radiobutton",
-		"body": [
-			"<<radiobutton \"${1:receiverName}\" ${2:defaultValue}>>"
-		]
-	},
-	"Macro: textarea": {
-		"prefix": ":textarea",
-		"body": [
-			"<<textarea \"${1:receiverName}\" ${2:defaultValue}>>"
-		]
-	},
-	"Macro: textbox": {
-		"prefix": ":textbox",
-		"body": [
-			"<<textbox \"${1:receiverName}\" ${2:defaultValue}>>"
-		]
-	},
-	"Macro: actions": {
-		"prefix": ":actions",
-		"body": [
-			"<<actions ${1:list}>>"
-		]
-	},
-	"Macro: back": {
-		"prefix": ":back",
-		"body": [
-			"<<back $1>>"
-		]
-	},
-	"Macro: choice": {
-		"prefix": ":choice",
-		"body": [
-			"<<choice $1>>"
-		]
-	},
-	"Macro: return": {
-		"prefix": ":return",
-		"body": [
-			"<<return $1>>"
-		]
-	},
-	"Macro: addclass": {
-		"prefix": ":addclass",
-		"body": [
-			"<<addclass \"${1:selector}\" \"${2:classNames}\">>"
-		]
-	},
-	"Macro: append": {
-		"prefix": ":append",
-		"body": [
-			"<<append \"${1:selector}\">>${2:content}<</append>>"
-		]
-	},
-	"Macro: copy": {
-		"prefix": ":copy",
-		"body": [
-			"<<copy \"${1:selector}\">>"
-		]
-	},
-	"Macro: prepend": {
-		"prefix": ":prepend",
-		"body": [
-			"<<prepend \"${1:selector}\">>$0<</prepend>>"
-		]
-	},
-	"Macro: remove": {
-		"prefix": ":remove",
-		"body": [
-			"<<remove \"${1:selector}\">>"
-		]
-	},
-	"Macro: removeclass": {
-		"prefix": ":removeclass",
-		"body": [
-			"<<removeclass \"${1:selector}\">>"
-		]
-	},
-	"Macro: replace": {
-		"prefix": ":replace",
-		"body": [
-			"<<replace \"${1:selector}\">>${2:content}<</replace>>"
-		]
-	},
-	"Macro: toggleclass": {
-		"prefix": ":toggleclass",
-		"body": [
-			"<<toggleclass \"${1:selector}\" \"${2:classNames}\">>"
-		]
-	},
-	"Macro: audio": {
-		"prefix": ":audio",
-		"body": [
-			"<<audio \"${1:trackIdList}\" ${2:action}>>"
-		]
-	},
-	"Macro: cacheaudio": {
-		"prefix": ":cacheaudio",
-		"body": [
-			"<<cacheaudio \"${1:trackId}\" \"${2:sourceList}\">>"
-		]
-	},
-	"Macro: createaudiogroup": {
-		"prefix": ":createaudiogroup",
-		"body": [
-			"<<createaudiogroup \"${1:groupId}\">>\n\t$0\n<</createaudiogroup>>"
-		]
-	},
-	"Macro: track (Audio Group)": {
-		"prefix": ":track",
-		"body": [
-			"<<track \"${1:trackId}\">>"
-		]
-	},
-	"Macro: track (Playlist)": {
-		"prefix": ":track",
-		"body": [
-			"<<track \"${1:trackId}\" ${2:action}>>"
-		]
-	},
-	"Macro: createplaylist": {
-		"prefix": ":createplaylist",
-		"body": [
-			"<<createplaylist \"${1:listId}\">>\n\t$0\n<</createplaylist>>"
-		]
-	},
-	"Macro: playlist": {
-		"prefix": ":playlist",
-		"body": [
-			"<<playlist \"${1:listId}\" ${2:action}>>"
-		]
-	},
-	"Macro: masteraudio": {
-		"prefix": ":masteraudio",
-		"body": [
-			"<<masteraudio ${1:action}>>"
-		]
-	},
-	"Macro: removeaudiogroup": {
-		"prefix": ":removeaudiogroup",
-		"body": [
-			"<<removeaudiogroup \"${1:groupId}\">>"
-		]
-	},
-	"Macro: removeplaylist": {
-		"prefix": ":removeplaylist",
-		"body": [
-			"<<removeplaylist \"${1:listId}\">>"
-		]
-	},
-	"Macro: waitforaudio": {
-		"prefix": ":waitforaudio",
-		"body": [
-			"<<waitforaudio>>"
-		]
-	},
-	"Macro: done": {
-		"prefix": ":done",
-		"body": [
-			"<<done>>\n\t$0\n<</done>>"
-		]
-	},
-	"Macro: goto": {
-		"prefix": ":goto",
-		"body": [
-			"<<goto \"${1:passage}\">>"
-		]
-	},
-	"Macro: repeat": {
-		"prefix": ":repeat",
-		"body": [
-			"<<repeat ${1:delay}>>\n\t$0\n<</repeat>>"
-		]
-	},
-	"Macro: stop": {
-		"prefix": ":stop",
-		"body": [
-			"<<stop>>"
-		]
-	},
-	"Macro: timed": {
-		"prefix": ":timed",
-		"body": [
-			"<<timed ${1:0s}>>\n\t$0\n<</timed>>"
-		]
-	},
-	"Macro: next": {
-		"prefix": ":next",
-		"body": [
-			"<<next ${1:delay}>>\n\t"
-		]
-	},
-	"Macro: widget": {
-		"prefix": ":widget",
-		"body": [
-			"<<widget \"${1:name}\">>\n\t$0\n<</widget>>"
-		]
-	}
+  "StoryData": {
+    "prefix": "StoryData",
+    "body": [
+      ":: StoryData",
+      "{",
+      "\t\"ifid\": \"${UUID/(.*)/${1:/upcase}/}\",",
+      "\t\"format\": \"$1\",",
+      "\t\"format-version\": \"$2\"",
+      "}"
+    ],
+    "description": "StoryData JSON chunk."
+  },
+  "StoryInterface": {
+    "prefix": "StoryInterface",
+    "body": [
+      ":: StoryInterface",
+      "<!-- https://www.motoslave.net/sugarcube/2/docs/#special-passage-storyinterface --> ",
+      "<!-- take note of 'data-init-passage' and 'data-passage' --> ",
+      "<div id=\"${1:interface}\">",
+      "\t<div id=\"${2:menu}\" data-init-passage=\"${2/(.*)/${1:/capitalize}/}\"></div>",
+      "\t<div id=\"${3:notifications}\" data-passage=\"${3/(.*)/${1:/capitalize}/}\"></div>\n",
+      "\t<!-- you must have one element with #id of 'passages' --> ",
+      "\t<div id=\"passages\"></div>",
+      "\t${4:<div id=\"${5}\" ${6|data-passage,data-init-passage|}=\"${5/(.*)/${1:/capitalize}/}\"></div>}",
+      "</div>"
+    ],
+    "description": "Adds default markup for StoryInterface."
+  },
+  "Macro: link": {
+    "prefix": ":link",
+    "body": [
+      "<<link \"${1:title}\" \"${2:passage}\">>$3<</link>>"
+    ]
+  },
+  "Macro: Link (wrap title)": {
+    "prefix": ":linkwrap",
+    "body": [
+      "<<link \"$TM_SELECTED_TEXT\" \"${1:passage}\">>$0<</link>>"
+    ]
+  },
+  "Macro: link (no passage)": {
+    "prefix": ":linknp",
+    "body": [
+      "<<link \"${1:title}\">>$2<</link>>"
+    ]
+  },
+  "Macro: link (same passage)": {
+    "prefix": ":linksp",
+    "body": [
+      "<<link \"${1:title}\" `passage()`>>$0<</link>>"
+    ]
+  },
+  "Macro: capture": {
+    "prefix": ":capture",
+    "body": [
+      "<<capture ${1:variables}>>\n\t$2\n<</capture>>"
+    ]
+  },
+  "Macro: set": {
+    "prefix": ":set",
+    "body": [
+      "<<set $1>>"
+    ]
+  },
+  "Macro: unset": {
+    "prefix": ":unset",
+    "body": [
+      "<<unset ${1:variable}>>"
+    ]
+  },
+  "Macro: run": {
+    "prefix": ":run",
+    "body": [
+      "<<run $1>>"
+    ]
+  },
+  "Macro: script": {
+    "prefix": ":script",
+    "body": [
+      "<<script>>$1<</script>>"
+    ]
+  },
+  "Macro: script (wrap)": {
+    "prefix": ":scriptwrap",
+    "body": [
+      "<<script>>$TM_SELECTED_TEXT<</script>>"
+    ]
+  },
+  "Macro: =": {
+    "prefix": ":=",
+    "body": [
+      "<<= $1>>"
+    ]
+  },
+  "Macro: -": {
+    "prefix": ":-",
+    "body": [
+      "<<- $1>>"
+    ]
+  },
+  "Macro: include": {
+    "prefix": ":include",
+    "body": [
+      "<<include \"${1:passage}\">>"
+    ]
+  },
+  "Macro: nobr": {
+    "prefix": ":nobr",
+    "body": [
+      "<<nobr>>\n\t${1:contents}\n<</nobr>>"
+    ]
+  },
+  "Macro: nobr (wrap)": {
+    "prefix": ":nobrwrap",
+    "body": [
+      "<<nobr>>\n\t$TM_SELECTED_TEXT\n<</nobr>>"
+    ]
+  },
+  "Macro: print": {
+    "prefix": ":print",
+    "body": [
+      "<<print $1>>"
+    ]
+  },
+  "Macro: print (wrap)": {
+    "prefix": ":printwrap",
+    "body": [
+      "<<print \"$TM_SELECTED_TEXT\">>"
+    ]
+  },
+  "Macro: silent": {
+    "prefix": ":silent",
+    "body": [
+      "<<silent>>\n\t${1:contents}\n<</silent>>"
+    ]
+  },
+  "Macro: silent (wrap)": {
+    "prefix": ":silentwrap",
+    "body": [
+      "<<silent>>\n\t$TM_SELECTED_TEXT\n<</silent>>"
+    ]
+  },
+  "Macro: silently": {
+    "prefix": ":silently",
+    "body": [
+      "<<silently>>\n\t${1:contents}\n<</silently>>"
+    ]
+  },
+  "Macro: silently (wrap)": {
+    "prefix": ":silentlywrap",
+    "body": [
+      "<<silently>>\n\t$TM_SELECTED_TEXT\n<</silently>>"
+    ]
+  },
+  "Macro: type": {
+    "prefix": ":type",
+    "body": [
+      "<<type ${1:speed} $2>>\n\t$0\n<</type>>"
+    ]
+  },
+  "Macro: if": {
+    "prefix": ":if",
+    "body": [
+      "<<if ${1:condition}>>\n\t$2\n<</if>>"
+    ]
+  },
+  "Macro: else": {
+    "prefix": ":else",
+    "body": [
+      "<<else>>\n\t"
+    ]
+  },
+  "Macro: elseIf": {
+    "prefix": ":elseif",
+    "body": [
+      "<<elseif ${1:condition}>>\n\t"
+    ]
+  },
+  "Macro: for (Empty)": {
+    "prefix": ":for",
+    "body": [
+      "<<for $1>>\n\t$2\n<</for>>"
+    ]
+  },
+  "Macro: for (While)": {
+    "prefix": ":forwhile",
+    "body": [
+      "<<for ${1:condition}>>\n\t$2\n<</for>>"
+    ]
+  },
+  "Macro: for (Each)": {
+    "prefix": ":foreach",
+    "body": [
+      "<<for ${1:_val} range ${2:collection}>>\n\t$3\n<</for>>"
+    ]
+  },
+  "Macro: for (Count)": {
+    "prefix": ":forloop",
+    "body": [
+      "<<for ${1:init}; ${2:condition}; ${3:post}>>\n\t$4\n<</for>>"
+    ]
+  },
+  "Macro: break": {
+    "prefix": ":break",
+    "body": [
+      "<<break>>"
+    ]
+  },
+  "Macro: continue": {
+    "prefix": ":continue",
+    "body": [
+      "<<continue>>"
+    ]
+  },
+  "Macro: switch": {
+    "prefix": ":switch",
+    "body": [
+      "<<switch ${1:expression}>>\n\t<<case ${2:valueList}>>\n\t${3:content}\n$0\n<</switch>>"
+    ]
+  },
+  "Macro: case": {
+    "prefix": ":case",
+    "body": [
+      "<<case ${1:valueList}>>\n\t${2:content}\n"
+    ]
+  },
+  "Macro: default": {
+    "prefix": ":default",
+    "body": [
+      "<<default>>\n\t${2:content}"
+    ]
+  },
+  "Macro: button": {
+    "prefix": ":button",
+    "body": [
+      "<<button \"${1:title}\" \"${2:passage}\">>$3<</button>>"
+    ]
+  },
+  "Macro: button (no passage)": {
+    "prefix": ":buttonnp",
+    "body": [
+      "<<button \"${1:title}\">>$0<</button>>"
+    ]
+  },
+  "Macro: checkbox": {
+    "prefix": ":checkbox",
+    "body": [
+      "<<checkbox \"${1:receiverName}\" ${2:uncheckedValue} ${3:checkedValue} ${4|autocheck,checked|}>>"
+    ]
+  },
+  "Macro: cycle": {
+    "prefix": ":cycle",
+    "body": [
+      "<<cycle \"${1:receiverName}\">>\n\t$2\n<</cycle>>"
+    ]
+  },
+  "Macro: option": {
+    "prefix": ":option",
+    "body": [
+      "<<option ${1:label}>>\n"
+    ]
+  },
+  "Macro: optionsfrom": {
+    "prefix": ":optionsfrom",
+    "body": [
+      "<<optionsfrom ${1:collection}>>\n"
+    ]
+  },
+  "Macro: linkappend": {
+    "prefix": ":linkappend",
+    "body": [
+      "<<linkappend \"${1:linktext}\">>${2:content}<</linkappend>>"
+    ]
+  },
+  "Macro: linkprepend": {
+    "prefix": ":linkprepend",
+    "body": [
+      "<<linkprepend \"${1:linktext}\">>${2:content}<</linkprepend>>"
+    ]
+  },
+  "Macro: linkreplace": {
+    "prefix": ":linkreplace",
+    "body": [
+      "<<linkreplace \"${1:linktext}\">>${2:content}<</linkreplace>>"
+    ]
+  },
+  "Macro: listbox": {
+    "prefix": ":listbox",
+    "body": [
+      "<<listbox \"${1:receiverName}\">>\n\t$0\n<</listbox>>"
+    ]
+  },
+  "Macro: numberbox": {
+    "prefix": ":numberbox",
+    "body": [
+      "<<numberbox \"${1:receiverName}\" ${2:defaultValue}>>"
+    ]
+  },
+  "Macro: radiobutton": {
+    "prefix": ":radiobutton",
+    "body": [
+      "<<radiobutton \"${1:receiverName}\" ${2:defaultValue}>>"
+    ]
+  },
+  "Macro: textarea": {
+    "prefix": ":textarea",
+    "body": [
+      "<<textarea \"${1:receiverName}\" ${2:defaultValue}>>"
+    ]
+  },
+  "Macro: textbox": {
+    "prefix": ":textbox",
+    "body": [
+      "<<textbox \"${1:receiverName}\" ${2:defaultValue}>>"
+    ]
+  },
+  "Macro: actions": {
+    "prefix": ":actions",
+    "body": [
+      "<<actions ${1:list}>>"
+    ]
+  },
+  "Macro: back": {
+    "prefix": ":back",
+    "body": [
+      "<<back $1>>"
+    ]
+  },
+  "Macro: choice": {
+    "prefix": ":choice",
+    "body": [
+      "<<choice $1>>"
+    ]
+  },
+  "Macro: return": {
+    "prefix": ":return",
+    "body": [
+      "<<return $1>>"
+    ]
+  },
+  "Macro: addclass": {
+    "prefix": ":addclass",
+    "body": [
+      "<<addclass \"${1:selector}\" \"${2:classNames}\">>"
+    ]
+  },
+  "Macro: append": {
+    "prefix": ":append",
+    "body": [
+      "<<append \"${1:selector}\">>${2:content}<</append>>"
+    ]
+  },
+  "Macro: copy": {
+    "prefix": ":copy",
+    "body": [
+      "<<copy \"${1:selector}\">>"
+    ]
+  },
+  "Macro: prepend": {
+    "prefix": ":prepend",
+    "body": [
+      "<<prepend \"${1:selector}\">>$0<</prepend>>"
+    ]
+  },
+  "Macro: remove": {
+    "prefix": ":remove",
+    "body": [
+      "<<remove \"${1:selector}\">>"
+    ]
+  },
+  "Macro: removeclass": {
+    "prefix": ":removeclass",
+    "body": [
+      "<<removeclass \"${1:selector}\">>"
+    ]
+  },
+  "Macro: replace": {
+    "prefix": ":replace",
+    "body": [
+      "<<replace \"${1:selector}\">>${2:content}<</replace>>"
+    ]
+  },
+  "Macro: toggleclass": {
+    "prefix": ":toggleclass",
+    "body": [
+      "<<toggleclass \"${1:selector}\" \"${2:classNames}\">>"
+    ]
+  },
+  "Macro: audio": {
+    "prefix": ":audio",
+    "body": [
+      "<<audio \"${1:trackIdList}\" ${2:action}>>"
+    ]
+  },
+  "Macro: cacheaudio": {
+    "prefix": ":cacheaudio",
+    "body": [
+      "<<cacheaudio \"${1:trackId}\" \"${2:sourceList}\">>"
+    ]
+  },
+  "Macro: createaudiogroup": {
+    "prefix": ":createaudiogroup",
+    "body": [
+      "<<createaudiogroup \"${1:groupId}\">>\n\t$0\n<</createaudiogroup>>"
+    ]
+  },
+  "Macro: track (Audio Group)": {
+    "prefix": ":track",
+    "body": [
+      "<<track \"${1:trackId}\">>"
+    ]
+  },
+  "Macro: track (Playlist)": {
+    "prefix": ":track",
+    "body": [
+      "<<track \"${1:trackId}\" ${2:action}>>"
+    ]
+  },
+  "Macro: createplaylist": {
+    "prefix": ":createplaylist",
+    "body": [
+      "<<createplaylist \"${1:listId}\">>\n\t$0\n<</createplaylist>>"
+    ]
+  },
+  "Macro: playlist": {
+    "prefix": ":playlist",
+    "body": [
+      "<<playlist \"${1:listId}\" ${2:action}>>"
+    ]
+  },
+  "Macro: masteraudio": {
+    "prefix": ":masteraudio",
+    "body": [
+      "<<masteraudio ${1:action}>>"
+    ]
+  },
+  "Macro: removeaudiogroup": {
+    "prefix": ":removeaudiogroup",
+    "body": [
+      "<<removeaudiogroup \"${1:groupId}\">>"
+    ]
+  },
+  "Macro: removeplaylist": {
+    "prefix": ":removeplaylist",
+    "body": [
+      "<<removeplaylist \"${1:listId}\">>"
+    ]
+  },
+  "Macro: waitforaudio": {
+    "prefix": ":waitforaudio",
+    "body": [
+      "<<waitforaudio>>"
+    ]
+  },
+  "Macro: done": {
+    "prefix": ":done",
+    "body": [
+      "<<done>>\n\t$0\n<</done>>"
+    ]
+  },
+  "Macro: goto": {
+    "prefix": ":goto",
+    "body": [
+      "<<goto \"${1:passage}\">>"
+    ]
+  },
+  "Macro: repeat": {
+    "prefix": ":repeat",
+    "body": [
+      "<<repeat ${1:delay}>>\n\t$0\n<</repeat>>"
+    ]
+  },
+  "Macro: stop": {
+    "prefix": ":stop",
+    "body": [
+      "<<stop>>"
+    ]
+  },
+  "Macro: timed": {
+    "prefix": ":timed",
+    "body": [
+      "<<timed ${1:0s}>>\n\t$0\n<</timed>>"
+    ]
+  },
+  "Macro: next": {
+    "prefix": ":next",
+    "body": [
+      "<<next ${1:delay}>>\n\t"
+    ]
+  },
+  "Macro: widget": {
+    "prefix": ":widget",
+    "body": [
+      "<<widget \"${1:name}\">>\n\t$0\n<</widget>>"
+    ]
+  }
 }

@@ -2,32 +2,32 @@
   <g @mouseenter="$emit('lineMouseenter')" @mouseleave="$emit('lineMouseleave')">
     <template v-if="highlight">
       <line
+          v-for="line of lines"
+          :key="`svg-line-${line.key}`"
+          :x1="line.x1"
+          :y1="line.y1"
+          :x2="line.x2"
+          :y2="line.y2"
+          class="outline"
+      />
+    </template>
+    <line
         v-for="line of lines"
-        :key="`svg-line-${line.key}`"
+        :key="`svg-highlight-line-${line.key}`"
         :x1="line.x1"
         :y1="line.y1"
         :x2="line.x2"
         :y2="line.y2"
-        class="outline"
-      />
-    </template>
-    <line
-      v-for="line of lines"
-      :key="`svg-highlight-line-${line.key}`"
-      :x1="line.x1"
-      :y1="line.y1"
-      :x2="line.x2"
-      :y2="line.y2"
-      :class="{ highlight }"
+        :class="{ highlight }"
     />
   </g>
 </template>
 
 <script lang="ts">
 // import { defineComponent, PropType } from "vue";
-import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import { Line, Passage, Vector } from "../types";
-import { cropLine } from "../util/line-tools";
+import {Component, Vue, Prop, Watch} from "vue-property-decorator";
+import {Line, Passage, Vector} from "../types";
+import {cropLine} from "../util/line-tools";
 
 @Component
 export default class PassageLinkLine extends Vue {
@@ -68,9 +68,9 @@ export default class PassageLinkLine extends Vue {
     cropLine(line, this.from, this.to);
     lines.push(line);
 
-    lines.push(...this.getArrow({ x: line.x2, y: line.y2 }, { x: line.x1, y: line.y1 }));
+    lines.push(...this.getArrow({x: line.x2, y: line.y2}, {x: line.x1, y: line.y1}));
     if (this.twoWay) {
-      lines.push(...this.getArrow({ x: line.x1, y: line.y1 }, { x: line.x2, y: line.y2 }));
+      lines.push(...this.getArrow({x: line.x1, y: line.y1}, {x: line.x2, y: line.y2}));
     }
     this.lines = lines;
     this.lastUpdate = Date.now();

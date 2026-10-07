@@ -1,7 +1,12 @@
 # Enum substitution
-In macro definition configuration files, variables can be defined that are inserted into the definitions after all configurations are loaded. These values are referred to as `enums` and work across all configurations, no matter which file they are defined in. This document goes over some high-level details of how it works, and how to use it with the extension. The operation is a simple string for string substitution with no validation or pre-processing.
-  
+
+In macro definition configuration files, variables can be defined that are inserted into the definitions after all
+configurations are loaded. These values are referred to as `enums` and work across all configurations, no matter which
+file they are defined in. This document goes over some high-level details of how it works, and how to use it with the
+extension. The operation is a simple string for string substitution with no validation or pre-processing.
+
 ## Enum syntax
+
 **Supported**: Sugarcube 2
 `%enumName%`
 
@@ -46,8 +51,10 @@ Enums are respected and substituted inside macro `description` and `parameters` 
   }
   ```
 
-**Note**: Enums are evaluated globally and order of files processed is not guaranteed. Redefining enums differently in multiple locations may yield inconsistent results.
+**Note**: Enums are evaluated globally and order of files processed is not guaranteed. Redefining enums differently in
+multiple locations may yield inconsistent results.
 
 The extension provides the following enums by default:
 
-**workspaceDir**: Root directory of the workspace opened in vscode. Will return a proper Uri for evaluation in local and web views.
+**workspaceDir**: Root directory of the workspace opened in vscode. Will return a proper Uri for evaluation in local and
+web views.

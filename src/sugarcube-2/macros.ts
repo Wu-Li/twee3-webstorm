@@ -1,207 +1,223 @@
 import * as vscode from 'vscode';
-import { Arg, ArgType, makeMacroArgumentsRange, parseArguments, ParsedArguments, UnparsedMacroArguments } from './arguments';
-import { ArgumentError, ArgumentWarning, ChosenVariantInformation, findParameterType, Parameters, ParameterType, parseMacroParameters } from './parameters';
-import { getWorkspacePassages, Passage } from '../passage';
-import { getConfiguration, parseConfiguration } from './configuration';
+import {
+  Arg,
+  ArgType,
+  makeMacroArgumentsRange,
+  parseArguments,
+  ParsedArguments,
+  UnparsedMacroArguments
+} from './arguments';
+import {
+  ArgumentError,
+  ArgumentWarning,
+  ChosenVariantInformation,
+  findParameterType,
+  Parameters,
+  ParameterType,
+  parseMacroParameters
+} from './parameters';
+import {getWorkspacePassages, Passage} from '../passage';
+import {getConfiguration, parseConfiguration} from './configuration';
 import _ from 'lodash';
 
 export type MacroName = string;
+
 export interface macro {
-	id: number;
-	/**
-	 * The id of the pair to this macro, which is either the closing or opening version.
-	 */
-	pair: number;
-	name: MacroName;
-	/**
-	 * Whether it is the opening variant of the macro, primarily for containers.
-	 */
-	open: boolean;
-	selfClosed: boolean;
-	endVariant: boolean;
-	range: vscode.Range;
+  id: number;
+  /**
+   * The id of the pair to this macro, which is either the closing or opening version.
+   */
+  pair: number;
+  name: MacroName;
+  /**
+   * Whether it is the opening variant of the macro, primarily for containers.
+   */
+  open: boolean;
+  selfClosed: boolean;
+  endVariant: boolean;
+  range: vscode.Range;
 }
 
 export interface macroDef {
-	name?: MacroName;
-	description?: vscode.MarkdownString | string,
-	parameters?: Parameters,
-	container?: boolean;
-	selfClose?: boolean;
-	children?: ChildDefObj[];
-	parents?: string[];
-	deprecated?: boolean;
-	deprecatedSuggestions?: string[];
-	skipArgs?: boolean,
-	decoration?: vscode.DecorationRenderOptions,
-	// The created decoration type, this is filled when the macro is needed
-	decoration_type?: vscode.TextEditorDecorationType
+  name?: MacroName;
+  description?: vscode.MarkdownString | string,
+  parameters?: Parameters,
+  container?: boolean;
+  selfClose?: boolean;
+  children?: ChildDefObj[];
+  parents?: string[];
+  deprecated?: boolean;
+  deprecatedSuggestions?: string[];
+  skipArgs?: boolean,
+  decoration?: vscode.DecorationRenderOptions,
+  // The created decoration type, this is filled when the macro is needed
+  decoration_type?: vscode.TextEditorDecorationType
 }
 
 export interface ChildDefObj {
-	name: string;
-	max?: number;
-	min?: number;
-	after?: string[];
+  name: string;
+  max?: number;
+  min?: number;
+  after?: string[];
 }
 
 export const macroTagMatchingDecor = vscode.window.createTextEditorDecorationType({
-	textDecoration: "underline",
-	fontWeight: "bold",
-	overviewRulerLane: vscode.OverviewRulerLane.Center,
-	overviewRulerColor: new vscode.ThemeColor("minimap.findMatchHighlight"),
-	rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed
+  textDecoration: "underline",
+  fontWeight: "bold",
+  overviewRulerLane: vscode.OverviewRulerLane.Center,
+  overviewRulerColor: new vscode.ThemeColor("minimap.findMatchHighlight"),
+  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed
 });
 
 export const macroList = async function (): Promise<Record<string, macroDef>> {
-	const config = await getConfiguration();
-	return config.macros;
+  const config = await getConfiguration();
+  return config.macros;
 }
 
 export const enumList = async function (): Promise<Record<string, string>> {
-	const config = await getConfiguration();
-	return config.enums;
+  const config = await getConfiguration();
+  return config.enums;
 }
 
 export enum MacroRegexType {
-	Full, End, Start
+  Full, End, Start
 }
 
 export const macroRegexFactory = (pattern: string, regexType = MacroRegexType.Full) => {
-	const body = [
-		`(?<macroBody>(?:`,
-			`(?:/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/)|`,
-			`(?://.*\\n)|`,
-			`(?:\`(?:\\\\.|[^\`\\\\])*?\`)|`,
-			`(?:"(?:\\\\.|[^"\\\\\\n])*?")|`,
-			`(?:'(?:\\\\.|[^'\\\\\\n])*?')|`,
-			`(?:\\[(?:[<>]?[Ii][Mm][Gg])?\\[[^\\r\\n]*?\\]\\]+)|[^>]|`,
-			`(?:>(?!>))`,
-		`)*?)`,
-	].join("");
-	const selfClose = `(?<macroSelfClose>/)`;
-	const end = `(?<macroEnd>/|end)`;
+  const body = [
+    `(?<macroBody>(?:`,
+    `(?:/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/)|`,
+    `(?://.*\\n)|`,
+    `(?:\`(?:\\\\.|[^\`\\\\])*?\`)|`,
+    `(?:"(?:\\\\.|[^"\\\\\\n])*?")|`,
+    `(?:'(?:\\\\.|[^'\\\\\\n])*?')|`,
+    `(?:\\[(?:[<>]?[Ii][Mm][Gg])?\\[[^\\r\\n]*?\\]\\]+)|[^>]|`,
+    `(?:>(?!>))`,
+    `)*?)`,
+  ].join("");
+  const selfClose = `(?<macroSelfClose>/)`;
+  const end = `(?<macroEnd>/|end)`;
 
-	if (regexType === MacroRegexType.Start) {
-		return new RegExp(`<<(${pattern})(?:\\s+${body})?>>`, "gm");
-	} else if (regexType === MacroRegexType.End) {
-		return new RegExp(`(?:<<(${pattern})(?:\\s*)${body}${selfClose}>>)|(?:<<${end}(${pattern})>>)`, "gm");
-	}
-	return new RegExp(`<<${end}?(?<macroName>${pattern})(?:\\s*)${body}${selfClose}?>>`, "gm");
+  if (regexType === MacroRegexType.Start) {
+    return new RegExp(`<<(${pattern})(?:\\s+${body})?>>`, "gm");
+  } else if (regexType === MacroRegexType.End) {
+    return new RegExp(`(?:<<(${pattern})(?:\\s*)${body}${selfClose}>>)|(?:<<${end}(${pattern})>>)`, "gm");
+  }
+  return new RegExp(`<<${end}?(?<macroName>${pattern})(?:\\s*)${body}${selfClose}?>>`, "gm");
 }
 
 export const macroNamePattern = `[A-Za-z][\\w-]*|[=-]`;
 export const macroRegex = macroRegexFactory(macroNamePattern);
 
 export const generateMacroOnEnterRules = function (macros: Record<string, macroDef>): vscode.OnEnterRule[] {
-	const rules: vscode.OnEnterRule[] = [];
-	for (const name in macros) {
-		const def = macros[name];
-		if (def.container) {
-			rules.push(
-				{
-					beforeText: macroRegexFactory(name, MacroRegexType.Start),
-					afterText: macroRegexFactory(name, MacroRegexType.End),
-					action: {
-						indentAction: vscode.IndentAction.IndentOutdent
-					}
-				},
-				{
-					beforeText: macroRegexFactory(name, MacroRegexType.End),
-					action: {
-						indentAction: vscode.IndentAction.None
-					}
-				},
-				{
-					beforeText: macroRegexFactory(name, MacroRegexType.Start),
-					action: {
-						indentAction: vscode.IndentAction.Indent
-					}
-				}
-			);
-			if (def.children?.length) def.children.forEach((child) => rules.push(
-				{
-					beforeText: macroRegexFactory(child.name, MacroRegexType.Start),
-					action: {
-						indentAction: vscode.IndentAction.Indent
-					}
-				}
-			));
-		}
-	}
-	return rules;
+  const rules: vscode.OnEnterRule[] = [];
+  for (const name in macros) {
+    const def = macros[name];
+    if (def.container) {
+      rules.push(
+        {
+          beforeText: macroRegexFactory(name, MacroRegexType.Start),
+          afterText: macroRegexFactory(name, MacroRegexType.End),
+          action: {
+            indentAction: vscode.IndentAction.IndentOutdent
+          }
+        },
+        {
+          beforeText: macroRegexFactory(name, MacroRegexType.End),
+          action: {
+            indentAction: vscode.IndentAction.None
+          }
+        },
+        {
+          beforeText: macroRegexFactory(name, MacroRegexType.Start),
+          action: {
+            indentAction: vscode.IndentAction.Indent
+          }
+        }
+      );
+      if (def.children?.length) def.children.forEach((child) => rules.push(
+        {
+          beforeText: macroRegexFactory(child.name, MacroRegexType.Start),
+          action: {
+            indentAction: vscode.IndentAction.Indent
+          }
+        }
+      ));
+    }
+  }
+  return rules;
 }
 
 /**
  * Helper function to update the macros as needed
  */
 export const onUpdateMacroCache = function (lastMacroCache: Record<string, macroDef> | undefined, list: Record<string, macroDef>, enums: Record<string, string>) {
-	// Before we cache it, we parse the parameters into a more useful format.
-	let errors = parseMacroParameters(list, enums);
-	// We can continue despite errors from parsing the parameters, but we report them.
-	if (errors.length > 0) {
-		// Note: Since this is called early on, these messages might not be displayed.
-		let errorMessages: string = errors.map(err => err.message).join(", \n");
-		vscode.window.showErrorMessage(`Errors encountered parsing parameters of macros: \n${errorMessages}`);
-	}
+  // Before we cache it, we parse the parameters into a more useful format.
+  let errors = parseMacroParameters(list, enums);
+  // We can continue despite errors from parsing the parameters, but we report them.
+  if (errors.length > 0) {
+    // Note: Since this is called early on, these messages might not be displayed.
+    let errorMessages: string = errors.map(err => err.message).join(", \n");
+    vscode.window.showErrorMessage(`Errors encountered parsing parameters of macros: \n${errorMessages}`);
+  }
 
-	// Change the children array entries that are strings into objects
-	// Convert the strings into ChildDef objects
-	for (const key in list) {
-		let macro: macroDef = list[key];
-		if (Array.isArray(macro.children)) {
-			for (let i = 0; i <  macro.children.length; i++) {
-				if (typeof(macro.children[i]) === "string") {
-					macro.children[i] = {
-						// TODO: This would be nicer if we had a PreConvertedMacroDef
-						name: macro.children[i] as unknown as string,
-					};
-				}
-			}
-		}
+  // Change the children array entries that are strings into objects
+  // Convert the strings into ChildDef objects
+  for (const key in list) {
+    let macro: macroDef = list[key];
+    if (Array.isArray(macro.children)) {
+      for (let i = 0; i < macro.children.length; i++) {
+        if (typeof (macro.children[i]) === "string") {
+          macro.children[i] = {
+            // TODO: This would be nicer if we had a PreConvertedMacroDef
+            name: macro.children[i] as unknown as string,
+          };
+        }
+      }
+    }
 
-		if (!macro.name) macro.name = key;
+    if (!macro.name) macro.name = key;
 
-		if (macro.description instanceof vscode.MarkdownString && typeof macro.description.value === "string") {
-			macro.description.value = parseEnums(macro.description.value, enums);
-		}
-	}
+    if (macro.description instanceof vscode.MarkdownString && typeof macro.description.value === "string") {
+      macro.description.value = parseEnums(macro.description.value, enums);
+    }
+  }
 
-	// Check for changed macros and clear those from the arguments cache.
-	if (lastMacroCache) {
-		for (const key in lastMacroCache) {
-			if (key in list) {
-				if (!isMacroFunctionallyEquivalent(lastMacroCache[key], list[key])) {
-					// They weren't equivalent, thus we remove it from cache.
-					argumentCache.clearMacro(key);
-					lastMacroCache[key].decoration_type?.dispose();
-				} else {
-					// Copy over the decoration type
-					list[key].decoration_type = lastMacroCache[key].decoration_type;
-				}
-			} else {
-				// The macro no longer exists. Remove it from cache.
-				argumentCache.clearMacro(key);
-				// We have to clean up the type
-				lastMacroCache[key].decoration_type?.dispose();
-			}
-		}
-	}
+  // Check for changed macros and clear those from the arguments cache.
+  if (lastMacroCache) {
+    for (const key in lastMacroCache) {
+      if (key in list) {
+        if (!isMacroFunctionallyEquivalent(lastMacroCache[key], list[key])) {
+          // They weren't equivalent, thus we remove it from cache.
+          argumentCache.clearMacro(key);
+          lastMacroCache[key].decoration_type?.dispose();
+        } else {
+          // Copy over the decoration type
+          list[key].decoration_type = lastMacroCache[key].decoration_type;
+        }
+      } else {
+        // The macro no longer exists. Remove it from cache.
+        argumentCache.clearMacro(key);
+        // We have to clean up the type
+        lastMacroCache[key].decoration_type?.dispose();
+      }
+    }
+  }
 
-	for (const key in list) {
-		let macro: macroDef = list[key];
-		// If it has a decoration definition but we haven't created the type yet
-		if (macro.decoration && !macro.decoration_type) {
-			macro.decoration_type = vscode.window.createTextEditorDecorationType(macro.decoration);
-		}
-	}
+  for (const key in list) {
+    let macro: macroDef = list[key];
+    // If it has a decoration definition but we haven't created the type yet
+    if (macro.decoration && !macro.decoration_type) {
+      macro.decoration_type = vscode.window.createTextEditorDecorationType(macro.decoration);
+    }
+  }
 }
 
 /**
  * Parses the macros from the files without caching.
  */
 const parseMacroList = async function () {
-	return (await parseConfiguration()).macros;
+  return (await parseConfiguration()).macros;
 };
 
 /**
@@ -209,12 +225,12 @@ const parseMacroList = async function () {
  * @param enums The list of enums.
  * @returns {string} The modified string
  */
-export function parseEnums(baseString: string, enums: Record<string,string>): string {
-	// Two replaces is currently faster in js
-	let result = baseString.replace(/(?<!\\)%([\w]+)%/g, (_m: string, p1: string) => {
-		return enums[p1] === undefined ? `%${p1} NOT FOUND%` : enums[p1];
-	});
-	return result.replace(/\\(%[\w]+%)/g,"$1");
+export function parseEnums(baseString: string, enums: Record<string, string>): string {
+  // Two replaces is currently faster in js
+  let result = baseString.replace(/(?<!\\)%([\w]+)%/g, (_m: string, p1: string) => {
+    return enums[p1] === undefined ? `%${p1} NOT FOUND%` : enums[p1];
+  });
+  return result.replace(/\\(%[\w]+%)/g, "$1");
 };
 
 
@@ -223,884 +239,891 @@ export function parseEnums(baseString: string, enums: Record<string,string>): st
  * Essentially a _loose_ check for if they would produce the same behavior. Manual checks were replaced with lodash
  */
 function isMacroFunctionallyEquivalent(left: macroDef, right: macroDef): boolean {
-	if (left.parameters === undefined || right.parameters === undefined) {
-		if (left.parameters !== right.parameters) {
-			// One of them is undefined whilst the other is not.
-			return false;
-		}
-	} else {
-		// They are both non-undefined
-		if (!left.parameters.compare?.(right.parameters)) {
-			return false;
-		}
-	}
+  if (left.parameters === undefined || right.parameters === undefined) {
+    if (left.parameters !== right.parameters) {
+      // One of them is undefined whilst the other is not.
+      return false;
+    }
+  } else {
+    // They are both non-undefined
+    if (!left.parameters.compare?.(right.parameters)) {
+      return false;
+    }
+  }
 
-	return _.isEqual(left, right);
+  return _.isEqual(left, right);
 }
 
 interface CollectedMacros {
-	macros: macro[],
+  macros: macro[],
 }
 
 const collectCleanList = [
-	["/\\*", "\\*/"],
-	["/%", "%/"],
-	["<!--", "-->"],
-	["{{3}", "}{3}"],
-	["\"{3}", "\"{3}"],
-	["<nowiki>", "</nowiki>"],
-	["<script(?:\\s+(?:(?:Twine)|(?:Java))Script)?>", "</script>"],
-	["<style>", "</style>"],
-	["^::.*?\\[\\s*script\\s*\\]", "^(?=::)"],
-	["^::.*?\\[\\s*stylesheet\\s*\\]", "^(?=::)"],
+  ["/\\*", "\\*/"],
+  ["/%", "%/"],
+  ["<!--", "-->"],
+  ["{{3}", "}{3}"],
+  ["\"{3}", "\"{3}"],
+  ["<nowiki>", "</nowiki>"],
+  ["<script(?:\\s+(?:(?:Twine)|(?:Java))Script)?>", "</script>"],
+  ["<style>", "</style>"],
+  ["^::.*?\\[\\s*script\\s*\\]", "^(?=::)"],
+  ["^::.*?\\[\\s*stylesheet\\s*\\]", "^(?=::)"],
 
-	["/\\*\\s*@t3lt-parse-off\\s*\\*/", "/\\*\\s*@t3lt-parse-on\\s*\\*/"] /* temporary parsing disabling measure */
+  ["/\\*\\s*@t3lt-parse-off\\s*\\*/", "/\\*\\s*@t3lt-parse-on\\s*\\*/"] /* temporary parsing disabling measure */
 ].map(el => {
-	const searchString = `(${el[0]})((?:.|\r?\n)*?)(${el[1]})`;
-	return new RegExp(searchString, "gmi");
+  const searchString = `(${el[0]})((?:.|\r?\n)*?)(${el[1]})`;
+  return new RegExp(searchString, "gmi");
 });
 const collectUncached = async function (raw: string): Promise<CollectedMacros> {
-	const list = await macroList();
+  const list = await macroList();
 
-	let macros: macro[] = [];
-	let id = 0;
-	let opened: any = {};
+  let macros: macro[] = [];
+  let id = 0;
+  let opened: any = {};
 
-	let cleaned = raw + "\n::";
+  let cleaned = raw + "\n::";
 
-	collectCleanList.forEach(searchRegExp => {
-		cleaned = cleaned.replace(searchRegExp, function (match, p1, p2, p3) {
-			return p1 + p2.replace(/<</g, "MO") + p3;
-		});
-	});
+  collectCleanList.forEach(searchRegExp => {
+    cleaned = cleaned.replace(searchRegExp, function (match, p1, p2, p3) {
+      return p1 + p2.replace(/<</g, "MO") + p3;
+    });
+  });
 
-	const selfClosingMacrosEnabled = vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros").get("enable");
+  const selfClosingMacrosEnabled = vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros").get("enable");
 
-	// The array of line endings, their respective indices being their line number.
-	const lineIndices: number[] = [];
-	let lastIndex = cleaned.indexOf('\n');
-	while (lastIndex !== -1) {
-		lineIndices.push(lastIndex);
-		// Add a 1 to skip past the newline character
-		lastIndex = cleaned.indexOf('\n', lastIndex + 1);
-	}
+  // The array of line endings, their respective indices being their line number.
+  const lineIndices: number[] = [];
+  let lastIndex = cleaned.indexOf('\n');
+  while (lastIndex !== -1) {
+    lineIndices.push(lastIndex);
+    // Add a 1 to skip past the newline character
+    lastIndex = cleaned.indexOf('\n', lastIndex + 1);
+  }
 
-	const re = macroRegex;
-	let ex: RegExpExecArray | null;
-	// Keep track of the last line end to make so we only search from that index
-	let lineEnd = 0;
-	while ((ex = re.exec(cleaned)) !== null) {
-		const { macroName, macroBody, macroEnd, macroSelfClose } = ex.groups as {
-			[key: string]: string;
-		};
-		let open = true,
-			endVariant = false,
-			pair = id,
-			name = macroName,
-			selfClosed = false;
+  const re = macroRegex;
+  let ex: RegExpExecArray | null;
+  // Keep track of the last line end to make so we only search from that index
+  let lineEnd = 0;
+  while ((ex = re.exec(cleaned)) !== null) {
+    const {macroName, macroBody, macroEnd, macroSelfClose} = ex.groups as {
+      [key: string]: string;
+    };
+    let open = true,
+      endVariant = false,
+      pair = id,
+      name = macroName,
+      selfClosed = false;
 
-		let selfCloseMacro: macro | undefined = undefined;
+    let selfCloseMacro: macro | undefined = undefined;
 
-		if (macroEnd === "end") {
-			const defInList = list[macroName];
-			const endAddedName = macroEnd + macroName;
-			if (defInList) {
-				if (defInList.container) endVariant = true;
-				else if (!list[endAddedName]) name = endAddedName;
-			} else {
-				name = endAddedName;
-			}
-		}
+    if (macroEnd === "end") {
+      const defInList = list[macroName];
+      const endAddedName = macroEnd + macroName;
+      if (defInList) {
+        if (defInList.container) endVariant = true;
+        else if (!list[endAddedName]) name = endAddedName;
+      } else {
+        name = endAddedName;
+      }
+    }
 
-		if (macroEnd === "/" || endVariant) open = false;
+    if (macroEnd === "/" || endVariant) open = false;
 
-		const exIndex = ex.index;
-		const lineStart = lineIndices
-			.slice(lineEnd)
-			.findIndex((index) => index > exIndex) + lineEnd;
-		const ex0Length = ex[0].length;
-		lineEnd = lineIndices.slice(lineStart)
-			.findIndex((index) => index >= exIndex + ex0Length) + lineStart;
-		const charStart = exIndex - (lineStart ? lineIndices[lineStart - 1] : 0) - 1;
+    const exIndex = ex.index;
+    const lineStart = lineIndices
+      .slice(lineEnd)
+      .findIndex((index) => index > exIndex) + lineEnd;
+    const ex0Length = ex[0].length;
+    lineEnd = lineIndices.slice(lineStart)
+      .findIndex((index) => index >= exIndex + ex0Length) + lineStart;
+    const charStart = exIndex - (lineStart ? lineIndices[lineStart - 1] : 0) - 1;
 
-		let charEnd = ex[0].split(/\r?\n/g).pop()?.length || 0;
-		if (lineStart === lineEnd) {
-			charEnd += charStart;
-		}
-		
-		let range = new vscode.Range(lineStart, charStart, lineEnd, charEnd);
+    let charEnd = ex[0].split(/\r?\n/g).pop()?.length || 0;
+    if (lineStart === lineEnd) {
+      charEnd += charStart;
+    }
 
-		if (selfClosingMacrosEnabled && macroSelfClose === "/") {
-			selfClosed = true;
-			selfCloseMacro = {
-				id: id + 1, pair: pair++,
-				name, open: false,
-				range: new vscode.Range(lineEnd, charEnd, lineEnd, charEnd),
-				endVariant, selfClosed
-			};
-		} else {
-			opened[name] = opened[name] || [];
-			if (open) opened[name].push(id);
-			else {
-				if (opened[name].length) {
-					pair = opened[name].pop();
-					macros[pair].pair = id;
-				}
-			}
-		}
+    let range = new vscode.Range(lineStart, charStart, lineEnd, charEnd);
 
-		macros.push({ id, pair, name, open, range, endVariant, selfClosed });
+    if (selfClosingMacrosEnabled && macroSelfClose === "/") {
+      selfClosed = true;
+      selfCloseMacro = {
+        id: id + 1, pair: pair++,
+        name, open: false,
+        range: new vscode.Range(lineEnd, charEnd, lineEnd, charEnd),
+        endVariant, selfClosed
+      };
+    } else {
+      opened[name] = opened[name] || [];
+      if (open) opened[name].push(id);
+      else {
+        if (opened[name].length) {
+          pair = opened[name].pop();
+          macros[pair].pair = id;
+        }
+      }
+    }
 
-		if (selfCloseMacro) {
-			macros.push(selfCloseMacro);
-			id++;
-		}
+    macros.push({id, pair, name, open, range, endVariant, selfClosed});
 
-		id++;
-	}
-	return { macros };
+    if (selfCloseMacro) {
+      macros.push(selfCloseMacro);
+      id++;
+    }
+
+    id++;
+  }
+  return {macros};
 };
 
 
 interface CollectedMacroCacheEntry {
-	// We make this a promise to make so if there is two requests at the 'same' time, it won't try
-	// doing the expensive calculation twice
-	collectedMacros: Promise<CollectedMacros>,
-	// Last text-document version
-	version: number,
+  // We make this a promise to make so if there is two requests at the 'same' time, it won't try
+  // doing the expensive calculation twice
+  collectedMacros: Promise<CollectedMacros>,
+  // Last text-document version
+  version: number,
 }
+
 class CollectedMacroCache {
-	// the string is the filename
-	private cache: Record<string, CollectedMacroCacheEntry>
-	constructor () {
-		this.cache = Object.create(null);
-	}
+  // the string is the filename
+  private cache: Record<string, CollectedMacroCacheEntry>
 
-	create (document: vscode.TextDocument) {
-		const filename = document.fileName;
-		this.cache[filename] = {
-			collectedMacros: collectUncached(document.getText()),
-			version: document.version,
-		};
-	}
+  constructor() {
+    this.cache = Object.create(null);
+  }
 
-	clearFilename (filename: string) {
-		if (filename in this.cache) {
-			delete this.cache[filename];
-		}
-	}
+  create(document: vscode.TextDocument) {
+    const filename = document.fileName;
+    this.cache[filename] = {
+      collectedMacros: collectUncached(document.getText()),
+      version: document.version,
+    };
+  }
 
-	get (document: vscode.TextDocument): Promise<CollectedMacros> {
-		const filename = document.fileName;
-		if (filename in this.cache) {
-			if (document.version > this.cache[filename].version) {
-				// Changed file so we need to update
-				this.create(document);
-			}
-		} else {
-			// Not in cache so we need to create it
-			this.create(document);
-		}
+  clearFilename(filename: string) {
+    if (filename in this.cache) {
+      delete this.cache[filename];
+    }
+  }
 
-		return this.cache[filename].collectedMacros;
-	}
+  get(document: vscode.TextDocument): Promise<CollectedMacros> {
+    const filename = document.fileName;
+    if (filename in this.cache) {
+      if (document.version > this.cache[filename].version) {
+        // Changed file so we need to update
+        this.create(document);
+      }
+    } else {
+      // Not in cache so we need to create it
+      this.create(document);
+    }
+
+    return this.cache[filename].collectedMacros;
+  }
 }
+
 export const collectCache = new CollectedMacroCache();
 
 
 interface ArgumentCacheEntry {
-	parsed: ParsedArguments,
-	// This is null in several cases: errors in argument parsing, the setting being off, and there
-	// being no parameters field on the macro definition.
-	variant: ChosenVariantInformation | null,
-	// The time it was last accessed at, used for dumping it from the cache.
-	lastAccess: number,
+  parsed: ParsedArguments,
+  // This is null in several cases: errors in argument parsing, the setting being off, and there
+  // being no parameters field on the macro definition.
+  variant: ChosenVariantInformation | null,
+  // The time it was last accessed at, used for dumping it from the cache.
+  lastAccess: number,
 }
+
 /**
  * A class to cache results from parsing and validating arguments.
  * This will minor hurt performance in the initial parsing, but most argument parsing/validation is
  * the same as it was previously and so will help avoid abusing the user's cpu.
  */
 class ArgumentCache {
-	// So, the first level is the MacroName. This lets us identify the macro it is for easier.
-	// Which is useful for two reasons
-	// 	1. It lets us quickly clear all the entries under that macro name, such as when it is
-	// 		updated in the settings file.
-	//  2. (Primary reason). We can just use the arguments as the cache key, and so even if two
-	//  	macro invocations have the same arguments they won't collide. Pretty simple, very little
-	// 		special handling.
-	// We use the arguments as the second ''level''-key so that it can be identified.
-	// We do this rather than computing a hash for it ourselves, because the v8 engine already does
-	// this in almost certainly a far better manner than we do.
-	// Though there is a downside in memory due to storing these strings instead of a far smaller
-	// hash computed by ourselves, it was deemed 'probably fine' after.. much thought.
-	private cache: Record<MacroName, Record<UnparsedMacroArguments, ArgumentCacheEntry>>
+  // So, the first level is the MacroName. This lets us identify the macro it is for easier.
+  // Which is useful for two reasons
+  // 	1. It lets us quickly clear all the entries under that macro name, such as when it is
+  // 		updated in the settings file.
+  //  2. (Primary reason). We can just use the arguments as the cache key, and so even if two
+  //  	macro invocations have the same arguments they won't collide. Pretty simple, very little
+  // 		special handling.
+  // We use the arguments as the second ''level''-key so that it can be identified.
+  // We do this rather than computing a hash for it ourselves, because the v8 engine already does
+  // this in almost certainly a far better manner than we do.
+  // Though there is a downside in memory due to storing these strings instead of a far smaller
+  // hash computed by ourselves, it was deemed 'probably fine' after.. much thought.
+  private cache: Record<MacroName, Record<UnparsedMacroArguments, ArgumentCacheEntry>>
 
-	private cacheCleanerInterval: NodeJS.Timeout | undefined;
+  private cacheCleanerInterval: NodeJS.Timeout | undefined;
 
-	constructor() {
-		this.cache = Object.create(null);
-		this.initializeCacheCleaner();
-	}
+  constructor() {
+    this.cache = Object.create(null);
+    this.initializeCacheCleaner();
+  }
 
-	// TODO: let this be user customizable
-	// 5 minutes
-	private static cacheCleanerDelay: number = (1000 * 60) * 5;
-	private initializeCacheCleaner() {
-		if (this.cacheCleanerInterval !== undefined) {
-			clearInterval(this.cacheCleanerInterval);
-		}
+  // TODO: let this be user customizable
+  // 5 minutes
+  private static cacheCleanerDelay: number = (1000 * 60) * 5;
 
-		this.cacheCleanerInterval = setInterval(() => {
-			this.cleanCache();
-		}, ArgumentCache.cacheCleanerDelay);
-	}
+  private initializeCacheCleaner() {
+    if (this.cacheCleanerInterval !== undefined) {
+      clearInterval(this.cacheCleanerInterval);
+    }
 
-	// TODO: let this be user customizable
-	// 5 minutes
-	// The amount of time between the last access and now before it is allowed to be removed.
-	private static cacheMinLastAccess: number = (1000 * 60) * 2;
-	cleanCache() {
-		let current = Date.now();
-		for (const name in this.cache) {
-			for (const args in this.cache[name]) {
-				if (current - this.cache[name][args].lastAccess >= ArgumentCache.cacheMinLastAccess) {
-					delete this.cache[name][args];
-				}
-			}
-		}
-	}
+    this.cacheCleanerInterval = setInterval(() => {
+      this.cleanCache();
+    }, ArgumentCache.cacheCleanerDelay);
+  }
 
-	/**
-	 * Clear the entire cache.
-	 */
-	clear() {
-		this.cache = Object.create(null);
-	}
+  // TODO: let this be user customizable
+  // 5 minutes
+  // The amount of time between the last access and now before it is allowed to be removed.
+  private static cacheMinLastAccess: number = (1000 * 60) * 2;
 
-	/**
-	 * Clear a specific macro from the cache. This is used for when macro definitions are updated
-	 * which can change parsing despite having the same arguments
-	 * @param name The name of the macor
-	 */
-	clearMacro(name: MacroName) {
-		if (name in this.cache) {
-			delete this.cache[name];
-		}
-	}
+  cleanCache() {
+    let current = Date.now();
+    for (const name in this.cache) {
+      for (const args in this.cache[name]) {
+        if (current - this.cache[name][args].lastAccess >= ArgumentCache.cacheMinLastAccess) {
+          delete this.cache[name][args];
+        }
+      }
+    }
+  }
 
-	/**
-	 * Clears macros that use passages.
-	 * This could be improved in several ways thought it works well enough:
-	 * - Only recheck passages rather than entire reparsing and revalidation.
-	 * - Cache whether some parameters uses passages.
-	 */
-	async clearMacrosUsingPassage() {
-		const macros = await macroList();
-		// We assume that all of these exist.
-		const parameterTypes = [
-			findParameterType("passage"),
-			findParameterType("link"),
-			findParameterType("linkNoSetter"),
-			findParameterType("image"),
-			findParameterType("imageNoSetter"),
-		] as ParameterType[];
+  /**
+   * Clear the entire cache.
+   */
+  clear() {
+    this.cache = Object.create(null);
+  }
 
-		mainLoop: for (const macroName in this.cache) {
-			const macroDefinition: macroDef | undefined = macros[macroName];
-			if (macroDefinition !== undefined && macroDefinition.parameters !== undefined) {
-				for (let i = 0; i < parameterTypes.length; i++) {
-					if (macroDefinition.parameters.hasType(parameterTypes[i])) {
-						continue mainLoop;
-					}
-				}
-			}
-			// Check individual cached macros for the use of links
-			for (const arg in this.cache[macroName]) {
-				const passageUsingArg = this.cache[macroName][arg].parsed.arguments
-					.find(arg => (arg.type === ArgType.Link || arg.type === ArgType.Image) && arg.passage);
-				if (passageUsingArg !== undefined) {
-					delete this.cache[macroName][arg];
-				}
-			}
-			// If parameters are undefined we don't bother checking it.
-		}
-	}
+  /**
+   * Clear a specific macro from the cache. This is used for when macro definitions are updated
+   * which can change parsing despite having the same arguments
+   * @param name The name of the macor
+   */
+  clearMacro(name: MacroName) {
+    if (name in this.cache) {
+      delete this.cache[name];
+    }
+  }
 
-	/**
-	 * Gets a cache entry, otherwise creates it with the given `construct` function.
-	 * @param name The name of the macro.
-	 * @param args The string of arguments that the macro received
-	 * @param construct A function to construct the entry if it did not exist.
-	 */
-	getInsert(name: MacroName, args: UnparsedMacroArguments, construct: () => ArgumentCacheEntry): ArgumentCacheEntry {
-		// If caching is not enabled, we just make the cache immediately construct and return
-		// without storing it.
-		if (!vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.cache").get("argumentInformation")) {
-			return construct();
-		}
+  /**
+   * Clears macros that use passages.
+   * This could be improved in several ways thought it works well enough:
+   * - Only recheck passages rather than entire reparsing and revalidation.
+   * - Cache whether some parameters uses passages.
+   */
+  async clearMacrosUsingPassage() {
+    const macros = await macroList();
+    // We assume that all of these exist.
+    const parameterTypes = [
+      findParameterType("passage"),
+      findParameterType("link"),
+      findParameterType("linkNoSetter"),
+      findParameterType("image"),
+      findParameterType("imageNoSetter"),
+    ] as ParameterType[];
+
+    mainLoop: for (const macroName in this.cache) {
+      const macroDefinition: macroDef | undefined = macros[macroName];
+      if (macroDefinition !== undefined && macroDefinition.parameters !== undefined) {
+        for (let i = 0; i < parameterTypes.length; i++) {
+          if (macroDefinition.parameters.hasType(parameterTypes[i])) {
+            continue mainLoop;
+          }
+        }
+      }
+      // Check individual cached macros for the use of links
+      for (const arg in this.cache[macroName]) {
+        const passageUsingArg = this.cache[macroName][arg].parsed.arguments
+          .find(arg => (arg.type === ArgType.Link || arg.type === ArgType.Image) && arg.passage);
+        if (passageUsingArg !== undefined) {
+          delete this.cache[macroName][arg];
+        }
+      }
+      // If parameters are undefined we don't bother checking it.
+    }
+  }
+
+  /**
+   * Gets a cache entry, otherwise creates it with the given `construct` function.
+   * @param name The name of the macro.
+   * @param args The string of arguments that the macro received
+   * @param construct A function to construct the entry if it did not exist.
+   */
+  getInsert(name: MacroName, args: UnparsedMacroArguments, construct: () => ArgumentCacheEntry): ArgumentCacheEntry {
+    // If caching is not enabled, we just make the cache immediately construct and return
+    // without storing it.
+    if (!vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.cache").get("argumentInformation")) {
+      return construct();
+    }
 
 
-		if (!(name in this.cache)) {
-			this.cache[name] = Object.create(null);
-		}
+    if (!(name in this.cache)) {
+      this.cache[name] = Object.create(null);
+    }
 
-		if (!(args in this.cache[name])) {
-			// Even if this errors, the cache should still be in a valid state.
-			this.cache[name][args] = construct();
-		}
+    if (!(args in this.cache[name])) {
+      // Even if this errors, the cache should still be in a valid state.
+      this.cache[name][args] = construct();
+    }
 
-		this.cache[name][args].lastAccess = Date.now();
-		return this.cache[name][args];
-	}
+    this.cache[name][args].lastAccess = Date.now();
+    return this.cache[name][args];
+  }
 }
+
 export const argumentCache: ArgumentCache = new ArgumentCache();
 
 export const diagnostics = async function (ctx: vscode.ExtensionContext, document: vscode.TextDocument) {
-	let d: vscode.Diagnostic[] = [];
+  let d: vscode.Diagnostic[] = [];
 
-	let collected = await collectCache.get(document);
-	let macroDefinitions = await macroList();
-	const passages: Passage[] = getWorkspacePassages(ctx);
+  let collected = await collectCache.get(document);
+  let macroDefinitions = await macroList();
+  const passages: Passage[] = getWorkspacePassages(ctx);
 
-	collected.macros.forEach((el, cur_index) => {
-		let cur: macroDef;
-		if (el.name.startsWith("end") && macroDefinitions[el.name.substring(3)]?.container) {
-			cur = macroDefinitions[el.name.substring(3)];
-			el.open = false;
-		} else {
-			cur = macroDefinitions[el.name];
-		}
+  collected.macros.forEach((el, cur_index) => {
+    let cur: macroDef;
+    if (el.name.startsWith("end") && macroDefinitions[el.name.substring(3)]?.container) {
+      cur = macroDefinitions[el.name.substring(3)];
+      el.open = false;
+    } else {
+      cur = macroDefinitions[el.name];
+    }
 
-		if (cur) {
-			if (cur.container) {
-				if (el.id === el.pair) {
-					d.push({
-						severity: vscode.DiagnosticSeverity.Error,
-						range: el.range,
-						message: `\nMalformed container macro! ${el.open ? "Closing" : "Opening"} '${el.name}' tag not found!\n\n`,
-						source: 'sc2-ex',
-						code: 101
-					});
-				}
-				if (
-					vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros").get("enable") &&
-					vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros.warning").get("irrationalSelfClose") &&
-					!cur.selfClose && el.selfClosed
-				) {
-					d.push({
-						severity: vscode.DiagnosticSeverity.Warning,
-						range: el.range,
-						message:
-							`\nIrrational self-close! Self-closing <<${el.name}>> is not recommended.\n\n`,
-						source: 'sc2-ex',
-						code: 106
-					});
-				}
+    if (cur) {
+      if (cur.container) {
+        if (el.id === el.pair) {
+          d.push({
+            severity: vscode.DiagnosticSeverity.Error,
+            range: el.range,
+            message: `\nMalformed container macro! ${el.open ? "Closing" : "Opening"} '${el.name}' tag not found!\n\n`,
+            source: 'sc2-ex',
+            code: 101
+          });
+        }
+        if (
+          vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros").get("enable") &&
+          vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros.warning").get("irrationalSelfClose") &&
+          !cur.selfClose && el.selfClosed
+        ) {
+          d.push({
+            severity: vscode.DiagnosticSeverity.Warning,
+            range: el.range,
+            message:
+              `\nIrrational self-close! Self-closing <<${el.name}>> is not recommended.\n\n`,
+            source: 'sc2-ex',
+            code: 106
+          });
+        }
 
-				if (
-					cur.children && cur.children.length > 0 && cur.container && el.open && 
-					vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("childrenValidation")
-				) {
-					let children: Record<string, number> = Object.create(null);
-					const start_index = cur_index + 1;
-					// Get the macros that appear after the current index
-					// and filter them for ones which are contained within the macro's range
-					const macros = collected.macros.slice(start_index, el.pair);
-					const processed_macros = [];
-					for (let i = 0; i < macros.length; i++) {
-						const macro = macros[i];
-						// Get the macro definition
-						let def: macroDef;
-						if (macro.name.startsWith("end") && macroDefinitions[macro.name.substring(3)]?.container) {
-							def = macroDefinitions[macro.name.substring(3)];
-							macro.open = false;
-						} else {
-							def = macroDefinitions[macro.name];
-						}
+        if (
+          cur.children && cur.children.length > 0 && cur.container && el.open &&
+          vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("childrenValidation")
+        ) {
+          let children: Record<string, number> = Object.create(null);
+          const start_index = cur_index + 1;
+          // Get the macros that appear after the current index
+          // and filter them for ones which are contained within the macro's range
+          const macros = collected.macros.slice(start_index, el.pair);
+          const processed_macros = [];
+          for (let i = 0; i < macros.length; i++) {
+            const macro = macros[i];
+            // Get the macro definition
+            let def: macroDef;
+            if (macro.name.startsWith("end") && macroDefinitions[macro.name.substring(3)]?.container) {
+              def = macroDefinitions[macro.name.substring(3)];
+              macro.open = false;
+            } else {
+              def = macroDefinitions[macro.name];
+            }
 
-						// If there was no definition, we simply skip it.
-						if (def === undefined) {
-							continue;
-						}
+            // If there was no definition, we simply skip it.
+            if (def === undefined) {
+              continue;
+            }
 
-						// If this is a container and the macro is open then skip over it
-						if (def.container && macro.open) {
-							i = macro.pair - start_index;
-							continue;
-						}
+            // If this is a container and the macro is open then skip over it
+            if (def.container && macro.open) {
+              i = macro.pair - start_index;
+              continue;
+            }
 
-						processed_macros.push(macro);
-					}
-					
-					for (const macro of processed_macros) {
-						for (let j = 0; j < cur.children.length; j++) {
-							if (cur.children[j].name === macro.name) {
-								if (!children[macro.name]) {
-									children[macro.name] = 1;
-								} else {
-									children[macro.name]++;
-								}
-							}
-						}
-					}
+            processed_macros.push(macro);
+          }
 
-					for (let i = 0; i < processed_macros.length; i++) {
-						const macro = processed_macros[i]
+          for (const macro of processed_macros) {
+            for (let j = 0; j < cur.children.length; j++) {
+              if (cur.children[j].name === macro.name) {
+                if (!children[macro.name]) {
+                  children[macro.name] = 1;
+                } else {
+                  children[macro.name]++;
+                }
+              }
+            }
+          }
 
-						const after = cur.children.find(v => v.name === macro.name)?.after;
+          for (let i = 0; i < processed_macros.length; i++) {
+            const macro = processed_macros[i]
 
-						if (!after) {
-							continue;
-						}
+            const after = cur.children.find(v => v.name === macro.name)?.after;
 
-						for (let j = i+1; j < processed_macros.length; j++) {
-							const macro_2 = processed_macros[j]
+            if (!after) {
+              continue;
+            }
 
-							if (after.includes(macro_2.name)) {
-								d.push({
-									severity: vscode.DiagnosticSeverity.Error,
-									range: macro.range,
-									message: `\nChild macro, <<${macro.name}>>, of <<${el.name}>> cannot be used after <<${macro_2.name}>>\n\n`,
-									source: 'sc2-ex',
-									code: 1708
-								})
-							}
-						}
-					}
+            for (let j = i + 1; j < processed_macros.length; j++) {
+              const macro_2 = processed_macros[j]
 
-					for (let j = 0; j < cur.children.length; j++) {
-						const child = cur.children[j];
-						const childCount = children[child.name];
-						const max = child.max;
-						if (max !== undefined) {
-							if (childCount !== undefined && childCount > max) {
-								d.push({
-									severity: vscode.DiagnosticSeverity.Error,
-									range: el.range,
-									message: `\nChild macro, <<${child.name}>>, of <<${el.name}>> was used more than the maximumum number of times: ${childCount} > ${max}\n\n`,
-									code: 114,
-								});
-							}
-						}
+              if (after.includes(macro_2.name)) {
+                d.push({
+                  severity: vscode.DiagnosticSeverity.Error,
+                  range: macro.range,
+                  message: `\nChild macro, <<${macro.name}>>, of <<${el.name}>> cannot be used after <<${macro_2.name}>>\n\n`,
+                  source: 'sc2-ex',
+                  code: 1708
+                })
+              }
+            }
+          }
 
-						const min = child.min;
-						if (min !== undefined) {
-							if (childCount === undefined || childCount < min) {
-								d.push({
-									severity: vscode.DiagnosticSeverity.Error,
-									range: el.range,
-									message: `\nExpected there be at least ${min} of <<${child.name}>>`,
-									code: 115,
-								});
-							}
-						}
-					}
-				}
-			} else {
-				if (!el.open) {
-					d.push({
-						severity: vscode.DiagnosticSeverity.Error,
-						range: el.range,
-						message: `\nIllegal closing tag! '${el.name}' is not a container macro!\n\n`,
-						source: 'sc2-ex',
-						code: 104
-					});
-				}
-				if (vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros").get("enable") && el.selfClosed) {
-					d.push({
-						severity: vscode.DiagnosticSeverity.Error,
-						range: el.range,
-						message: `\nIllegal self-close! '${el.name}' is not a container macro!\n\n`,
-						source: 'sc2-ex',
-						code: 105
-					});
-				}
-			}
+          for (let j = 0; j < cur.children.length; j++) {
+            const child = cur.children[j];
+            const childCount = children[child.name];
+            const max = child.max;
+            if (max !== undefined) {
+              if (childCount !== undefined && childCount > max) {
+                d.push({
+                  severity: vscode.DiagnosticSeverity.Error,
+                  range: el.range,
+                  message: `\nChild macro, <<${child.name}>>, of <<${el.name}>> was used more than the maximumum number of times: ${childCount} > ${max}\n\n`,
+                  code: 114,
+                });
+              }
+            }
 
-			if (el.endVariant && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.warning").get("endMacro")) {
-				d.push({
-					severity: vscode.DiagnosticSeverity.Warning,
-					range: el.range,
-					message: `\n'<<end...>>' closing macros are deprecated! Use '<</${el.name}>>' instead.\n\n`,
-					source: 'sc2-ex',
-					code: 102
-				});
-			}
+            const min = child.min;
+            if (min !== undefined) {
+              if (childCount === undefined || childCount < min) {
+                d.push({
+                  severity: vscode.DiagnosticSeverity.Error,
+                  range: el.range,
+                  message: `\nExpected there be at least ${min} of <<${child.name}>>`,
+                  code: 115,
+                });
+              }
+            }
+          }
+        }
+      } else {
+        if (!el.open) {
+          d.push({
+            severity: vscode.DiagnosticSeverity.Error,
+            range: el.range,
+            message: `\nIllegal closing tag! '${el.name}' is not a container macro!\n\n`,
+            source: 'sc2-ex',
+            code: 104
+          });
+        }
+        if (vscode.workspace.getConfiguration("twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros").get("enable") && el.selfClosed) {
+          d.push({
+            severity: vscode.DiagnosticSeverity.Error,
+            range: el.range,
+            message: `\nIllegal self-close! '${el.name}' is not a container macro!\n\n`,
+            source: 'sc2-ex',
+            code: 105
+          });
+        }
+      }
 
-			if (cur.deprecated && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.warning").get("deprecatedMacro")) {
-				let suggestions = cur.deprecatedSuggestions?.reduce((a, c) => {
-					return a + `- ${c}\n`
-				}, "");
-				d.push({
-					severity: vscode.DiagnosticSeverity.Warning,
-					range: el.range,
-					message:
-						`\nDeprecated macro!\n\n` +
-						(suggestions ? `Instead use:\n${suggestions}\n` : ""),
-					source: 'sc2-ex',
-					code: 103
-				});
-			}
+      if (el.endVariant && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.warning").get("endMacro")) {
+        d.push({
+          severity: vscode.DiagnosticSeverity.Warning,
+          range: el.range,
+          message: `\n'<<end...>>' closing macros are deprecated! Use '<</${el.name}>>' instead.\n\n`,
+          source: 'sc2-ex',
+          code: 102
+        });
+      }
 
-			if (el.open && !cur.skipArgs && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("argumentParsing")) {
-				const lexRange: vscode.Range = makeMacroArgumentsRange(el);
-				const args: UnparsedMacroArguments = document.getText(lexRange);
+      if (cur.deprecated && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.warning").get("deprecatedMacro")) {
+        let suggestions = cur.deprecatedSuggestions?.reduce((a, c) => {
+          return a + `- ${c}\n`
+        }, "");
+        d.push({
+          severity: vscode.DiagnosticSeverity.Warning,
+          range: el.range,
+          message:
+            `\nDeprecated macro!\n\n` +
+            (suggestions ? `Instead use:\n${suggestions}\n` : ""),
+          source: 'sc2-ex',
+          code: 103
+        });
+      }
 
-				// TODO: Potential future feature would making the cache simply hold the
-				// diagnostics themselves rather than reconstructing them each time.
-				const cacheEntry = argumentCache.getInsert(el.name, args, () => {
-					const stateInfo = {
-						passages,
-					};
-					const parsedArguments: ParsedArguments = parseArguments(args, lexRange, el, cur, stateInfo);
-					let chosenVariant: ChosenVariantInformation | null = null;
-					if (parsedArguments.errors.length === 0 && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("parameterValidation") && cur.parameters instanceof Parameters) {
-						const parameters: Parameters = cur.parameters;
-						chosenVariant = parameters.validate(parsedArguments, stateInfo);
-					}
+      if (el.open && !cur.skipArgs && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("argumentParsing")) {
+        const lexRange: vscode.Range = makeMacroArgumentsRange(el);
+        const args: UnparsedMacroArguments = document.getText(lexRange);
 
-					return {
-						parsed: parsedArguments,
-						variant: chosenVariant,
-						lastAccess: Date.now(),
-					};
-				});
+        // TODO: Potential future feature would making the cache simply hold the
+        // diagnostics themselves rather than reconstructing them each time.
+        const cacheEntry = argumentCache.getInsert(el.name, args, () => {
+          const stateInfo = {
+            passages,
+          };
+          const parsedArguments: ParsedArguments = parseArguments(args, lexRange, el, cur, stateInfo);
+          let chosenVariant: ChosenVariantInformation | null = null;
+          if (parsedArguments.errors.length === 0 && vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("parameterValidation") && cur.parameters instanceof Parameters) {
+            const parameters: Parameters = cur.parameters;
+            chosenVariant = parameters.validate(parsedArguments, stateInfo);
+          }
 
-				const parsedArguments = cacheEntry.parsed;
-				const highestVariant = cacheEntry.variant;
+          return {
+            parsed: parsedArguments,
+            variant: chosenVariant,
+            lastAccess: Date.now(),
+          };
+        });
 
-				// Add any errors that we've found just from parsing to the diagnostics.
-				for (let i = 0; i < parsedArguments.errors.length; i++) {
-					let error = parsedArguments.errors[i];
-					d.push({
-						severity: vscode.DiagnosticSeverity.Error,
-						range: error.range,
-						message: error.message || "Unknown argument parsing failure",
-						source: 'sc2-ex',
-						code: 107,
-					});
-				}
+        const parsedArguments = cacheEntry.parsed;
+        const highestVariant = cacheEntry.variant;
 
-				// Add any warnings
-				for (let i = 0; i < parsedArguments.warnings.length; i++) {
-					const warning = parsedArguments.warnings[i];
-					d.push({
-						severity: vscode.DiagnosticSeverity.Warning,
-						range: warning.range,
-						message: warning.message || "Unknown argument parsing error",
-						source: `sc2-ex`,
-						code: 112,
-					});
-				}
+        // Add any errors that we've found just from parsing to the diagnostics.
+        for (let i = 0; i < parsedArguments.errors.length; i++) {
+          let error = parsedArguments.errors[i];
+          d.push({
+            severity: vscode.DiagnosticSeverity.Error,
+            range: error.range,
+            message: error.message || "Unknown argument parsing failure",
+            source: 'sc2-ex',
+            code: 107,
+          });
+        }
 
-				if (vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("parameterValidation") && highestVariant !== null && cur.parameters instanceof Parameters) {
-					const parameters: Parameters = cur.parameters;
-					if (highestVariant.variantIndex === null) {
-						if (parameters.isEmpty()) {
-							// There are no parameters!
-							if (parsedArguments.arguments.length > 0) {
-								// Construct a range covering all of the arguments
-								let range = new vscode.Range(
-									parsedArguments.arguments[0].range.start,
-									parsedArguments.arguments[parsedArguments.arguments.length - 1].range.end
-								);
-								d.push({
-									severity: vscode.DiagnosticSeverity.Error,
-									range,
-									message: `Expected no arguments, got ${parsedArguments.arguments.length} argument(s).`,
-									source: `sc2-ex`,
-									code: 108,
-								});
-							}
-						} else {
-							// TODO: What should we do in this situation where we failed to find a
-							// variant but the parameters weren't empty? This might be an error due
-							// to not matching any parameters and managing to not gain any rank, but
-							// it starts at 0, so if there is a variant that shouldn't be possible.
-							// but it might occur if we ever allow negative rank, so this could be a
-							// 'failed to find variant that fit' error.
-						}
-					} else {
-						// The end of the macro.
-						const endRange = new vscode.Range(el.range.end.translate(0, -('<<'.length)), el.range.end);
+        // Add any warnings
+        for (let i = 0; i < parsedArguments.warnings.length; i++) {
+          const warning = parsedArguments.warnings[i];
+          d.push({
+            severity: vscode.DiagnosticSeverity.Warning,
+            range: warning.range,
+            message: warning.message || "Unknown argument parsing error",
+            source: `sc2-ex`,
+            code: 112,
+          });
+        }
 
-						// Display any errors.
-						for (let i = 0; i < highestVariant.info.errors.length; i++) {
-							const error: ArgumentError = highestVariant.info.errors[i];
-							const arg: Arg | undefined = parsedArguments.arguments[error.index];
-							let range: vscode.Range;
-							if (arg === undefined) {
-								// Since if the arg is undefined it is probably about missing
-								// argument errors
-								range = endRange
-							} else {
-								range = arg.range;
-							}
+        if (vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.error").get("parameterValidation") && highestVariant !== null && cur.parameters instanceof Parameters) {
+          const parameters: Parameters = cur.parameters;
+          if (highestVariant.variantIndex === null) {
+            if (parameters.isEmpty()) {
+              // There are no parameters!
+              if (parsedArguments.arguments.length > 0) {
+                // Construct a range covering all of the arguments
+                let range = new vscode.Range(
+                  parsedArguments.arguments[0].range.start,
+                  parsedArguments.arguments[parsedArguments.arguments.length - 1].range.end
+                );
+                d.push({
+                  severity: vscode.DiagnosticSeverity.Error,
+                  range,
+                  message: `Expected no arguments, got ${parsedArguments.arguments.length} argument(s).`,
+                  source: `sc2-ex`,
+                  code: 108,
+                });
+              }
+            } else {
+              // TODO: What should we do in this situation where we failed to find a
+              // variant but the parameters weren't empty? This might be an error due
+              // to not matching any parameters and managing to not gain any rank, but
+              // it starts at 0, so if there is a variant that shouldn't be possible.
+              // but it might occur if we ever allow negative rank, so this could be a
+              // 'failed to find variant that fit' error.
+            }
+          } else {
+            // The end of the macro.
+            const endRange = new vscode.Range(el.range.end.translate(0, -('<<'.length)), el.range.end);
 
-							d.push({
-								severity: vscode.DiagnosticSeverity.Error,
-								range,
-								message: error.error.message,
-								source: `sc2-ex`,
-								code: 109,
-							});
-						}
+            // Display any errors.
+            for (let i = 0; i < highestVariant.info.errors.length; i++) {
+              const error: ArgumentError = highestVariant.info.errors[i];
+              const arg: Arg | undefined = parsedArguments.arguments[error.index];
+              let range: vscode.Range;
+              if (arg === undefined) {
+                // Since if the arg is undefined it is probably about missing
+                // argument errors
+                range = endRange
+              } else {
+                range = arg.range;
+              }
 
-						// Display any warnings.
-						for (let i = 0; i < highestVariant.info.warnings.length; i++) {
-							const warning: ArgumentWarning = highestVariant.info.warnings[i];
-							const arg: Arg | undefined = parsedArguments.arguments[warning.index];
-							let range: vscode.Range;
-							if (arg === undefined) {
-								range = endRange;
-							} else {
-								range = arg.range;
-							}
+              d.push({
+                severity: vscode.DiagnosticSeverity.Error,
+                range,
+                message: error.error.message,
+                source: `sc2-ex`,
+                code: 109,
+              });
+            }
 
-							d.push({
-								severity: vscode.DiagnosticSeverity.Warning,
-								range,
-								message: warning.warning.message,
-								source: `sc2-ex`,
-								code: 110,
-							});
-						}
+            // Display any warnings.
+            for (let i = 0; i < highestVariant.info.warnings.length; i++) {
+              const warning: ArgumentWarning = highestVariant.info.warnings[i];
+              const arg: Arg | undefined = parsedArguments.arguments[warning.index];
+              let range: vscode.Range;
+              if (arg === undefined) {
+                range = endRange;
+              } else {
+                range = arg.range;
+              }
 
-						// Check if there is too many parameters
-						// argIndex is the *current* index it got to.
-						// So, it would be equivalent to length if it got to exactly the arguments
-						// given.
-						// We only do this if there were no errors though, as we may have
-						// gotten an incorrect variant and we don't want to confuse the user more
-						if (highestVariant.info.errors.length === 0 && parsedArguments.arguments.length > highestVariant.info.argIndex) {
-							// Compute the range of extra arguments
-							const exceedingArgs = parsedArguments.arguments
-								.slice(highestVariant.info.argIndex);
-							const start = exceedingArgs[0].range.start;
-							const end = exceedingArgs[exceedingArgs.length - 1].range.end;
-							const range = new vscode.Range(start, end);
-							d.push({
-								severity: vscode.DiagnosticSeverity.Error,
-								range,
-								message: `Too many arguments for variant '#${highestVariant.variantIndex}'`,
-								source: `sc2-ex`,
-								code: 111,
-							})
-						}
-					}
-				}
-			}
-		} else if (vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.warning").get("undefinedMacro")) {
-			d.push({
-				severity: vscode.DiagnosticSeverity.Warning,
-				range: el.range,
-				message: `\nUnrecognized macro/widget! '${el.name}' has not been defined in config files!\n\n`,
-				source: 'sc2-ex',
-				code: 100
-			});
-		}
-	});
+              d.push({
+                severity: vscode.DiagnosticSeverity.Warning,
+                range,
+                message: warning.warning.message,
+                source: `sc2-ex`,
+                code: 110,
+              });
+            }
 
-	return d;
+            // Check if there is too many parameters
+            // argIndex is the *current* index it got to.
+            // So, it would be equivalent to length if it got to exactly the arguments
+            // given.
+            // We only do this if there were no errors though, as we may have
+            // gotten an incorrect variant and we don't want to confuse the user more
+            if (highestVariant.info.errors.length === 0 && parsedArguments.arguments.length > highestVariant.info.argIndex) {
+              // Compute the range of extra arguments
+              const exceedingArgs = parsedArguments.arguments
+                .slice(highestVariant.info.argIndex);
+              const start = exceedingArgs[0].range.start;
+              const end = exceedingArgs[exceedingArgs.length - 1].range.end;
+              const range = new vscode.Range(start, end);
+              d.push({
+                severity: vscode.DiagnosticSeverity.Error,
+                range,
+                message: `Too many arguments for variant '#${highestVariant.variantIndex}'`,
+                source: `sc2-ex`,
+                code: 111,
+              })
+            }
+          }
+        }
+      }
+    } else if (vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2.warning").get("undefinedMacro")) {
+      d.push({
+        severity: vscode.DiagnosticSeverity.Warning,
+        range: el.range,
+        message: `\nUnrecognized macro/widget! '${el.name}' has not been defined in config files!\n\n`,
+        source: 'sc2-ex',
+        code: 100
+      });
+    }
+  });
+
+  return d;
 };
 
 /**
  * Provides hover information for macros.
  */
 export const hover = async function (document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.Hover | null> {
-	if (token.isCancellationRequested) return null;
+  if (token.isCancellationRequested) return null;
 
-	// Acquire list of macros in the file.
-	const collected = await collectCache.get(document);
-	const macroDefinitions = await macroList();
+  // Acquire list of macros in the file.
+  const collected = await collectCache.get(document);
+  const macroDefinitions = await macroList();
 
-	const angle_start_length = '<<'.length;
-	const angle_end_length = '>>'.length;
+  const angle_start_length = '<<'.length;
+  const angle_end_length = '>>'.length;
 
-	// Find the macro with which our position intersects with
-	for (let i = 0; i < collected.macros.length; i++) {
-		const macro = collected.macros[i];
-		const macroDefinition = macroDefinitions[macro.name];
-		// Check if the macro exists in the definitions.
-		// If it doesn't then we know it can't have a description.
-		if (!macroDefinition) continue;
+  // Find the macro with which our position intersects with
+  for (let i = 0; i < collected.macros.length; i++) {
+    const macro = collected.macros[i];
+    const macroDefinition = macroDefinitions[macro.name];
+    // Check if the macro exists in the definitions.
+    // If it doesn't then we know it can't have a description.
+    if (!macroDefinition) continue;
 
-		// Whether the position intersects with hoverable parts of the macro.
-		let contained_in = false;
-		if (!macroDefinition.container || macro.open) {
-			// If it is not a container (and thus we are in the opening) or if it is the opening
-			// Ex: in `<<linkreplace "Testing">>Text<</linkreplace>>` we want to match
-			// `<<linkreplace` and the first `>>`
-			const start_range = new vscode.Range(macro.range.start, macro.range.start.translate(0, macro.name.length));
-			const end_range = new vscode.Range(macro.range.end.translate(0, -angle_end_length), macro.range.end);
-			contained_in = start_range.contains(position) || end_range.contains(position);
-		} else if (macroDefinition.container && !macro.open) {
-			// We are a container, and we are on the closing end.
-			// This means that we simply want to match all of it.
-			// Ex: in `<<linkreplace "Testing>>Text<</linkreplace>>"` we want to match
-			// `<</linkreplace>>` and since there is no arguments on the closing, we can just
-			// check the given range.
-			contained_in = macro.range.contains(position);
-		}
+    // Whether the position intersects with hoverable parts of the macro.
+    let contained_in = false;
+    if (!macroDefinition.container || macro.open) {
+      // If it is not a container (and thus we are in the opening) or if it is the opening
+      // Ex: in `<<linkreplace "Testing">>Text<</linkreplace>>` we want to match
+      // `<<linkreplace` and the first `>>`
+      const start_range = new vscode.Range(macro.range.start, macro.range.start.translate(0, macro.name.length));
+      const end_range = new vscode.Range(macro.range.end.translate(0, -angle_end_length), macro.range.end);
+      contained_in = start_range.contains(position) || end_range.contains(position);
+    } else if (macroDefinition.container && !macro.open) {
+      // We are a container, and we are on the closing end.
+      // This means that we simply want to match all of it.
+      // Ex: in `<<linkreplace "Testing>>Text<</linkreplace>>"` we want to match
+      // `<</linkreplace>>` and since there is no arguments on the closing, we can just
+      // check the given range.
+      contained_in = macro.range.contains(position);
+    }
 
-		// If the position is on a hoverable part of the macro
-		// And if the macro exists
-		// We have to use the ugly prototype.hasOwnProperty because the macroList is constructed
-		// with a null prototype.
-		if (contained_in && Object.prototype.hasOwnProperty.call(macroDefinitions, macro.name)) {
-			let macroDefinition = macroDefinitions[macro.name];
-			if (macroDefinition.description instanceof vscode.MarkdownString || typeof macroDefinition.description === "string") {
-				return new vscode.Hover(macroDefinition.description);
-			} else {
-				// We found the macro the user is hovering over, but there is no description.
-				// Thus, there is no need to continue looking for it.
-				return null;
-			}
-		}
-	}
+    // If the position is on a hoverable part of the macro
+    // And if the macro exists
+    // We have to use the ugly prototype.hasOwnProperty because the macroList is constructed
+    // with a null prototype.
+    if (contained_in && Object.prototype.hasOwnProperty.call(macroDefinitions, macro.name)) {
+      let macroDefinition = macroDefinitions[macro.name];
+      if (macroDefinition.description instanceof vscode.MarkdownString || typeof macroDefinition.description === "string") {
+        return new vscode.Hover(macroDefinition.description);
+      } else {
+        // We found the macro the user is hovering over, but there is no description.
+        // Thus, there is no need to continue looking for it.
+        return null;
+      }
+    }
+  }
 
-	// There was no macro intersecting, thus we have no hover result.
-	return null;
+  // There was no macro intersecting, thus we have no hover result.
+  return null;
 }
 
 export const definition = async function (ctx: vscode.ExtensionContext, document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.Definition | vscode.LocationLink[] | null> {
-	if (token.isCancellationRequested) return null;
+  if (token.isCancellationRequested) return null;
 
 
-	const collected = await collectUncached(document.getText());
+  const collected = await collectUncached(document.getText());
 
-	const selectedMacro: any = collected.macros.filter(m => {
-		return (m.open && new vscode.Range(m.range.start, collected.macros[m.pair].range.end).contains(position)) || 
-			m.range.contains(position);
-	})?.pop();
+  const selectedMacro: any = collected.macros.filter(m => {
+    return (m.open && new vscode.Range(m.range.start, collected.macros[m.pair].range.end).contains(position)) ||
+      m.range.contains(position);
+  })?.pop();
 
-	if (selectedMacro == null)
-		return null;
-	
-	return findMacro(selectedMacro.name, token);
+  if (selectedMacro == null)
+    return null;
+
+  return findMacro(selectedMacro.name, token);
 }
 
 export const definitionConfig = async function (ctx: vscode.ExtensionContext, document: vscode.TextDocument, position: vscode.Position, token: vscode.CancellationToken): Promise<vscode.Definition | vscode.LocationLink[] | null> {
-	if (token.isCancellationRequested) return null;
+  if (token.isCancellationRequested) return null;
 
-	const currentLine = document.getText(new vscode.Range(position.line, 0, position.line+1,0));
-	const search = /\w+/g;
-	let foundWord;
-	while ((foundWord = search.exec(currentLine)) !== null) {
-		if (search.lastIndex < position.character || search.lastIndex - foundWord[0].length > position.character)
-			foundWord = null;
-		else break;
-	}
-	if (foundWord == null) return null;
+  const currentLine = document.getText(new vscode.Range(position.line, 0, position.line + 1, 0));
+  const search = /\w+/g;
+  let foundWord;
+  while ((foundWord = search.exec(currentLine)) !== null) {
+    if (search.lastIndex < position.character || search.lastIndex - foundWord[0].length > position.character)
+      foundWord = null;
+    else break;
+  }
+  if (foundWord == null) return null;
 
-	return findMacro(foundWord[0], token);
+  return findMacro(foundWord[0], token);
 }
 
 export const findMacro = async function (macro: string, token: vscode.CancellationToken): Promise<vscode.Definition | vscode.LocationLink[] | null> {
-	if (!macro)
-		return null;
+  if (!macro)
+    return null;
 
-	let files = await vscode.workspace.findFiles("**/*.{js,twee,tw}", "**/{node_modules,.git}/**");
-	const config = vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2");
-	const regex = new RegExp(`(?:${config.widgetAliases.join("|")})(["']?)${macro}\\1(?:, )?`);
-	return new Promise(searchDone => {
-		files.map(file => {
-			return vscode.workspace.fs.readFile(file)
-				.then((c: Uint8Array) => {
-					if (token.isCancellationRequested) return null;
-					const s = Buffer.from(c).toString("utf-8");
-					const pos = s.match(regex);
-					if (pos == null) return null;
-					const lines = s.substring(0, pos.index).match(/\n/g)?.length ?? 0;
+  let files = await vscode.workspace.findFiles("**/*.{js,twee,tw}", "**/{node_modules,.git}/**");
+  const config = vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2");
+  const regex = new RegExp(`(?:${config.widgetAliases.join("|")})(["']?)${macro}\\1(?:, )?`);
+  return new Promise(searchDone => {
+    files.map(file => {
+      return vscode.workspace.fs.readFile(file)
+        .then((c: Uint8Array) => {
+          if (token.isCancellationRequested) return null;
+          const s = Buffer.from(c).toString("utf-8");
+          const pos = s.match(regex);
+          if (pos == null) return null;
+          const lines = s.substring(0, pos.index).match(/\n/g)?.length ?? 0;
 
-					if (file.path.substring(file.path.length - 3) === ".js") {
-						const secondaryLookup = vscode.commands.executeCommand<vscode.Definition | vscode.LocationLink[] | null>(
-							"vscode.executeDefinitionProvider",
-							file, new vscode.Position(lines, pos[0].length + 1)
-						).then<vscode.Definition | vscode.Location | vscode.LocationLink[] | null>((result) => {
-							if (!result || Array.isArray(result) && !result.length) return new vscode.Location(file, new vscode.Position(lines, pos[0].length));
-							else return result;
-						});
-						return searchDone(secondaryLookup);
-					}
+          if (file.path.substring(file.path.length - 3) === ".js") {
+            const secondaryLookup = vscode.commands.executeCommand<vscode.Definition | vscode.LocationLink[] | null>(
+              "vscode.executeDefinitionProvider",
+              file, new vscode.Position(lines, pos[0].length + 1)
+            ).then<vscode.Definition | vscode.Location | vscode.LocationLink[] | null>((result) => {
+              if (!result || Array.isArray(result) && !result.length) return new vscode.Location(file, new vscode.Position(lines, pos[0].length));
+              else return result;
+            });
+            return searchDone(secondaryLookup);
+          }
 
-					return searchDone(new vscode.Location(file, new vscode.Position(lines, 0)));
-			});
-		});
-	});
+          return searchDone(new vscode.Location(file, new vscode.Position(lines, 0)));
+        });
+    });
+  });
 }
 
 export const updateDecorations = async function (ctx: vscode.ExtensionContext, editor: vscode.TextEditor) {
-	interface MacroData {
-		el: macro,
-		def: macroDef
-	}
+  interface MacroData {
+    el: macro,
+    def: macroDef
+  }
 
-	if (!vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2").get("definedMacroDecorations")) {
-        return;
+  if (!vscode.workspace.getConfiguration("twee3LanguageTools.sugarcube-2").get("definedMacroDecorations")) {
+    return;
+  }
+
+  let collected = await collectCache.get(editor.document);
+  let macroDefinitions = await macroList();
+
+  await clearDecorations(ctx, editor);
+
+  let entries: (MacroData | null)[] = collected.macros.map(el => {
+    let def: macroDef;
+    if (el.name.startsWith("end") && macroDefinitions[el.name.substring(3)]?.container) {
+      def = macroDefinitions[el.name.substring(3)];
+      el.open = false;
+    } else {
+      def = macroDefinitions[el.name];
     }
 
-	let collected = await collectCache.get(editor.document);
-	let macroDefinitions = await macroList();
+    return {el, def};
+  })
+    .filter(v => v.def !== undefined)
+    .filter(v => v.def.decoration_type !== undefined);
 
-	await clearDecorations(ctx, editor);
+  // This could be cleaner
+  let hasEntries = entries.length !== 0;
+  while (hasEntries) {
+    let active: vscode.Range[] = [];
+    let target: string | undefined = undefined;
+    let dec_type: vscode.TextEditorDecorationType | undefined = undefined;
+    for (let i = 0; i < entries.length; i++) {
+      let entry = entries[i];
+      if (target === undefined) {
+        if (entry !== null) {
+          target = entry.def.name;
+          dec_type = entry.def.decoration_type;
+        }
+      }
 
-	let entries: (MacroData | null)[] = collected.macros.map(el => {
-		let def: macroDef;
-		if (el.name.startsWith("end") && macroDefinitions[el.name.substring(3)]?.container) {
-			def = macroDefinitions[el.name.substring(3)];
-			el.open = false;
-		} else {
-			def = macroDefinitions[el.name];
-		}
+      if (entry === null) {
+        continue;
+      }
 
-		return {el, def};
-	})
-	.filter(v => v.def !== undefined)
-	.filter(v => v.def.decoration_type !== undefined);
+      if (entry.def.name === target) {
+        active.push(entry.el.range);
+        entries[i] = null;
+      }
+    }
 
-	// This could be cleaner
-	let hasEntries = entries.length !== 0;
-	while (hasEntries) {
-		let active: vscode.Range[] = [];
-		let target: string | undefined = undefined;
-		let dec_type: vscode.TextEditorDecorationType | undefined = undefined;
-		for (let i = 0; i < entries.length; i++) {
-			let entry = entries[i];
-			if (target === undefined) {
-				if (entry !== null) {
-					target = entry.def.name;
-					dec_type = entry.def.decoration_type;
-				}
-			}
+    if (dec_type) {
+      editor.setDecorations(dec_type, active)
+    }
 
-			if (entry === null) {
-				continue;
-			}
-
-			if (entry.def.name === target) {
-				active.push(entry.el.range);
-				entries[i] = null;
-			}
-		}
-
-		if (dec_type) {
-			editor.setDecorations(dec_type, active)
-		}
-
-		if (target === undefined) {
-			hasEntries = false;
-		}
-	}
+    if (target === undefined) {
+      hasEntries = false;
+    }
+  }
 }
 
-export const clearDecorations = async function(ctx: vscode.ExtensionContext, editor: vscode.TextEditor) {
-	let macroDefinitions = await macroList();
-	for (let key in macroDefinitions) {
-		let macro = macroDefinitions[key];
-		if (macro.decoration_type) {
-			editor.setDecorations(macro.decoration_type, []);
-		}
-	}
+export const clearDecorations = async function (ctx: vscode.ExtensionContext, editor: vscode.TextEditor) {
+  let macroDefinitions = await macroList();
+  for (let key in macroDefinitions) {
+    let macro = macroDefinitions[key];
+    if (macro.decoration_type) {
+      editor.setDecorations(macro.decoration_type, []);
+    }
+  }
 }

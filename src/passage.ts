@@ -1,249 +1,256 @@
 import * as vscode from "vscode";
 
-import { readFile } from "./file-ops";
-import { normalizePath } from "./utils";
+import {readFile} from "./file-ops";
+import {normalizePath} from "./utils";
 
 export class PassageListProvider implements vscode.TreeDataProvider<Passage> {
-	private _onDidChangeTreeData: vscode.EventEmitter<Passage | undefined | void> = new vscode.EventEmitter<Passage | undefined | void>();
-	readonly onDidChangeTreeData: vscode.Event<Passage | undefined | void> = this._onDidChangeTreeData.event;
+  private _onDidChangeTreeData: vscode.EventEmitter<Passage | undefined | void> = new vscode.EventEmitter<Passage | undefined | void>();
+  readonly onDidChangeTreeData: vscode.Event<Passage | undefined | void> = this._onDidChangeTreeData.event;
 
-	constructor(private context: vscode.ExtensionContext) { }
+  constructor(private context: vscode.ExtensionContext) {
+  }
 
-	refresh() {
-		this._onDidChangeTreeData.fire();
-	}
+  refresh() {
+    this._onDidChangeTreeData.fire();
+  }
 
-	getTreeItem(element: Passage): vscode.TreeItem {
-		return element;
-	}
+  getTreeItem(element: Passage): vscode.TreeItem {
+    return element;
+  }
 
-	getChildren(element?: Passage): Thenable<Passage[]> {
-		const passages: Passage[] = getWorkspacePassages(this.context);
+  getChildren(element?: Passage): Thenable<Passage[]> {
+    const passages: Passage[] = getWorkspacePassages(this.context);
 
-		if (!vscode.workspace.getConfiguration("twee3LanguageTools.passage").get("list")) return Promise.resolve([]);
+    if (!vscode.workspace.getConfiguration("twee3LanguageTools.passage").get("list")) return Promise.resolve([]);
 
-		switch (vscode.workspace.getConfiguration("twee3LanguageTools.passage").get("group")) {
+    switch (vscode.workspace.getConfiguration("twee3LanguageTools.passage").get("group")) {
 
-			case "File": {
-				let origins: string[] = [];
-				let files: Passage[] = [];
-				passages.forEach(el => {
-					if (!origins.includes(el.origin.full)) {
-						origins.push(el.origin.full);
-						let p = new Passage(el.origin.path.split("/").pop() || "", el.range, el.stringRange, el.origin, vscode.TreeItemCollapsibleState.Expanded);
-						p.tooltip = el.origin.path.substring(1);
-						files.push(p);
-					}
-				});
+      case "File": {
+        let origins: string[] = [];
+        let files: Passage[] = [];
+        passages.forEach(el => {
+          if (!origins.includes(el.origin.full)) {
+            origins.push(el.origin.full);
+            let p = new Passage(el.origin.path.split("/").pop() || "", el.range, el.stringRange, el.origin, vscode.TreeItemCollapsibleState.Expanded);
+            p.tooltip = el.origin.path.substring(1);
+            files.push(p);
+          }
+        });
 
-				if (element) {
-					const target = normalizePath(element.origin.full);
-					return Promise.resolve(passages
-						.filter(el => normalizePath(el.origin.full) === target)
-						.sort((a, b) => a.name.localeCompare(b.name))
-					);
-				} else return Promise.resolve(files.sort((a, b) => a.name.localeCompare(b.name)));
-			}
+        if (element) {
+          const target = normalizePath(element.origin.full);
+          return Promise.resolve(passages
+            .filter(el => normalizePath(el.origin.full) === target)
+            .sort((a, b) => a.name.localeCompare(b.name))
+          );
+        } else return Promise.resolve(files.sort((a, b) => a.name.localeCompare(b.name)));
+      }
 
-			case "Folder": {
-				let origins: string[] = [];
-				let folders: Passage[] = [];
-				passages.forEach(el => {
-					const _path = el.origin.path.split("/").slice(0, -1).join("/");
-					const _origin = {
-						root: el.origin.root,
-						path: _path,
-						full: el.origin.root + _path
-					};
-					if (!origins.includes(_origin.full)) {
-						origins.push(_origin.full);
-						let p = new Passage(_origin.path, el.range, el.stringRange, _origin, vscode.TreeItemCollapsibleState.Expanded);
-						p.tooltip = _origin.path;
-						folders.push(p);
-					}
-				});
+      case "Folder": {
+        let origins: string[] = [];
+        let folders: Passage[] = [];
+        passages.forEach(el => {
+          const _path = el.origin.path.split("/").slice(0, -1).join("/");
+          const _origin = {
+            root: el.origin.root,
+            path: _path,
+            full: el.origin.root + _path
+          };
+          if (!origins.includes(_origin.full)) {
+            origins.push(_origin.full);
+            let p = new Passage(_origin.path, el.range, el.stringRange, _origin, vscode.TreeItemCollapsibleState.Expanded);
+            p.tooltip = _origin.path;
+            folders.push(p);
+          }
+        });
 
-				if (element) {
-					return Promise.resolve(passages
-						.filter(el => el.origin.path.split("/").slice(0, -1).join("/") === element.origin.path)
-						.sort((a, b) => a.name.localeCompare(b.name))
-					);
-				} else return Promise.resolve(folders.sort((a, b) => a.name.localeCompare(b.name)));
-			}
+        if (element) {
+          return Promise.resolve(passages
+            .filter(el => el.origin.path.split("/").slice(0, -1).join("/") === element.origin.path)
+            .sort((a, b) => a.name.localeCompare(b.name))
+          );
+        } else return Promise.resolve(folders.sort((a, b) => a.name.localeCompare(b.name)));
+      }
 
-			case "Tag": {
-				let tags: string[] = [];
-				let groups: Passage[] = [];
-				passages.forEach(el => {
-					el.tags?.forEach(elem => {
-						if (!tags.includes(elem)) {
-							tags.push(elem);
-							let p = new Passage(elem, el.range, el.stringRange, el.origin, vscode.TreeItemCollapsibleState.Expanded);
-							groups.push(p);
-						}
-					});
-				});
-				let ungrouped = new Passage("", new vscode.Range(0,0,0,0), { start: 0, endHeader: 0, end: 0 }, { root: "", path: "", full: "" }, vscode.TreeItemCollapsibleState.Expanded);
-				ungrouped.description = "Untagged";
-				groups.sort((a, b) => a.name.localeCompare(b.name));
-				groups.push(ungrouped);
+      case "Tag": {
+        let tags: string[] = [];
+        let groups: Passage[] = [];
+        passages.forEach(el => {
+          el.tags?.forEach(elem => {
+            if (!tags.includes(elem)) {
+              tags.push(elem);
+              let p = new Passage(elem, el.range, el.stringRange, el.origin, vscode.TreeItemCollapsibleState.Expanded);
+              groups.push(p);
+            }
+          });
+        });
+        let ungrouped = new Passage("", new vscode.Range(0, 0, 0, 0), {start: 0, endHeader: 0, end: 0}, {
+          root: "",
+          path: "",
+          full: ""
+        }, vscode.TreeItemCollapsibleState.Expanded);
+        ungrouped.description = "Untagged";
+        groups.sort((a, b) => a.name.localeCompare(b.name));
+        groups.push(ungrouped);
 
-				if (element) {
-					if (element.name) {
-						return Promise.resolve(passages
-							.filter(el => el.tags?.includes(element.name))
-							.sort((a, b) => a.name.localeCompare(b.name))
-						);
-					} else {
-						return Promise.resolve(passages
-							.filter(el => !el.tags?.length)
-							.sort((a, b) => a.name.localeCompare(b.name))
-						);
-					}
-				} else return Promise.resolve(groups);
-			}
+        if (element) {
+          if (element.name) {
+            return Promise.resolve(passages
+              .filter(el => el.tags?.includes(element.name))
+              .sort((a, b) => a.name.localeCompare(b.name))
+            );
+          } else {
+            return Promise.resolve(passages
+              .filter(el => !el.tags?.length)
+              .sort((a, b) => a.name.localeCompare(b.name))
+            );
+          }
+        } else return Promise.resolve(groups);
+      }
 
-			case "None":
-			default: {
-				return Promise.resolve(passages.sort((a, b) => a.name.localeCompare(b.name)));
-			}
-		}
-	}
+      case "None":
+      default: {
+        return Promise.resolve(passages.sort((a, b) => a.name.localeCompare(b.name)));
+      }
+    }
+  }
 }
 
 export interface PassageOrigin {
-	root: string;
-	path: string;
-	full: string;
+  root: string;
+  path: string;
+  full: string;
 }
 
 export interface PassageStringRange {
-	start: number;
-	endHeader: number;
-	end: number;
+  start: number;
+  endHeader: number;
+  end: number;
 }
 
 export interface PassageRange {
-	startLine: number;
-	startCharacter: number;
-	endLine: number;
-	endCharacter: number;
+  startLine: number;
+  startCharacter: number;
+  endLine: number;
+  endCharacter: number;
 }
 
 export interface OpenPassageParams {
-	name: string;
-	origin: PassageOrigin;
-	range: PassageRange;
-	stringRange: PassageStringRange;
+  name: string;
+  origin: PassageOrigin;
+  range: PassageRange;
+  stringRange: PassageStringRange;
 }
 
 export class Passage extends vscode.TreeItem {
-	constructor(
-		public name: string,
-		public range: vscode.Range,
-		public stringRange: PassageStringRange,
-		public origin: PassageOrigin,
-		public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-		public tags?: string[],
-		public meta?: any,
-	) {
-		super(name, collapsibleState);
-	}
+  constructor(
+    public name: string,
+    public range: vscode.Range,
+    public stringRange: PassageStringRange,
+    public origin: PassageOrigin,
+    public readonly collapsibleState: vscode.TreeItemCollapsibleState,
+    public tags?: string[],
+    public meta?: any,
+  ) {
+    super(name, collapsibleState);
+  }
 
-	async getHeader(document?: vscode.TextDocument) {
-		const docText = document ? document.getText() : await readFile(this.origin.full);
-		return docText.slice(this.stringRange.start, this.stringRange.endHeader);
-	}
+  async getHeader(document?: vscode.TextDocument) {
+    const docText = document ? document.getText() : await readFile(this.origin.full);
+    return docText.slice(this.stringRange.start, this.stringRange.endHeader);
+  }
 
-	async getContent(document?: vscode.TextDocument, includeHeader=false) {
-		const docText = document ? document.getText() : await readFile(this.origin.full);
-		return this.getContentFromText(docText, includeHeader)
-	}
+  async getContent(document?: vscode.TextDocument, includeHeader = false) {
+    const docText = document ? document.getText() : await readFile(this.origin.full);
+    return this.getContentFromText(docText, includeHeader)
+  }
 
-	getContentFromText(docText: string, includeHeader = false) {
-		return docText.slice(includeHeader ? this.stringRange.start : this.stringRange.endHeader + 1, this.stringRange.end + 1);
-	}
+  getContentFromText(docText: string, includeHeader = false) {
+    return docText.slice(includeHeader ? this.stringRange.start : this.stringRange.endHeader + 1, this.stringRange.end + 1);
+  }
 }
 
 export function passageFromRaw(passage: Passage) {
-	const pRange: { line: number; character: number; }[] = passage.range as any;
-	return new Passage(
-		passage.name,
-		new vscode.Range(
-			pRange[0].line, pRange[0].character,
-			pRange[1].line, pRange[1].character,
-		),
-		passage.stringRange,
-		passage.origin,
-		passage.collapsibleState,
-		passage.tags,
-		passage.meta
-	);
+  const pRange: { line: number; character: number; }[] = passage.range as any;
+  return new Passage(
+    passage.name,
+    new vscode.Range(
+      pRange[0].line, pRange[0].character,
+      pRange[1].line, pRange[1].character,
+    ),
+    passage.stringRange,
+    passage.origin,
+    passage.collapsibleState,
+    passage.tags,
+    passage.meta
+  );
 }
 
 export function getWorkspacePassages(ctx: vscode.ExtensionContext) {
-	return ctx.workspaceState.get("passages", []).map(e => passageFromRaw(e));
+  return ctx.workspaceState.get("passages", []).map(e => passageFromRaw(e));
 }
 
 export function jumpToPassage(passage: Passage | OpenPassageParams) {
-	vscode.window.showTextDocument(vscode.Uri.file(passage.origin.full)).then(editor => {
-		const range = (passage.range instanceof vscode.Range) ? passage.range : new vscode.Range(
-			passage.range.startLine,
-			passage.range.startCharacter,
-			passage.range.endLine,
-			passage.range.endCharacter,
-		);
-		editor.revealRange(range, vscode.TextEditorRevealType.AtTop);
-	});
+  vscode.window.showTextDocument(vscode.Uri.file(passage.origin.full)).then(editor => {
+    const range = (passage.range instanceof vscode.Range) ? passage.range : new vscode.Range(
+      passage.range.startLine,
+      passage.range.startCharacter,
+      passage.range.endLine,
+      passage.range.endCharacter,
+    );
+    editor.revealRange(range, vscode.TextEditorRevealType.AtTop);
+  });
 }
 
 export function passageAtCursor(context: vscode.ExtensionContext, editor: vscode.TextEditor) {
-	const passages = getWorkspacePassages(context);
-	const editorPath = normalizePath(editor?.document.uri.path);
-	const editorPosition = editor?.selection.active;
-	return passages.find((passage) => normalizePath(passage.origin.full) === editorPath
-		&& editorPosition && passage.range.start.line <= editorPosition.line && passage.range.end.line - 1 >= editorPosition.line
-		/* double check to appease typeerror */
-	);
+  const passages = getWorkspacePassages(context);
+  const editorPath = normalizePath(editor?.document.uri.path);
+  const editorPosition = editor?.selection.active;
+  return passages.find((passage) => normalizePath(passage.origin.full) === editorPath
+      && editorPosition && passage.range.start.line <= editorPosition.line && passage.range.end.line - 1 >= editorPosition.line
+    /* double check to appease typeerror */
+  );
 }
 
 function createPassageSymbol(passage: Passage) {
-	return new vscode.SymbolInformation(
-		passage.name,
-		vscode.SymbolKind.Class,
-		"",
-		new vscode.Location(vscode.Uri.file(passage.origin.full), passage.range)
-	);
+  return new vscode.SymbolInformation(
+    passage.name,
+    vscode.SymbolKind.Class,
+    "",
+    new vscode.Location(vscode.Uri.file(passage.origin.full), passage.range)
+  );
 }
 
 export class PassageSymbolProvider implements vscode.DocumentSymbolProvider {
-	constructor(private context: vscode.ExtensionContext) { }
-	
-	provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.ProviderResult<vscode.SymbolInformation[] | vscode.DocumentSymbol[]> {
-		const symbols: vscode.SymbolInformation[] = [];
-		const docPath = normalizePath(document.uri.path);
-		getWorkspacePassages(this.context).forEach(passage => {
-			if (normalizePath(passage.origin.full) === docPath) {
-				symbols.push(createPassageSymbol(passage));
-			}
-		});
-		return symbols;
-	}
+  constructor(private context: vscode.ExtensionContext) {
+  }
+
+  provideDocumentSymbols(document: vscode.TextDocument, token: vscode.CancellationToken): vscode.ProviderResult<vscode.SymbolInformation[] | vscode.DocumentSymbol[]> {
+    const symbols: vscode.SymbolInformation[] = [];
+    const docPath = normalizePath(document.uri.path);
+    getWorkspacePassages(this.context).forEach(passage => {
+      if (normalizePath(passage.origin.full) === docPath) {
+        symbols.push(createPassageSymbol(passage));
+      }
+    });
+    return symbols;
+  }
 }
 
 export class WorkspacePassageSymbolProvider implements vscode.WorkspaceSymbolProvider {
-	constructor(private context: vscode.ExtensionContext) { }
+  constructor(private context: vscode.ExtensionContext) {
+  }
 
-	provideWorkspaceSymbols(query: string, token: vscode.CancellationToken): vscode.ProviderResult<vscode.SymbolInformation[]> {
-		const symbols: vscode.SymbolInformation[] = [];
-		if (query.length) {
-			const queryRegex = new RegExp(query.split("").join(".*") + ".*", "i");
-			getWorkspacePassages(this.context).forEach(passage => {
-				if (queryRegex.test(passage.name)) {
-					symbols.push(createPassageSymbol(passage));
-				}
-			});
-		}
-		return symbols;
-	}
+  provideWorkspaceSymbols(query: string, token: vscode.CancellationToken): vscode.ProviderResult<vscode.SymbolInformation[]> {
+    const symbols: vscode.SymbolInformation[] = [];
+    if (query.length) {
+      const queryRegex = new RegExp(query.split("").join(".*") + ".*", "i");
+      getWorkspacePassages(this.context).forEach(passage => {
+        if (queryRegex.test(passage.name)) {
+          symbols.push(createPassageSymbol(passage));
+        }
+      });
+    }
+    return symbols;
+  }
 }

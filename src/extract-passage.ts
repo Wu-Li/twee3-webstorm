@@ -1,15 +1,16 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { getWorkspacePassages, Passage } from "./passage";
-import { moveToFile, MoveData } from "./file-ops";
-import { normalizePath } from "./utils";
+import {getWorkspacePassages, Passage} from "./passage";
+import {moveToFile, MoveData} from "./file-ops";
+import {normalizePath} from "./utils";
 
 export class ExtractPassage implements vscode.CodeActionProvider {
   public static readonly providedCodeActionKinds = [
     vscode.CodeActionKind.RefactorExtract,
   ];
 
-  constructor(private context: vscode.ExtensionContext) {}
+  constructor(private context: vscode.ExtensionContext) {
+  }
 
   public provideCodeActions(
     document: vscode.TextDocument,

@@ -2,14 +2,14 @@
   <div class="toolbar">
     <template v-for="element in elements">
       <button
-        v-if="element.tag === 'button' && element.type === 'toggle'"
-        type="button"
-        class="tb-button material-symbols-outlined"
-        :data-action="element.id"
-        :key="`toolbar-id-${element.id}`"
-        :class="{ active: element.active }"
-        :title="`${element.text}: ${element.active ? 'On' : 'Off'}`"
-        @click="onToggleClick(element)"
+          v-if="element.tag === 'button' && element.type === 'toggle'"
+          type="button"
+          class="tb-button material-symbols-outlined"
+          :data-action="element.id"
+          :key="`toolbar-id-${element.id}`"
+          :class="{ active: element.active }"
+          :title="`${element.text}: ${element.active ? 'On' : 'Off'}`"
+          @click="onToggleClick(element)"
       >
         <span class="icon" :class="element.id"></span>
         <span class="text">{{ element.text }}</span>
@@ -19,7 +19,7 @@
     <div class="save-changes" v-if="unsavedChanges">
       <button type="button" @click="$emit('saveChanges')">
         <span class="button-text">Save changes</span>
-        <Save class="button-icon" />
+        <Save class="button-icon"/>
       </button>
     </div>
   </div>
@@ -28,7 +28,7 @@
 <script lang="ts">
 import Save from './svg/Save.vue';
 
-import { Component, Vue, Prop } from "vue-property-decorator";
+import {Component, Vue, Prop} from "vue-property-decorator";
 
 interface ToolbarItemToggle {
   id: string;
@@ -41,7 +41,7 @@ interface ToolbarItemToggle {
 type ToolbarItem = ToolbarItemToggle;
 
 @Component({
-  components: { Save },
+  components: {Save},
 })
 export default class ToolBar extends Vue {
   @Prop() unsavedChanges: boolean;
@@ -66,7 +66,7 @@ export default class ToolBar extends Vue {
 
   created() {
     this.elements.forEach((element) => {
-      switch(element.id) {
+      switch (element.id) {
         case 'snap-to-grid': {
           element.active = this.settings.snapToGrid;
           break;
@@ -81,7 +81,7 @@ export default class ToolBar extends Vue {
 
   onToggleClick(element: ToolbarItemToggle) {
     element.active = !element.active;
-    this.$emit("toggle", { id: element.id, value: element.active });
+    this.$emit("toggle", {id: element.id, value: element.active});
   }
 }
 </script>

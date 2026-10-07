@@ -1,21 +1,21 @@
 {
-	"extends": "./tsconfig.base.json",
-	"compilerOptions": {
-		"module": "commonjs",
-		"target": "es2019",
-		"outDir": "out",
-		"rootDir": ".",
-		"esModuleInterop": true,
-		"lib": [
-			"es2019"
-		],
-		"sourceMap": true
-	},
-	"include": [
-		"src",
-		"package.json"
-	],
-	"exclude": [
-		"node_modules"
-	]
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2019",
+    "outDir": "out",
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "lib": [
+      "es2019"
+    ],
+    "sourceMap": true
+  },
+  "include": [
+    "src",
+    "package.json"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

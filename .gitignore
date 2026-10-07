@@ -1,24 +1,4 @@
-out
-res/story-map
-.DS_Store
-node_modules
-npm-debug.log
-pnpm-debug.log*
-.vscode-test
-*.vsix
-.res.ignore
-publish.bat
-
-.vscode/settings.json
-
-# local env files
-.env.local
-.env.*.local
-
-# Editor directories and files
+.gradle
 .idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.intellijPlatform
+build

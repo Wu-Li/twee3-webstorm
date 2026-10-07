@@ -3,7 +3,7 @@
         Such as: Arguments, Parameters, Passages, and so on.
 */
 
-import { Passage } from "../passage";
+import {Passage} from "../passage";
 import _ from "lodash";
 
 // SugarCube has more complex checks for these, but we're only supporting VSCode and assume its
@@ -14,24 +14,23 @@ export const settingsSetupAccessRegexp: RegExp = /^(?:settings|setup)[.[]/;
 export const varTestRegexp: RegExp = /^[$_][$A-Z_a-z][$0-9A-Z_a-z]*/;
 
 
-
 // The warning class is for things that are technically 'errors' (in that they are invalid)
 // but are likely just slightly incorrect and so should be counted as at least a partial validity
 // (Ex: Passing a link with a setter to something that takes `linkNoSetter`)
 // Could in the future provide quick fixes?
 export class Warning {
-    readonly message: string;
+  readonly message: string;
 
-    constructor(message: string) {
-        this.message = message;
-    }
+  constructor(message: string) {
+    this.message = message;
+  }
 }
 
 /**
  * Information about the state, used for verifying some parts of the arguments and parameters.
  */
 export interface StateInfo {
-    passages: Passage[],
+  passages: Passage[],
 }
 
 /**
@@ -40,11 +39,10 @@ export interface StateInfo {
  * `B`: The original type (usually string).
  */
 export interface Evaluatable<T, B> {
-	original: B,
-	isEvaluated: boolean,
-	value?: T
+  original: B,
+  isEvaluated: boolean,
+  value?: T
 }
-
 
 
 /**
@@ -53,113 +51,112 @@ export interface Evaluatable<T, B> {
  * Has the option to take undefined arrays, because that is just better for the place it is used in.
  */
 export function isArrayEqual<T>(left?: T[], right?: T[]): boolean {
-    if (left === right) {
-        // They're the same array, or both undefined
-        return true;
-    } else if (left === undefined || right === undefined) {
-        // We already checked for equality, so if either are undefined then we know it isn't equal
-        return false;
-    } else if (left.length !== right.length) {
-        return false;
-    }
-
-    for (let i = 0; i < left.length; i++) {
-        if (left[i] !== right[i]) {
-            return false;
-        }
-    }
+  if (left === right) {
+    // They're the same array, or both undefined
     return true;
+  } else if (left === undefined || right === undefined) {
+    // We already checked for equality, so if either are undefined then we know it isn't equal
+    return false;
+  } else if (left.length !== right.length) {
+    return false;
+  }
+
+  for (let i = 0; i < left.length; i++) {
+    if (left[i] !== right[i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
  * Uses `isObjectSimpleEqual` to decide if all the elements in an array are equal
  */
 export function isArraySimpleObjectsEqual(left?: Record<string, any>[], right?: Record<string, any>[]): boolean {
-    if (left === right) {
-        // They're the same array, or both undefined
-        return true;
-    } else if (left === undefined || right === undefined) {
-        // We already checked for equality, so if either are undefined then we know it isn't equal
-        return false;
-    } else if (left.length !== right.length) {
-        return false;
-    }
-
-    for (let i = 0; i < left.length; i++) {
-        if (!isObjectSimpleEqual(left[i], right[i])) {
-            return false;
-        }
-    }
+  if (left === right) {
+    // They're the same array, or both undefined
     return true;
+  } else if (left === undefined || right === undefined) {
+    // We already checked for equality, so if either are undefined then we know it isn't equal
+    return false;
+  } else if (left.length !== right.length) {
+    return false;
+  }
+
+  for (let i = 0; i < left.length; i++) {
+    if (!isObjectSimpleEqual(left[i], right[i])) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
  * Performs a surface level comparison of the fields of the two objects
- * This is probably less efficient than it should be and perhaps should be replaced with lodash's 
+ * This is probably less efficient than it should be and perhaps should be replaced with lodash's
  * isEqual
  */
 export function isObjectSimpleEqual(left?: Record<string, any>, right?: Record<string, any>): boolean {
-    return _.isEqual(left, right);
-    // if (left === right) {
-    //     // They're the same object
-    //     return true;
-    // } else if (left === undefined || right === undefined) {
-    //     return false;
-    // }
+  return _.isEqual(left, right);
+  // if (left === right) {
+  //     // They're the same object
+  //     return true;
+  // } else if (left === undefined || right === undefined) {
+  //     return false;
+  // }
 
-    // let left_keys = Object.keys(left);
-    // let right_keys = Object.keys(right);
+  // let left_keys = Object.keys(left);
+  // let right_keys = Object.keys(right);
 
-    
 
-    // if (left_keys.length != right_keys.length) {
-    //     return false;
-    // }
+  // if (left_keys.length != right_keys.length) {
+  //     return false;
+  // }
 
-    // for (let i = 0; i < left_keys.length; i++) {
-    //     let key = left_keys[i];
-    //     if (!(key in right)) {
-    //         return false;
-    //     }
+  // for (let i = 0; i < left_keys.length; i++) {
+  //     let key = left_keys[i];
+  //     if (!(key in right)) {
+  //         return false;
+  //     }
 
-    //     if (left[key] !== right[key]) {
-    //         return false;
-    //     }
-    // }
+  //     if (left[key] !== right[key]) {
+  //         return false;
+  //     }
+  // }
 
-    // for (let i = 0; i < right_keys.length; i++) {
-    //     let key = right_keys[i];
-    //     if (!(key in left)) {
-    //         return false;
-    //     }
+  // for (let i = 0; i < right_keys.length; i++) {
+  //     let key = right_keys[i];
+  //     if (!(key in left)) {
+  //         return false;
+  //     }
 
-    //     if (left[key] !== right[key]) {
-    //         return false;
-    //     }
-    // }
+  //     if (left[key] !== right[key]) {
+  //         return false;
+  //     }
+  // }
 
-    // return true;
+  // return true;
 }
 
 
 /**
  * Tries getting the evaluated value of a TwineScript passage name.
  * Handles literals, and simple TwineScript strings.
- * @param validPassages 
+ * @param validPassages
  * @param passageName A TwineScript passage name.
  */
 export function evalPassageId(validPassages: Passage[], passageName: string, allowBasicBareword: boolean = false): Evaluatable<string, string> {
-	// SugarCube simply checks if it is null or if the passage name is valid before returning.
-	// See: SugarCube2 wikifier.js evalPassageId for what we are imitating.
-	if (passageName === "null" || validPassages.find(passage => passage.name === passageName)) {
-		return {
-			original: passageName,
-			isEvaluated: true,
-			value: passageName,
-		}
-	}
+  // SugarCube simply checks if it is null or if the passage name is valid before returning.
+  // See: SugarCube2 wikifier.js evalPassageId for what we are imitating.
+  if (passageName === "null" || validPassages.find(passage => passage.name === passageName)) {
+    return {
+      original: passageName,
+      isEvaluated: true,
+      value: passageName,
+    }
+  }
 
-	return evaluateTwineScriptString(passageName, allowBasicBareword);
+  return evaluateTwineScriptString(passageName, allowBasicBareword);
 }
 
 
@@ -171,53 +168,53 @@ export function evalPassageId(validPassages: Passage[], passageName: string, all
  * @param code The input TwineScript
  */
 export function evaluateTwineScriptString(code: string, allowBasicBareword: boolean = false): Evaluatable<string, string> {
-    // Note: If this is moved out of this function for re-use then that exec uses the state held
-    // inside the regexp will have to be taken into account and reset/copy the regex before running.
-    const parseRe = new RegExp([
-        '(""|\'\')',                                          // 1=Empty quotes
-        '("(?:\\\\.|[^"\\\\])+")',                            // 2=Double quoted, non-empty
-        "('(?:\\\\.|[^'\\\\])+')",                            // 3=Single quoted, non-empty
-        '([=+\\-*\\/%<>&\\|\\^~!?:,;\\(\\)\\[\\]{}]+)',       // 4=Operator delimiters
-        '([^"\'=+\\-*\\/%<>&\\|\\^~!?:,;\\(\\)\\[\\]{}\\s]+)' // 5=Barewords
-    ].join('|'), 'g');
+  // Note: If this is moved out of this function for re-use then that exec uses the state held
+  // inside the regexp will have to be taken into account and reset/copy the regex before running.
+  const parseRe = new RegExp([
+    '(""|\'\')',                                          // 1=Empty quotes
+    '("(?:\\\\.|[^"\\\\])+")',                            // 2=Double quoted, non-empty
+    "('(?:\\\\.|[^'\\\\])+')",                            // 3=Single quoted, non-empty
+    '([=+\\-*\\/%<>&\\|\\^~!?:,;\\(\\)\\[\\]{}]+)',       // 4=Operator delimiters
+    '([^"\'=+\\-*\\/%<>&\\|\\^~!?:,;\\(\\)\\[\\]{}\\s]+)' // 5=Barewords
+  ].join('|'), 'g');
 
-    let match;
+  let match;
 
-    while ((match = parseRe.exec(code)) !== null) {
-        if (match[1] === code) { // Empty
-            return {
-                original: code,
-                isEvaluated: true,
-                value: "",
-            };
-        } else if (match[2] === code || match[3] === code) {
-            return {
-                original: code,
-                isEvaluated: true,
-                // Remove quotes
-                value: code.slice(1, -1),
-            }
-        } else if (allowBasicBareword && match[5] === code) {
-            // We allow simple barewords. This has the potential for false positives.
-            // This is essentially meant just for links, where
-            // [[blah]] could be the value in the global scope named `blah`, or a passage
-            // named `blah`, and we want to consider that as a string
-            if (match[5] === '$' || match[5] === '_') {
-                break;
-            } else if (varTestRegexp.test(match[5])) {
-                break;
-            }
-
-            return {
-                original: code,
-                isEvaluated: true,
-                value: code,
-            };
-        }
-    }
-
-    return {
+  while ((match = parseRe.exec(code)) !== null) {
+    if (match[1] === code) { // Empty
+      return {
         original: code,
-        isEvaluated: false,
+        isEvaluated: true,
+        value: "",
+      };
+    } else if (match[2] === code || match[3] === code) {
+      return {
+        original: code,
+        isEvaluated: true,
+        // Remove quotes
+        value: code.slice(1, -1),
+      }
+    } else if (allowBasicBareword && match[5] === code) {
+      // We allow simple barewords. This has the potential for false positives.
+      // This is essentially meant just for links, where
+      // [[blah]] could be the value in the global scope named `blah`, or a passage
+      // named `blah`, and we want to consider that as a string
+      if (match[5] === '$' || match[5] === '_') {
+        break;
+      } else if (varTestRegexp.test(match[5])) {
+        break;
+      }
+
+      return {
+        original: code,
+        isEvaluated: true,
+        value: code,
+      };
     }
+  }
+
+  return {
+    original: code,
+    isEvaluated: false,
+  }
 }

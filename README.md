@@ -1,209 +1,155 @@
-# Twee 3 Language Tools
+# Twee3-webstorm
 
-Syntax highlighting for HTML and select storyformats (see [Features](#features)) on top of Twee 3 code.
+[![Twitter Follow](https://img.shields.io/badge/follow-%40JBPlatform-1DA1F2?logo=twitter)](https://twitter.com/JBPlatform)
+[![Developers Forum](https://img.shields.io/badge/JetBrains%20Platform-Join-blue)][jb:forum]
 
-Made possible feedback from the folks over at the Twine Games [Discord Server](https://discord.com/invite/n5dJvPp) and through contributions from:
+## Overview
 
-<a href="https://github.com/cyrusfirheir/twee3-language-tools/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=cyrusfirheir/twee3-language-tools" />
-</a>
+This repository implements an IntelliJ Platform plugin.
 
-Made with [contrib.rocks](https://contrib.rocks).
+## Demo Functionality
 
----
+The sample plugin adds a `My Tool Window` tool window with a simple functionality of shuffling a random number.
 
-## **Requirements**
+## Plugin structure
 
-The extension relies on a workspace (or a folder) being open. If single files are to be edited, the storyformat must be configured manually.
+A generated project contains the following content structure:
 
-Supported file extensions:
-
-- `.tw`
-- `.twee`
-
-To set the correct storyformat for the files, a `StoryData` passage with the storyformat (and version) (see example below) mentioned in it is preferred. If not, the extension provides the option to set the format explictly.)
-
-```json
-:: StoryData
-{
-	"ifid": "<ifid here>",
-	"format": "<story format here, i.e. 'SugarCube'>",
-	"format-version": "<story format version here, i.e. '2.35.0'>"
-}
+```
+.
+├── .run/                   Predefined Run/Debug Configurations
+├── gradle
+│   ├── wrapper/            Gradle Wrapper
+│   ├── libs.versions.toml  Version catalog
+├── src                     Plugin sources
+│   └── main
+│       ├── kotlin/         Kotlin production sources
+│       └── resources/      Plugin resources
+│           ├── META-INF/   Plugin configuration file and logo
+│           └── messages/   Message bundles
+├── .gitignore              Git ignoring rules
+├── build.gradle.kts        Gradle build configuration
+├── gradle.properties       Gradle configuration properties
+├── gradlew                 *nix Gradle Wrapper script
+├── gradlew.bat             Windows Gradle Wrapper script
+├── README.md               This file
+└── settings.gradle.kts     Gradle project settings
 ```
 
----
+In addition to the configuration files, the most crucial part is the `src` directory, which contains our implementation
+and the manifest for our plugin – [plugin.xml][file:plugin.xml].
 
-## **Features**
+> [!NOTE]
+> To use Java in your plugin, create the `/src/main/java` directory.
 
-### Twee
-- Syntax highlighting.  
+The plugin logo is placed in `src/main/resources/META-INF/pluginIcon.svg`.
+See [Plugin Logo][docs:logo] for more information and logo requirements.
 
-- Snippet to generate the `StoryData` special passage: start typing `StoryData` in a Twee document and press <kbd>Tab</kbd> when prompted with the snippet. This populates the IFID field with a newly generated one.
+## Build script
 
-- Command palette tool to generate IFID: open the command palette (<kbd>Ctrl/Cmd + Shift + P</kbd> or <kbd>F1</kbd> by default) and search for "IFID".  
+The [build.gradle.kts][file:build.gradle.kts] is the core of the project definition.
+It applies three Gradle plugins:
 
-- A list of passages for quick jumps (can be grouped by files, folders, or passage tags.) Open from the Twee 3 Language Tools tab on the activity bar (the forking paths logo.)  
+| Plugin                            | Description                                                                      |
+|-----------------------------------|----------------------------------------------------------------------------------|
+| `org.jetbrains.kotlin.jvm`        | Adds Kotlin support                                                              |
+| `org.jetbrains.changelog`         | Simplifies patching the [CHANGELOG.md][file:CHANGELOG.md] file                   |
+| `org.jetbrains.intellij.platform` | The [IntelliJ Platform Gradle Plugin][docs:intellij-platform-gradle-plugin-docs] |
 
-    ![Passage List](docs/images/twee-passage-list.png)  
+The `intellijPlatform` dependencies block selects the IDE to compile against:
 
-- Workspace statistics Status bar item (WIP).  
-	- Total passage count (includes Story passages, Special passages, and Script/Stylesheet-tagged passages)  
-	- Story passage count  
-
-- A story-map view that opens inside VSCode (and optionally, in the browser)! Still in early stages. Also accessible from the Twee 3 Language Tools tab on the activity bar.
-
-	- Currently implemented features:  
-		- Snap to grid (button on top-left.)  
-		- Arrows to linked passages.  
-		- Passage position, size, and tags can be edited via a sidebar. Changes are *not* currently autosaved, and a manual save button is present.  
-		- Multi-select, and thereby mass editing of position, size, and tags.  
-		- Ability to move passages across files.
-
-	- Usage:
-		- Use the middle-mouse button, or hold down <kbd>Shift</kbd> while dragging the mouse to pan the map grid.
-		- Scroll the mousewheel or stretch/pinch on trackpad to zoom in/out.
-		- Hold <kbd>Ctrl/Cmd</kbd> while selecting to add new passages to selection, or remove already added passages from it.
-
-	![Story Map](docs/images/twee-storymap.png)
-
-### SugarCube
-*(id: `sugarcube-2`)*
-- Syntax highlighting:  
-    ![SugarCube syntax](docs/images/hl-sc2.png)
-- Macro documentation on hover. (Custom definitions can be added via `*.twee-config.yml`. See: [Custom macro definitions for SC](#custom-macro-definitions-for-sugarcube)):  
-	- [Screenshot - macro documentation](docs/images/sc2-hovertips.png)
-- Container macro pair highlights:  
-	- [Screenshot - macro pairs](docs/images/sc2-macro-tag-matching.png)
-- Snippets. Type macro names to get code snippet inserts with placeholder values:  
-	- [Screenshot - snippet](docs/images/sc2-snippets.png)
-	- [Screenshot - snippet insert](docs/images/sc2-snippets-insert.png)
-	- [Screenshot - wrapping snippets](docs/images/sc2-snippets-wrap.png)
-- Diagnostics:  
-	- Macros with opening tags but no closes (and vice-versa):  
-		- [Screenshot - diagnostics](docs/images/sc2-unclosed-macro.png)
-	- Deprecated macros:  
-		- [Screenshot - diagnostic](docs/images/sc2-deprecated-macro.png)
-	- Deprecated `<<end...>>` closing macros:  
-		- [Screenshot - diagnostic](docs/images/sc2-endvariant-macro.png)
-		- [Screenshot - quick fix](docs/images/sc2-endvariant-quickfix.png)
-	- Unrecognized macros. New/custom macros can be defined manually (see: [Custom macro definitions for SC](#custom-macro-definitions-for-sugarcube)), but anything else will throw a warning. This can be turned off by the `twee3LanguageTools.sugarcube-2.undefinedMacroWarnings` setting:  
-		- [Screenshot - diagnostic](docs/images/sc2-unrecognized-macro.png)
-		- [Screenshot - quick fix](docs/images/sc2-unrecognized-quickfix.png) (Writes definitions to `t3lt.twee-config.yml` in the root of the first workspace folder.)
-	- Invalid argument syntax in macros:  
-		- [Screenshot - diagnostics](docs/images/sc2-parameter-validation.png)
-	- Argument validation: [Read here](docs/parameters.md) for more information.
-
-### Chapbook
-*(id: `chapbook-2`)*
-- Syntax highlighting.  
-    ![Chapbook syntax](docs/images/hl-cb1.png)
-
-### Harlowe
-*(id: `harlowe-3`)*
-- Syntax highlighting.  
-    ![Harlowe syntax](docs/images/hl-h3.png)
-
----
-
-## **twee-config**
-
-### Custom Macro definitions for SugarCube
-
-The extension adds diagnostics for erroneous usage of macros in TwineScript for the `sugarcube-2` storyformat. By default, only the definitions for the core SugarCube library are present, but custom definitions can be added. The process is as follows:
-
-1. Add a `*.twee-config.yaml` (or `.yml`) **OR** `*.twee-config.json` (`*` represents any valid file name) file to your project folder (or anywhere in the workspace.)
-2. Define custom macros as follows:
-	- If using `*.twee-config.yaml` (indentation is important for YAML files):
-		```yaml
-		sugarcube-2:
-
-		  macros:
-
-		    customMacroName:
-		      container: true
-
-		    anotherOne: {}
-		```
-	- If using `*.twee-config.json`:
-		```json
-		{
-			"sugarcube-2": {
-				"macros": {
-					"customMacroName": {
-						"container": true
-					},
-					"anotherOne": {}
-				}
-			}
-		}
-		```
-The following properties are currently programmed, even though not all of them are used as of now:
-- **name** `(string)` *optional*: Name of the macro (currently unused in code; the name of the object suffices for now.)
-- **description** `(string)` *optional*: Description of macro. Shown on hover. Supports markdown.
-- **container** `(boolean)` *optional*: If the macro is a container (i.e. requires a closing tag) or not. `false` by default.
-- **selfClose** `(boolean)` *optional*: If the macro is a self-closable. Requires macro to be a container first. `false` by default.
-- **children** `(string|child-definition array)` *optional*: If the macro has children, specify their names as an array (currently unused in code.) _You still need to define the child macros as their own macro definitions._
-- **parents** `(string array)` *optional*: If the macro is a child macro, specify the names of its parents as an array (currently unused in code.)
-- **deprecated** `(boolean)` *optional*: If the macro is deprecated or not. `false` by default.
-- **deprecatedSuggestions** `(string array)` *optional*: If the macro is deprecated, specify any alternatives to the macro as an array.
-- **parameters** `(object)` *optional*: Allows for macro argument validation. [Read here](docs/parameters.md) for more information.
-- **decoration** `(object)` *optional*: Allows for declaring decorations to be displayed on that macro. Uses [DecorationRenderOptions](https://code.visualstudio.com/api/references/vscode-api#DecorationRenderOptions)' fields. Requires `definedMacroDecorations` setting to be enabled.
-
-The fields `description` and `parameters` allow substituting globally defined values in. [Read here](docs/enums.md) for more information.
-
-**NOTE:** Multiple `twee-config` files can be present in a workspace. They will stack and add to the macro definitions for the workspace. The recommended strategy is to make separate files for separate macro sets/libraries, e.g. (the following file can also be used as an example):
-- `click-to-proceed.twee-config.yaml` ([Link](https://github.com/cyrusfirheir/cycy-wrote-custom-macros/blob/master/click-to-proceed/click-to-proceed.twee-config.yaml))
-
----
-
-## **Experimental Stuff**
-
-### Passage Auto-packer
-
-Uses a simple packing algorithm to space out passages into clusters based on the file they originate from.
-
-To use, search for `Pack passages to clusters` from the command palette (<kbd>Ctrl/Cmd + Shift + P</kbd> or <kbd>F1</kbd> by default).
-
----
-
-### SugarCube-2: Add All Unrecognized Macros to Definition File
-
-Adds every unrecognized macro to the definition file, instead of doing it one by one.
-
-To use, search for `Unrecognized Macros` from the command palette (<kbd>Ctrl/Cmd + Shift + P</kbd> or <kbd>F1</kbd> by default).
-
-However, it is still recommended to add definitions one at a time.
-
----
-
-### SugarCube-2: Self-closing macros
-
-***NOTE:*** SugarCube 2 does *NOT* have a self-closing syntax for container macros, this feature is just to support custom passage processing functions.
-
-Example of such a function which replaces self-closed instances with the actual closing macro tag (i.e. `<<macro />>` with `<<macro>><</macro>>`):
-```js
-Config.passages.onProcess = function(p) {
-	const macroNamePattern = `[A-Za-z][\\w-]*|[=-]`;
-
-	const selfCloseMacroRegex = new RegExp(`<<(${macroNamePattern})((?:\\s*)(?:(?:/\\*[^*]*\\*+(?:[^/*][^*]*\\*+)*/)|(?://.*\\n)|(?:\`(?:\\\\.|[^\`\\\\])*\`)|(?:"(?:\\\\.|[^"\\\\])*")|(?:'(?:\\\\.|[^'\\\\])*')|(?:\\[(?:[<>]?[Ii][Mm][Gg])?\\[[^\\r\\n]*?\\]\\]+)|[^>]|(?:>(?!>)))*?)\\/>>`, 'gm');
-
-	return p.text.replace(selfCloseMacroRegex, "<<$1$2>><</$1>>");
-};
+```kotlin
+intellijIdea("2025.3.6.1")
 ```
 
-The `twee3LanguageTools.experimental.sugarcube-2.selfClosingMacros.enable` setting enables detection of self-closed macros.
+See [Target Versions][docs:target-version] for more information.
 
----
+The `intellijPlatform` dependencies block also contains a dependency on the platform testing framework:
 
-## **Known issues**
+```kotlin
+testFramework(TestFrameworkType.Platform)
+```
 
-Argument validation is still a work in progress. Passage name validation, especially. Shouldn't hinder workflow, however.
+See [Testing][docs:testing] for more information
 
----
+## Plugin configuration file
 
-## **Changelog**
+The plugin configuration file is a [plugin.xml][file:plugin.xml] file located in the `src/main/resources/META-INF`
+directory.
+It provides general information about the plugin, its dependencies, extensions, and listeners.
 
-Changelog [here](CHANGELOG.md).
+You can read more about this file in the [Plugin Configuration File][docs:plugin.xml] section of our documentation.
 
----
+### Plugin ID and name
+
+Generated plugin ID and name may require adjustment.
+
+These values are generated based on _Group ID_ and _Artifact ID_ provided in the IDE Plugin wizard.
+It is recommended to review `<id>` and `<name>` elements in the plugin.xml file, and adjust them if needed.
+
+Please note that Gradle properties `rootProject.name` and `project.group` don't need to match the `<id>` and `<name>`
+elements.
+There is no IntelliJ Platform-related reason they should as they serve different functions.
+
+## Predefined Run/Debug configurations
+
+Within the default project structure, there is a `.run` directory provided containing predefined *Run/Debug
+configurations* that expose corresponding Gradle tasks:
+
+| Configuration name  | Description                                                                                                                                                                           |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Run IDE with Plugin | Runs [`:runIde`][docs:intellij-platform-gradle-plugin-runIde] IntelliJ Platform Gradle Plugin task. Use the *Debug* icon for plugin debugging.                                        |
+| Run Tests           | Runs [`:check`][gradle:lifecycle-tasks] Gradle task.                                                                                                                                  |
+| Run Verifications   | Runs [`:verifyPlugin`][docs:intellij-platform-gradle-plugin-verifyPlugin] IntelliJ Platform Gradle Plugin task to check the plugin compatibility against the specified IntelliJ IDEs. |
+
+> [!NOTE]
+> You can find the logs from the running task in the `idea.log` tab.
+
+## Publishing the plugin
+
+> [!TIP]
+> Make sure to follow all guidelines listed in [Publishing a Plugin][docs:publishing] to follow all recommended and
+required steps.
+
+Releasing a plugin to [JetBrains Marketplace](https://plugins.jetbrains.com) is a straightforward operation that uses
+the `publishPlugin` Gradle task provided by
+the [intellij-platform-gradle-plugin][docs:intellij-platform-gradle-plugin-docs].
+
+You can also upload the plugin to the [JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/upload)
+manually via UI.
+
+## Useful links
+
+- [IntelliJ Platform SDK Plugin SDK][docs]
+- [IntelliJ Platform Gradle Plugin Documentation][docs:intellij-platform-gradle-plugin-docs]
+- [IntelliJ Platform Explorer][jb:ipe]
+- [JetBrains Marketplace Quality Guidelines][jb:quality-guidelines]
+- [IntelliJ Platform UI Guidelines][jb:ui-guidelines]
+- [JetBrains Marketplace Paid Plugins][jb:paid-plugins]
+- [IntelliJ SDK Code Samples][gh:code-samples]
+
+[docs]: https://plugins.jetbrains.com/docs/intellij
+[docs:plugin.xml]: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html?from=IJPluginReadmeFile
+[docs:publishing]: https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginReadmeFile
+[docs:intellij-platform-gradle-plugin-docs]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin.html?from=IJPluginReadmeFile
+[docs:intellij-platform-gradle-plugin-runIde]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html?from=IJPluginReadmeFile#runIde
+[docs:intellij-platform-gradle-plugin-verifyPlugin]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-tasks.html?from=IJPluginReadmeFile#verifyPlugin
+[docs:logo]: https://plugins.jetbrains.com/docs/intellij/plugin-icon-file.html?from=IJPluginReadmeFile
+[docs:target-version]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html?from=IJPluginReadmeFile#target-versions
+[docs:testing]: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html?from=IJPluginReadmeFile#testing
+
+[file:build.gradle.kts]: ./build.gradle.kts
+[file:CHANGELOG.md]: ./CHANGELOG.md
+[file:gradle.properties]: ./gradle.properties
+[file:plugin.xml]: ./src/main/resources/META-INF/plugin.xml
+
+[gh:code-samples]: https://github.com/JetBrains/intellij-sdk-code-samples
+
+[gradle:lifecycle-tasks]: https://docs.gradle.org/current/userguide/java_plugin.html#lifecycle_tasks
+
+[jb:github]: https://github.com/JetBrains/.github/blob/main/profile/README.md
+[jb:forum]: https://platform.jetbrains.com/
+[jb:quality-guidelines]: https://plugins.jetbrains.com/docs/marketplace/quality-guidelines.html
+[jb:paid-plugins]: https://plugins.jetbrains.com/docs/marketplace/paid-plugins-marketplace.html
+[jb:ipe]: https://jb.gg/ipe
+[jb:ui-guidelines]: https://jetbrains.github.io/ui

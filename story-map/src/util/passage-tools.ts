@@ -1,4 +1,4 @@
-import { RawPassage, Passage, Vector, LinkedPassage } from '../types';
+import {RawPassage, Passage, Vector, LinkedPassage} from '../types';
 
 export const parseRaw = (passageIn: RawPassage): Passage => {
   const lastIndex = passageIn.origin.path.lastIndexOf('/');
@@ -9,11 +9,11 @@ export const parseRaw = (passageIn: RawPassage): Passage => {
     x: Math.round(Math.max(0, positionArr[0])),
     y: Math.round(Math.max(0, positionArr[1])),
   };
-  const size: Vector = { x: sizeArr[0], y: sizeArr[1] };
+  const size: Vector = {x: sizeArr[0], y: sizeArr[1]};
   return {
     origin: passageIn.origin,
     range: passageIn.range,
-	stringRange: passageIn.stringRange,
+    stringRange: passageIn.stringRange,
     filename: passageIn.origin.path.substring(lastIndex + 1),
     path: passageIn.origin.path.substring(0, lastIndex),
     name: passageIn.name,
@@ -22,8 +22,8 @@ export const parseRaw = (passageIn: RawPassage): Passage => {
     position: position,
     size: size,
     drawPosition: null,
-    originalPosition: { ...position },
-    originalSize: { ...size },
+    originalPosition: {...position},
+    originalSize: {...size},
     originalTags: [...passageIn.tags],
     key: `passage-${passageIn.origin}-${passageIn.name}`,
   };

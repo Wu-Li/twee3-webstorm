@@ -1,92 +1,97 @@
 <template>
   <div
-    class="layout"
-    :class="{ 'show-sidebar': settings.showSidebar && selectedPassages.length }"
-    @mouseup="onMouseUp($event)"
-    @mousemove="onMouseMove($event)"
+      class="layout"
+      :class="{ 'show-sidebar': settings.showSidebar && selectedPassages.length }"
+      @mouseup="onMouseUp($event)"
+      @mousemove="onMouseMove($event)"
   >
     <ToolBar
-      class="toolbar"
-      :unsavedChanges="unsavedChanges"
-      :settings="settings"
-      @saveChanges="saveChanges()"
-      @toggle="toggleSetting($event)"
+        class="toolbar"
+        :unsavedChanges="unsavedChanges"
+        :settings="settings"
+        @saveChanges="saveChanges()"
+        @toggle="toggleSetting($event)"
     />
     <div class="sidebar">
-      <button class="toggle-sidebar" v-if="selectedPassages.length" :class="{ 'sidebar-off': !settings.showSidebar }" @click="toggleSidebar()"><div class="toggle-label">Sidebar</div></button>
+      <button class="toggle-sidebar" v-if="selectedPassages.length" :class="{ 'sidebar-off': !settings.showSidebar }"
+              @click="toggleSidebar()">
+        <div class="toggle-label">Sidebar</div>
+      </button>
       <Sidebar
-        :passages="selectedPassages"
-        :allTags="allTags"
-        :tagColors="tagColors"
-        @setSize="setPassageSize(selectedPassages, $event)"
-        @resetSize="resetPassageSize(selectedPassages)"
-        @resetPosition="resetPassagePosition(selectedPassages)"
-        @resetTags="resetPassageTags(selectedPassages)"
-        @addTag="addPassageTag(selectedPassages, $event)"
-        @removeTag="removePassageTag(selectedPassages, $event)"
-        @selectPassage="selectPassage($event, null)"
-        @openInVsCode="openPassage(selectedPassages[0])"
-        @moveToFile="moveToFile(selectedPassages, $event)"
+          :passages="selectedPassages"
+          :allTags="allTags"
+          :tagColors="tagColors"
+          @setSize="setPassageSize(selectedPassages, $event)"
+          @resetSize="resetPassageSize(selectedPassages)"
+          @resetPosition="resetPassagePosition(selectedPassages)"
+          @resetTags="resetPassageTags(selectedPassages)"
+          @addTag="addPassageTag(selectedPassages, $event)"
+          @removeTag="removePassageTag(selectedPassages, $event)"
+          @selectPassage="selectPassage($event, null)"
+          @openInVsCode="openPassage(selectedPassages[0])"
+          @moveToFile="moveToFile(selectedPassages, $event)"
       />
     </div>
-    <div class="story-area" @click="deselectPassage()" @mousedown="onMapMouseDown($event)" @wheel.prevent="onWheel($event)">
+    <div class="story-area" @click="deselectPassage()" @mousedown="onMapMouseDown($event)"
+         @wheel.prevent="onWheel($event)">
       <div class="story-map" :style="{ transform: `${translateStr} scale(${zoom})` }">
         <svg class="story-map-back" :style="svgStyle">
           <template v-if="!draggedPassage">
             <!-- I would prefer if I could keep drawing lines while dragging -->
             <!-- But that just slows things down to a crawl, probably need canvas to fix -->
             <PassageLinkLine
-              v-for="linkedPassage in linkedPassages"
-              :key="`link-line${linkedPassage.key}`"
-              :from="linkedPassage.from"
-              :to="linkedPassage.to"
-              :twoWay="linkedPassage.twoWay"
-              :highlight="highlightElements.includes(linkedPassage) || (!hoveredElement && selectedPassages.some((selPassage) => selPassage.key  === linkedPassage.key))"
-              @lineMouseenter="onHoverableMouseEnter(linkedPassage)"
-              @lineMouseleave="onHoverableMouseLeave(linkedPassage)"
+                v-for="linkedPassage in linkedPassages"
+                :key="`link-line${linkedPassage.key}`"
+                :from="linkedPassage.from"
+                :to="linkedPassage.to"
+                :twoWay="linkedPassage.twoWay"
+                :highlight="highlightElements.includes(linkedPassage) || (!hoveredElement && selectedPassages.some((selPassage) => selPassage.key  === linkedPassage.key))"
+                @lineMouseenter="onHoverableMouseEnter(linkedPassage)"
+                @lineMouseleave="onHoverableMouseLeave(linkedPassage)"
             />
           </template>
         </svg>
         <div
-          v-for="item in items"
-          :key="`passage-${item.passage.name}`"
-          :style="item.style"
-          :class="{
+            v-for="item in items"
+            :key="`passage-${item.passage.name}`"
+            :style="item.style"
+            :class="{
             highlight: highlightElements.includes(item.passage) || passagesInDragArea.includes(item.passage),
             selected: selectedPassages.includes(item.passage),
           }"
-          @mouseenter="onHoverableMouseEnter(item.passage)"
-          @mouseleave="onHoverableMouseLeave(item.passage)"
-          @mousedown.stop="onPassageMouseDown(item.passage, $event)"
-          @click.stop="selectPassage(item.passage, $event)"
-          @dblclick="openPassage(item.passage)"
-          class="passage"
+            @mouseenter="onHoverableMouseEnter(item.passage)"
+            @mouseleave="onHoverableMouseLeave(item.passage)"
+            @mousedown.stop="onPassageMouseDown(item.passage, $event)"
+            @click.stop="selectPassage(item.passage, $event)"
+            @dblclick="openPassage(item.passage)"
+            class="passage"
         >
           {{ item.passage.name }}
           <div
-            v-if="item.passage.dropShadow"
-            class="passage-shadow"
-            :style="{ left: `${item.passage.dropShadow.x}px`, top: `${item.passage.dropShadow.y}px` }"
+              v-if="item.passage.dropShadow"
+              class="passage-shadow"
+              :style="{ left: `${item.passage.dropShadow.x}px`, top: `${item.passage.dropShadow.y}px` }"
           ></div>
 
           <svg
-            v-if="!storyData.start && item.passage.name === 'Start' || item.passage.name === storyData.start"
-            :style="{
+              v-if="!storyData.start && item.passage.name === 'Start' || item.passage.name === storyData.start"
+              :style="{
               width: Math.min(Math.max((36/zoom), 16), item.passage.size.x - 10) + 'px',
               height: Math.min(Math.max((36/zoom), 16), item.passage.size.y - 10) + 'px'  
             }"
-            viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"
           >
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M14.491 1c-3.598.004-6.654 1.983-8.835 4H1.5l-.5.5v3l.147.354.991.991.001.009 4 4 .009.001.999.999L7.5 15h3l.5-.5v-4.154c2.019-2.178 3.996-5.233 3.992-8.846l-.501-.5zM2 6h2.643a23.828 23.828 0 0 0-2.225 2.71L2 8.294V6zm5.7 8l-.42-.423a23.59 23.59 0 0 0 2.715-2.216V14H7.7zm-1.143-1.144L3.136 9.437C4.128 8 8.379 2.355 13.978 2.016c-.326 5.612-5.987 9.853-7.421 10.84zM4 15v-1H2v-2H1v3h3zm6.748-7.667a1.5 1.5 0 1 0-2.496-1.666 1.5 1.5 0 0 0 2.495 1.666z" />
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M14.491 1c-3.598.004-6.654 1.983-8.835 4H1.5l-.5.5v3l.147.354.991.991.001.009 4 4 .009.001.999.999L7.5 15h3l.5-.5v-4.154c2.019-2.178 3.996-5.233 3.992-8.846l-.501-.5zM2 6h2.643a23.828 23.828 0 0 0-2.225 2.71L2 8.294V6zm5.7 8l-.42-.423a23.59 23.59 0 0 0 2.715-2.216V14H7.7zm-1.143-1.144L3.136 9.437C4.128 8 8.379 2.355 13.978 2.016c-.326 5.612-5.987 9.853-7.421 10.84zM4 15v-1H2v-2H1v3h3zm6.748-7.667a1.5 1.5 0 1 0-2.496-1.666 1.5 1.5 0 0 0 2.495 1.666z"/>
           </svg>
 
           <div class="passage-tags">
             <template v-for="tag in item.passage.tags">
               <div
-                v-if="tag in tagColors"
-                :key="`tag-${item.passage.name}-${tag}`"
-                class="passage-tag"
-                :style="{ backgroundColor: tagColors[tag] }"></div>
+                  v-if="tag in tagColors"
+                  :key="`tag-${item.passage.name}-${tag}`"
+                  class="passage-tag"
+                  :style="{ backgroundColor: tagColors[tag] }"></div>
             </template>
           </div>
         </div>
@@ -97,12 +102,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import {Component, Vue, Watch} from 'vue-property-decorator';
 
-import { socket } from './socket';
-import { PassageAndStyle, Vector, Passage, LinkedPassage, PassageLink, PassageStyle, PassageData } from './types';
-import { linkPassage, parseRaw } from './util/passage-tools';
-import { getScrollDistance } from './util/scroll-distance-calc';
+import {socket} from './socket';
+import {PassageAndStyle, Vector, Passage, LinkedPassage, PassageLink, PassageStyle, PassageData} from './types';
+import {linkPassage, parseRaw} from './util/passage-tools';
+import {getScrollDistance} from './util/scroll-distance-calc';
 
 import ToolBar from './components/ToolBar.vue';
 import PassageLinkLine from './components/PassageLinkLine.vue';
@@ -112,7 +117,7 @@ const localStorageSettingsKey = "t3lt.story-map.settings";
 
 
 @Component({
-  components: { ToolBar, PassageLinkLine, Sidebar },
+  components: {ToolBar, PassageLinkLine, Sidebar},
 })
 export default class AppComponent extends Vue {
   connected = false;
@@ -124,8 +129,8 @@ export default class AppComponent extends Vue {
   initialDragPosition: null | Vector = null;
   dragSelectPosition: null | Vector = null;
   highestZIndex = 0;
-  translate: Vector = { x: 0, y: 0 };
-  mapSize: Vector = { x: 0, y: 0 };
+  translate: Vector = {x: 0, y: 0};
+  mapSize: Vector = {x: 0, y: 0};
   zoom = 1;
   mouseDownTimestamp: number;
   selectedPassages: Passage[] = [];
@@ -136,7 +141,7 @@ export default class AppComponent extends Vue {
     showGrid: true,
     showDots: true,
     snapToGrid: true,
-	darkTheme: true,
+    darkTheme: true,
     gridSize: 25,
     showSidebar: true,
   };
@@ -146,7 +151,7 @@ export default class AppComponent extends Vue {
   }
 
   get allTags(): string[] {
-    const { passages, storyData } = this;
+    const {passages, storyData} = this;
     // twee 3 tags
     let allTags = ['script', 'stylesheet'];
     // sugarcube tags
@@ -163,7 +168,8 @@ export default class AppComponent extends Vue {
           allTags.push(tag);
         }
       }
-    };
+    }
+    ;
     return allTags;
   }
 
@@ -181,10 +187,11 @@ export default class AppComponent extends Vue {
       if (passage.size.x !== passage.originalSize.x) return true;
       if (passage.size.y !== passage.originalSize.y) return true;
       if (passage.tags.length !== passage.originalTags.length) return true;
-      if (passage.tags.some((tag, index) => tag !==  passage.originalTags[index])) return true;
+      if (passage.tags.some((tag, index) => tag !== passage.originalTags[index])) return true;
       return false;
     });
   }
+
   get unsavedChanges(): boolean {
     return this.changedPassages.length > 0;
   }
@@ -204,36 +211,36 @@ export default class AppComponent extends Vue {
     if (this.settings.showGrid) {
       const svgLines = `
         <svg xmlns="http://www.w3.org/2000/svg" width="${gridSize}" height="${gridSize}">
-          <line x1="${gridSize/2}" y1="0" x2="${gridSize/2}" y2="${gridSize}" stroke-width="${gridDotRadius/3}" stroke="${gridLine}"></line>
-          <line x1="0" y1="${gridSize/2}" x2="${gridSize}" y2="${gridSize/2}" stroke-width="${gridDotRadius/3}" stroke="${gridLine}"></line>
+          <line x1="${gridSize / 2}" y1="0" x2="${gridSize / 2}" y2="${gridSize}" stroke-width="${gridDotRadius / 3}" stroke="${gridLine}"></line>
+          <line x1="0" y1="${gridSize / 2}" x2="${gridSize}" y2="${gridSize / 2}" stroke-width="${gridDotRadius / 3}" stroke="${gridLine}"></line>
         </svg>
         `.replace(/\r?\n/g, " ");
       const svgLinesBig = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="${gridSize*4}" height="${gridSize*4}">
-          <line x1="${gridSize/2}" y1="0" x2="${gridSize/2}" y2="${gridSize*4}" stroke-width="${gridDotRadius/2}" stroke="${gridLine}"></line>
-          <line x1="0" y1="${gridSize/2}" x2="${gridSize*4}" y2="${gridSize/2}" stroke-width="${gridDotRadius/2}" stroke="${gridLine}"></line>
+        <svg xmlns="http://www.w3.org/2000/svg" width="${gridSize * 4}" height="${gridSize * 4}">
+          <line x1="${gridSize / 2}" y1="0" x2="${gridSize / 2}" y2="${gridSize * 4}" stroke-width="${gridDotRadius / 2}" stroke="${gridLine}"></line>
+          <line x1="0" y1="${gridSize / 2}" x2="${gridSize * 4}" y2="${gridSize / 2}" stroke-width="${gridDotRadius / 2}" stroke="${gridLine}"></line>
         </svg>
         `.replace(/\r?\n/g, " ");
-  
+
       bgArr.push(svgLines, svgLinesBig);
     }
-  
+
     if (this.settings.showDots) {
       const svgDots = `
         <svg xmlns="http://www.w3.org/2000/svg" width="${gridSize}" height="${gridSize}">
-          <circle cx="${gridSize/2}" cy="${gridSize/2}" r="${gridDotRadius/1.5}" fill="${gridLine}" />
+          <circle cx="${gridSize / 2}" cy="${gridSize / 2}" r="${gridDotRadius / 1.5}" fill="${gridLine}" />
         </svg>`.replace(/\r?\n/g, " ");
-    
+
       const svgDotsBig = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="${gridSize*4}" height="${gridSize*4}">
-          <circle cx="${gridSize/2}" cy="${gridSize/2}" r="${gridDotRadius*2}" fill="${gridLine}" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="${gridSize * 4}" height="${gridSize * 4}">
+          <circle cx="${gridSize / 2}" cy="${gridSize / 2}" r="${gridDotRadius * 2}" fill="${gridLine}" />
         </svg>`.replace(/\r?\n/g, " ");
-    
+
       bgArr.push(svgDots, svgDotsBig);
     }
 
     style.backgroundImage = bgArr.map(s => `url('data:image/svg+xml;utf8,${s}')`).join(",");
-    style.backgroundPosition = `-${gridSize/2}px -${gridSize/2}px`;
+    style.backgroundPosition = `-${gridSize / 2}px -${gridSize / 2}px`;
 
     return style;
   }
@@ -254,8 +261,8 @@ export default class AppComponent extends Vue {
     const y2 = (Math.max(v1.y, v2.y) - translate.y - 56) / scale;
     // now I need to do stuff with scale and translate
     return [
-      { x: x1, y: y1 },
-      { x: x2, y: y2 },
+      {x: x1, y: y1},
+      {x: x2, y: y2},
     ];
   }
 
@@ -319,19 +326,19 @@ export default class AppComponent extends Vue {
     });
     socket.on('passage-data', (passageData: PassageData) => {
       const passages = passageData.list;
-      console.log('Client received passages', { passages, storyData: passageData.storyData });
+      console.log('Client received passages', {passages, storyData: passageData.storyData});
       this.passages = passages
-        // convert RawPassage to Passage
-        .map((passageRaw) => parseRaw(passageRaw))
-        .map((passage, index, allPassages) => linkPassage(passage, allPassages));
-      
+          // convert RawPassage to Passage
+          .map((passageRaw) => parseRaw(passageRaw))
+          .map((passage, index, allPassages) => linkPassage(passage, allPassages));
+
       const _sp = [];
-      this.selectedPassages.forEach(({ name }) => {
+      this.selectedPassages.forEach(({name}) => {
         const i = this.passages.findIndex(el => el.name === name);
         if (i >= 0) _sp.push(this.passages[i]);
       });
       this.selectedPassages = _sp;
-      
+
       this.storyData = passageData.storyData;
       this.tagColors = passageData?.storyData?.['tag-colors'] || {};
       this.initMapSize();
@@ -341,8 +348,8 @@ export default class AppComponent extends Vue {
     });
   }
 
-  @Watch('hoveredElement', { deep: false })
-  updateHighlights (hoveredElement: PassageLink | LinkedPassage | null) {
+  @Watch('hoveredElement', {deep: false})
+  updateHighlights(hoveredElement: PassageLink | LinkedPassage | null) {
     const highlightElements: Array<Passage | PassageLink> = [];
     if (hoveredElement) {
       highlightElements.push(this.hoveredElement);
@@ -363,7 +370,7 @@ export default class AppComponent extends Vue {
     this.highlightElements = highlightElements;
   }
 
-  @Watch('passages', { deep: false })
+  @Watch('passages', {deep: false})
   updatePassageLinks(passages: LinkedPassage[]) {
     const linkedPassages: PassageLink[] = [];
     for (const passage of passages) {
@@ -390,7 +397,7 @@ export default class AppComponent extends Vue {
     this.linkedPassages = linkedPassages;
   }
 
-  @Watch('settings.darkTheme', { immediate: true })
+  @Watch('settings.darkTheme', {immediate: true})
   updateThemeAttribute() {
     document.body.setAttribute('data-theme', this.theme);
   }
@@ -404,7 +411,7 @@ export default class AppComponent extends Vue {
       maxX = Math.max(maxX, passageMaxX);
       maxY = Math.max(maxY, passageMaxY);
     }
-    this.mapSize = { x: Math.ceil(maxX * 1.1), y: Math.ceil(maxY * 1.1) };
+    this.mapSize = {x: Math.ceil(maxX * 1.1), y: Math.ceil(maxY * 1.1)};
   }
 
   getPassageStyle(passage: Passage): PassageStyle {
@@ -418,8 +425,8 @@ export default class AppComponent extends Vue {
     };
   }
 
-  toggleSetting({ id, value }: { id: string; value: any }) {
-    switch(id) {
+  toggleSetting({id, value}: { id: string; value: any }) {
+    switch (id) {
       case 'snap-to-grid': {
         this.settings.snapToGrid = value;
         break;
@@ -431,11 +438,11 @@ export default class AppComponent extends Vue {
     }
     this.saveSettings();
   }
-  
+
   getSnappedPassagePosition(position: Vector): Vector {
     const gridSize: number = this.settings.gridSize;
     const halfGrid = gridSize / 2;
-    const offset: Vector = { x: position.x % gridSize, y: position.y % gridSize };
+    const offset: Vector = {x: position.x % gridSize, y: position.y % gridSize};
     const target: Vector = {
       x: position.x - offset.x + (offset.x < halfGrid ? 0 : gridSize),
       y: position.y - offset.y + (offset.y < halfGrid ? 0 : gridSize),
@@ -452,26 +459,26 @@ export default class AppComponent extends Vue {
     if (!event.ctrlKey && !this.selectedPassages.some(p => p.name === passage.name)) {
       this.selectedPassages = [passage];
     }
-    
+
     this.highestZIndex++;
     passage.zIndex = this.highestZIndex;
     this.draggedPassage = passage;
 
-    this.initialDragPosition = { x: event.clientX, y: event.clientY };
+    this.initialDragPosition = {x: event.clientX, y: event.clientY};
     this.mouseDownTimestamp = Date.now();
   }
 
   onMapMouseDown(event: MouseEvent) {
     if (event.shiftKey || event.button === 1) {
-      this.initialDragMapPosition = { ...this.translate };
-      this.initialDragPosition = { x: event.clientX, y: event.clientY };
+      this.initialDragMapPosition = {...this.translate};
+      this.initialDragPosition = {x: event.clientX, y: event.clientY};
       this.mouseDownTimestamp = Date.now();
     } else return this.onDragSelectStart(event);
   }
 
   onDragSelectStart(event: MouseEvent) {
-    this.initialDragPosition = { x: event.clientX, y: event.clientY };
-    this.dragSelectPosition = { x: event.clientX, y: event.clientY };
+    this.initialDragPosition = {x: event.clientX, y: event.clientY};
+    this.dragSelectPosition = {x: event.clientX, y: event.clientY};
     this.mouseDownTimestamp = Date.now();
   }
 
@@ -479,14 +486,17 @@ export default class AppComponent extends Vue {
     if (!this.initialDragPosition || (!this.initialDragMapPosition && !this.draggedPassage && !this.dragSelectPosition)) return;
 
     if (this.dragSelectPosition) {
-      this.dragSelectPosition = { x: event.clientX, y: event.clientY };
+      this.dragSelectPosition = {x: event.clientX, y: event.clientY};
     } else if (this.draggedPassage) {
       const dragPassages = [this.draggedPassage, ...this.selectedPassages];
       for (const dragPassage of dragPassages) {
-        const delta: Vector = { x: this.initialDragPosition.x - event.clientX, y: this.initialDragPosition.y - event.clientY };
+        const delta: Vector = {
+          x: this.initialDragPosition.x - event.clientX,
+          y: this.initialDragPosition.y - event.clientY
+        };
         const x = Math.max(0, Math.round(dragPassage.position.x - (delta.x / this.zoom)));
         const y = Math.max(0, Math.round(dragPassage.position.y - (delta.y / this.zoom)));
-        dragPassage.drawPosition = { x, y };
+        dragPassage.drawPosition = {x, y};
 
         // Snap to grid
         if (this.settings.snapToGrid) {
@@ -507,7 +517,10 @@ export default class AppComponent extends Vue {
       }
     } else {
       // Drag map
-      const delta: Vector = { x: this.initialDragPosition.x - event.clientX, y: this.initialDragPosition.y - event.clientY };
+      const delta: Vector = {
+        x: this.initialDragPosition.x - event.clientX,
+        y: this.initialDragPosition.y - event.clientY
+      };
       this.translate.x = Math.round(this.initialDragMapPosition.x - delta.x);
       this.translate.y = Math.round(this.initialDragMapPosition.y - delta.y);
     }
@@ -531,8 +544,7 @@ export default class AppComponent extends Vue {
         this.selectedPassages = selected;
       }
       this.dragSelectPosition = null;
-    }
-    else if (this.draggedPassage) {
+    } else if (this.draggedPassage) {
       const dragPassages = [this.draggedPassage, ...this.selectedPassages];
       for (const dragPassage of dragPassages) {
         dragPassage.dropShadow = undefined;
@@ -551,8 +563,8 @@ export default class AppComponent extends Vue {
   onWheel(event: WheelEvent) {
     const scrollAmount = getScrollDistance(event);
     const zoomAmount = (scrollAmount > 0)
-      ? 1 - (1 / (1 + (scrollAmount / 1000))) // deltaY 100  -> 0.090909…
-      : (scrollAmount / 1000);                // deltaY -100 -> -0.1
+        ? 1 - (1 / (1 + (scrollAmount / 1000))) // deltaY 100  -> 0.090909…
+        : (scrollAmount / 1000);                // deltaY -100 -> -0.1
 
     const zoomMod = 1 - zoomAmount;
 
@@ -576,7 +588,12 @@ export default class AppComponent extends Vue {
   }
 
   openPassage(passage: LinkedPassage) {
-    socket.emit('open-passage', { name: passage.name, origin: passage.origin, range: passage.range, stringRange: passage.stringRange });
+    socket.emit('open-passage', {
+      name: passage.name,
+      origin: passage.origin,
+      range: passage.range,
+      stringRange: passage.stringRange
+    });
   }
 
   saveChanges() {
@@ -591,9 +608,9 @@ export default class AppComponent extends Vue {
     })));
     // This should probably be done differently
     this.changedPassages.forEach((passage) => {
-      passage.originalPosition = { ...passage.position };
-      passage.originalSize = { ...passage.size };
-      passage.originalTags = [ ...passage.tags ];
+      passage.originalPosition = {...passage.position};
+      passage.originalSize = {...passage.size};
+      passage.originalTags = [...passage.tags];
     });
   }
 
@@ -624,25 +641,25 @@ export default class AppComponent extends Vue {
 
   setPassageSize(passages: Passage[], size: Vector) {
     for (const passage of passages) {
-      passage.size = { ...size };
+      passage.size = {...size};
     }
   }
 
   resetPassageSize(passages: Passage[]) {
     for (const passage of passages) {
-      passage.size = { ... passage.originalSize };
+      passage.size = {...passage.originalSize};
     }
   }
 
   resetPassagePosition(passages: Passage[]) {
     for (const passage of passages) {
-      passage.position = { ...passage.originalPosition };
+      passage.position = {...passage.originalPosition};
     }
   }
 
   resetPassageTags(passages: Passage[]) {
     for (const passage of passages) {
-      passage.tags = [ ...passage.originalTags ];
+      passage.tags = [...passage.originalTags];
     }
   }
 
@@ -724,7 +741,7 @@ html, body {
   --gray-500: #647682; /* passage outline  */
   --gray-600: #8ea3b4; /* passage-border (hover & highlight) */
 
-  --accent-800: #172024;  /* toolbar button background */
+  --accent-800: #172024; /* toolbar button background */
   --accent-500: #222d33; /* toolbar button hover */
   --accent-400: #4c606b; /* toolbar background */
 
@@ -746,14 +763,14 @@ html, body {
   --primary-700: #ff0060; /* arrow inner */
   --primary-800: #33000a; /* arrow-highlight outer */
 
-  --start-passage-rocket-back: #ff0060; 
+  --start-passage-rocket-back: #ff0060;
   --start-passage-rocket-color: #ffd5da;
 
   --gray-100: #8ecafa; /* outline for toolbar button when .active */
   --gray-500: #647682; /* passage outline  */
   --gray-600: #8ea3b4; /* passage-border (hover & highlight) */
 
-  --accent-800: #172024;  /* toolbar button background */
+  --accent-800: #172024; /* toolbar button background */
   --accent-500: #222d33; /* toolbar button hover */
   --accent-400: #4c606b; /* toolbar background */
 
@@ -794,7 +811,7 @@ html, body {
   border: 2px solid var(--text-color-dark);
   border-bottom-left-radius: 4px;
   border-top: none;
-  
+
   transform: translate(-100%, 0);
   width: 30px;
   height: 110px;
@@ -813,12 +830,13 @@ html, body {
   &::before {
     position: absolute;
     content: "▶";
-	line-height: 0;
-    
+    line-height: 0;
+
     color: var(--text-color-light);
     font-size: 30px;
 
-    top: 15px; left: 50%;
+    top: 15px;
+    left: 50%;
     transform: scale(0.5) translate(-85%, -50%) rotate(0deg);
     transition: transform 0.4s ease-in-out;
   }
@@ -834,7 +852,7 @@ html, body {
   grid-area: sidebar;
   background: var(--text-color-light);
   border-left: solid var(--text-color-dark) 2px;
-  box-shadow: 0 10px 20px rgba(var(--shadow-rgb),0.19), 0 6px 6px rgba(var(--shadow-rgb),0.23);
+  box-shadow: 0 10px 20px rgba(var(--shadow-rgb), 0.19), 0 6px 6px rgba(var(--shadow-rgb), 0.23);
   width: 0;
   transition: width .3s ease-in-out;
   overflow: hidden;
@@ -860,7 +878,7 @@ html, body {
   min-height: 100%;
   border-radius: 8px;
   background-color: var(--primary-400);
-  box-shadow: 0 10px 20px rgba(var(--shadow-rgb),0.19), 0 6px 6px rgba(var(--shadow-rgb),0.23);
+  box-shadow: 0 10px 20px rgba(var(--shadow-rgb), 0.19), 0 6px 6px rgba(var(--shadow-rgb), 0.23);
 }
 
 .passage {
@@ -876,17 +894,18 @@ html, body {
   overflow-wrap: anywhere;
   cursor: grab;
   transition: background-color .15s ease-in-out, border-color .15s ease-in-out;
-  box-shadow: 0 1px 3px rgba(var(--shadow-rgb),0.12), 0 1px 2px rgba(var(--shadow-rgb),0.24);
+  box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.12), 0 1px 2px rgba(var(--shadow-rgb), 0.24);
 
   svg {
     position: absolute;
-    right: 0; bottom: 0;
+    right: 0;
+    bottom: 0;
     margin: 5px;
     padding: 2px;
-    
+
     fill: var(--start-passage-rocket-color);
     background-color: var(--start-passage-rocket-back);
-    box-shadow: 0 1px 3px rgba(var(--shadow-rgb),.12),0 1px 2px rgba(var(--shadow-rgb),.23);
+    box-shadow: 0 1px 3px rgba(var(--shadow-rgb), .12), 0 1px 2px rgba(var(--shadow-rgb), .23);
     border-radius: 3px;
   }
 

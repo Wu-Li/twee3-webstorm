@@ -1,0 +1,13 @@
+:: StoryTitle
+Chapter 14 smoke story
+
+:: StoryData
+{"ifid":"AA5824FC-6016-4D78-8B89-FBD30BB64995","format":"Harlowe","format-version":"3.3.9","start":"Arrival"}
+
+:: Start
+This is NOT the configured start passage.
+
+:: Arrival
+The configured start passage works.
+<img src="assets/moon.svg" alt="Purple moon fixture">
+[[Continue->Across files]]

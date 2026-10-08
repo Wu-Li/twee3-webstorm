@@ -4,12 +4,13 @@
     <vendor url="https://github.com/Wu-Li/twee3-webstorm">Wu-Li</vendor>
     <description><![CDATA[
         <p>Native Twee and Harlowe 3 support for WebStorm, under development.</p>
-        <p>Includes structural Twee support, Harlowe 3 highlighting, inherited checks and project check settings, scoped passage navigation and a Passages window with tag editing, static Find Usages and hierarchy views. HTML build and run through Tweego remain planned.</p>
+        <p>Includes structural Twee support, Harlowe 3 highlighting, inherited checks and project check settings, scoped passage navigation and a Passages window with tag editing, static Find Usages and hierarchy views. Includes Tweego HTML build and browser run integration; native verification is pending.</p>
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>JavaScript</depends>
     <extensions defaultExtensionNs="com.intellij">
+        <configurationType implementation="twee.run.TweegoConfigurationType"/>
         <toolWindow id="Passages" anchor="right" factoryClass="twee.passages.PassagesToolWindowFactory"/>
         <fileType name="Twee" language="Twee" implementationClass="twee.language.TweeFileType"
                   fieldName="INSTANCE" extensions="twee;tw"/>
@@ -38,4 +39,10 @@
         <readWriteAccessDetector implementation="twee.usages.TweeReadWriteAccessDetector"/>
         <callHierarchyProvider language="Twee" implementationClass="twee.hierarchy.TweeHierarchyProvider"/>
     </extensions>
+    <actions>
+        <action id="Twee.BuildHtml" class="twee.run.BuildHtmlAction" text="Build Twee HTML"
+                description="Compile the selected Twee story without opening a browser">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>

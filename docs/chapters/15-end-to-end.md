@@ -1,6 +1,6 @@
 # Chapter 15: End-to-end and performance evidence
 
-Status: Harness and fixtures implemented; native/end-to-end/performance evidence pending
+Status: Native CI and fixture measurements passed; full acceptance pending
 
 Plan milestone: 8. Dependencies: 05, 09, 12, 14.
 
@@ -17,12 +17,10 @@ Plan milestone: 8. Dependencies: 05, 09, 12, 14.
 - `python -m unittest discover -s tools/performance -p 'test_*.py' -v`: 3/3 passed, covering deterministic graph/hash manifests, existing-directory preservation and invalid-size rejection.
 - Generated and validated the 200-file/50-passages workload: 206 hashed files, 10,003 selected passages and 20,000 literal links. All manifest hashes verified. This is fixture validation, not native performance evidence.
 - `git diff --check`: passed.
-- Actual environment and available results: [chapter15-evidence.json](../verification/chapter15-evidence.json). Native measurement fields remain null.
+- Actual environment and available results: [chapter15-evidence.json](../verification/chapter15-evidence.json). Native fixture measurements now recorded from CI at `d455372`.
 
 ## Verification pending
 
-The two new native integration/performance tests have **not been compiled or executed**. No cold indexing, incremental native edit/query timings, UI responsiveness profile, real Tweego build or browser smoke result was collected. JDK 21/Gradle/WebStorm prerequisites remain unavailable as recorded in Chapter 02; available Java is still 17.
+Both native integration/performance tests passed in run 37821613335 at `d455372`, alongside all 97 tests. The WS artifact records 20 files/1,000 passages on Linux/JDK 21.0.11: warm lookup median 0.397 ms, p95 2.941 ms; incremental relation query 52.474 ms; pre-canceled query 0.306 ms. Exact raw values and provenance are in the evidence JSON. These are one-run fixture measurements, not cold-index or UI responsiveness claims.
 
-Execute [the native evidence protocol](../verification/chapter15-protocol.md), retain logs/screenshots/traces and resolve observed integration failures before acceptance. All native tests and required release checks must pass before merge/release. The user's authorization permits continuing implementation without treating these unexecuted checks as passed.
-
-Next implementation: Chapter 16, packaging, CI and supported hosts.
+Complete the installed-host, real compiler/browser, cold-index/UI and cross-platform portions of [the evidence protocol](../verification/chapter15-protocol.md). All required release checks remain mandatory before merge/release.

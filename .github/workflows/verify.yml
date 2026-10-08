@@ -74,3 +74,39 @@ jobs:
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14
+
+  wrapper:
+    needs: baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@ed408507eac070d1f99cc633dbcf757c94c7933a # v4
+        with:
+          gradle-version: '9.3.0'
+      - name: Regenerate isolated wrapper and verify pinned checksums
+        shell: bash
+        run: |
+          mkdir -p build/wrapper-regeneration
+          printf "rootProject.name = 'wrapper-verification'\n" > build/wrapper-regeneration/settings.gradle.kts
+          gradle -p build/wrapper-regeneration wrapper --gradle-version 9.3.0 --distribution-type bin --gradle-distribution-sha256-sum 0d585f69da091fc5b2beced877feab55a3064d43b8a1d46aeb07996b0915e0e0 --no-daemon
+          bash build/wrapper-regeneration/gradlew -p build/wrapper-regeneration wrapper --gradle-version 9.3.0 --distribution-type bin --gradle-distribution-sha256-sum 0d585f69da091fc5b2beced877feab55a3064d43b8a1d46aeb07996b0915e0e0 --no-daemon
+          echo 'b3a875ddc1f044746e1b1a55f645584505f4a10438c1afea9f15e92a7c42ec13  build/wrapper-regeneration/gradle/wrapper/gradle-wrapper.jar' | sha256sum --check
+          sha256sum build/wrapper-regeneration/gradlew build/wrapper-regeneration/gradlew.bat build/wrapper-regeneration/gradle/wrapper/* > build/wrapper-regeneration/SHA256SUMS
+      - name: Retain generated wrapper for review
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: wrapper-9.3.0-${{ github.sha }}
+          path: |
+            build/wrapper-regeneration/gradlew
+            build/wrapper-regeneration/gradlew.bat
+            build/wrapper-regeneration/gradle/wrapper/
+            build/wrapper-regeneration/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 14

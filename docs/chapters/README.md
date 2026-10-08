@@ -15,20 +15,20 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 | Chapter | Plan milestone | State |
 | --- | --- | --- |
 | [01 Baseline fixtures](01-baseline.md) | 1 | Complete |
-| [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | Implemented configuration; verification and wrapper regeneration pending |
-| [03 Twee structure and passage PSI](03-passage-psi.md) | 2 | Implemented; native verification pending |
-| [04 Harlowe lexer and highlighting](04-highlighting.md) | 2–3 | Implemented; native/visual verification pending |
-| [05 Inherited checks and preferences](05-checks.md) | 3 | Implemented for analyzed files; native verification pending |
-| [06 Shared story scopes](06-story-scopes.md) | 4 | Implemented; native verification pending |
-| [07 Passage stubs and indexes](07-indexes.md) | 4 | Implemented; native verification pending |
-| [08 Passage navigation](08-navigation.md) | 4 | Implemented; native/UI verification pending |
-| [09 Passages window and tag editing](09-tags.md) | 5 | Implemented; native/UI verification pending |
-| [10 Static symbols and relations](10-relations.md) | 6 | Implemented; native/index/UI verification pending |
-| [11 Native Find Usages](11-usages.md) | 6 | Implemented; native/index/UI verification pending |
-| [12 Native hierarchy browser](12-hierarchy.md) | 6 | Implemented; native/UI verification pending |
-| [13 Tweego build service](13-build-service.md) | 7 | Implemented; native/process/UI verification pending |
-| [14 Build HTML and Run integration](14-run-integration.md) | 7 | Implemented; native/compiler/browser verification pending |
-| [15 End-to-end and performance evidence](15-end-to-end.md) | 8 | Harness/fixtures implemented; native/end-to-end/performance evidence pending |
+| [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | CI build/tests passed; wrapper and host launch pending |
+| [03 Twee structure and passage PSI](03-passage-psi.md) | 2 | Implemented; native CI passed |
+| [04 Harlowe lexer and highlighting](04-highlighting.md) | 2–3 | Implemented; native CI passed, visual acceptance pending |
+| [05 Inherited checks and preferences](05-checks.md) | 3 | Implemented for analyzed files; native CI passed |
+| [06 Shared story scopes](06-story-scopes.md) | 4 | Implemented; native CI passed |
+| [07 Passage stubs and indexes](07-indexes.md) | 4 | Implemented; native CI passed |
+| [08 Passage navigation](08-navigation.md) | 4 | Implemented; native CI passed, UI acceptance pending |
+| [09 Passages window and tag editing](09-tags.md) | 5 | Implemented; native CI passed, UI acceptance pending |
+| [10 Static symbols and relations](10-relations.md) | 6 | Implemented; native CI passed, UI acceptance pending |
+| [11 Native Find Usages](11-usages.md) | 6 | Implemented; native CI passed, UI acceptance pending |
+| [12 Native hierarchy browser](12-hierarchy.md) | 6 | Implemented; native CI passed, UI acceptance pending |
+| [13 Tweego build service](13-build-service.md) | 7 | Implemented; native CI passed, real process/UI acceptance pending |
+| [14 Build HTML and Run integration](14-run-integration.md) | 7 | Implemented; native CI passed, compiler/browser acceptance pending |
+| [15 End-to-end and performance evidence](15-end-to-end.md) | 8 | Native CI and fixture timings passed; full acceptance pending |
 | [16 Packaging, CI and supported hosts](16-release.md) | 8 | CI/package tooling and docs implemented; release verification pending |
 
 ## Publication status
@@ -37,10 +37,10 @@ Chapter 01 is committed locally on `automation/implementation-chapters` in `/wor
 
 ## Deferred verification
 
-The user authorized continued implementation on 7 October 2026 despite missing local verification prerequisites. Chapter 02 still needs wrapper regeneration, Gradle checks and a real WebStorm launch. Chapter 03 has structural language implementation and native tests; those tests cannot yet run here. Chapter 04 adds Harlowe highlighting and tests, with native/visual verification pending. Chapter 05 adds inherited checks/settings and per-file notification lifecycle, with native verification pending. Chapter 06 adds shared scopes, project StoryData selection and background notification refresh; native/UI verification is pending. Chapter 07 adds passage stubs/indexes and live scoped queries, with native verification pending. Chapter 08 adds soft polyvariant passage navigation and shared literal/dynamic target extraction, with native/UI verification pending. Chapter 09 adds the Passages window and undoable batch tag editing; native/UI verification is pending. Chapter 10 adds static relation extraction/indexes, scoped occurrence queries and custom macro candidate references; native/index/UI verification is pending. Chapter 11 adds native usages adapters and exact scoped searches, with native/index/UI verification pending. Chapter 12 adds native static hierarchy views with grouped sites, candidates and cycle handling; native/UI verification is pending. Chapter 13 adds the shared cancellable Tweego build service, explicit input enumeration, installed Harlowe 3 discovery and staged atomic output promotion; native/process/UI verification is pending. Chapter 14 adds persisted Tweego configurations, Build HTML, native execution console/Stop, source hyperlinks and successful-output browser launch; native/compiler/browser verification is pending. Chapter 15 adds integrated smoke and native measurement harnesses plus a validated deterministic large-story generator; native/end-to-end/performance evidence remains pending. Chapter 16 adds CI, ZIP inspection and release documentation; actual build/package/host/release verification remains pending. All code/tooling chapters have implementation slices. Next: inspect branch CI and fix observed failures within the existing chapters, then complete the deferred evidence. No unimplemented chapter remains; do not invent additional chapters or mark the plan complete. Do not merge or release until the deferred checks pass.
+All 16 implementation slices exist. Native compilation and all 97 tests now pass in CI on the WebStorm SDK. Both reviewed binary verifier targets pass with API warnings. Installed WebStorm/IDEA UI acceptance, actual Tweego/browser behavior, cold IDE indexing/UI profiling and cross-platform process checks remain pending. The user's report of basic local functionality is useful but does not establish these complete acceptance gates. No unimplemented chapter remains; do not invent chapters or mark the plan complete.
 
 ## Latest verification follow-up
 
-8 October 2026: [CI run 37813729174](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37813729174), commit `5433841`, passed 96 of 97 tests in both jobs. All embedded lexer restart tests, including the new multiple-region regression, passed. Baseline, compilation, build/structure, actual ZIP inspection and both binary compatibility verifiers passed; each verifier retains nine deprecated and nine experimental API warnings. The cancellation probe is the sole remaining native failure.
+8 October 2026: [CI run 37821613335](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37821613335), commit `d455372`, passed all jobs. The WS artifact XML confirms 97 tests, zero failures/errors; both jobs' Gradle gates succeeded. Cancellation now passes and the native performance probe emitted actual timings, retained in chapter15-evidence.json. Both binary verifiers are compatible with nine deprecated/nine experimental API usages each. This is not installed-host acceptance.
 
-Corrected the cancellation fixture to cancel inside the running process before invoking the query. Platform `runProcess` starts a stopped indicator, and `EmptyProgressIndicator.start` clears prior cancellation, so the old probe unintentionally ran an uncanceled query. The fixture now asserts both cancellation and the installed indicator before querying, retaining the required ProcessCanceledException assertion. Added a query-entry cancellation check before scope/index work, including early-return paths. Local `git diff --check` passed; native execution of this correction and performance timing output remain pending. Next: inspect fresh CI and complete the deferred acceptance evidence. User reports basic local functionality but has not supplied complete acceptance evidence; installed-host/compiler/browser and cross-platform gates remain pending. No merge or release is authorized by these results.
+Added an isolated CI job to regenerate Gradle 9.3.0 wrapper files twice, verify the pinned official wrapper checksum and retain the generated files for review. It does not modify or push repository files. Next: inspect that job's result, compare/adopt its generated wrapper, then complete remaining local acceptance evidence. Wrapper regeneration remains pending until execution and review. Local workflow parsing and `git diff --check` passed. No merge or release.

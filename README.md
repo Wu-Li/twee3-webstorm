@@ -1,6 +1,6 @@
 # Twee3-webstorm
 
-Native Twee and Harlowe 3 support for WebStorm, under development. Implementation chapters are in place; builds, native tests, actual IDE installation and browser verification are still pending. No release or verified host compatibility is claimed.
+Native Twee and Harlowe 3 support for WebStorm, under development. Implementation chapters are in place. [CI at d455372](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37821613335) passes native builds/tests, packaging and both configured binary verifiers. Installed-host and real compiler/browser acceptance remain pending; no release is claimed.
 
 ## Features
 
@@ -20,8 +20,8 @@ Only Harlowe 3 is supported by the implementation scope. Additional Harlowe synt
 
 | Target | Version/build | Verification status |
 | --- | --- | --- |
-| WebStorm, primary development host | 2025.3.6 / 253.33813.27 | Pending build, verifier and installed-plugin UI smoke |
-| IntelliJ IDEA with JavaScript | 2025.3.6.1 / 253.33813.55 | Pending verifier and installed-plugin UI smoke |
+| WebStorm, primary development host | 2025.3.6 / 253.33813.27 | Build/tests and binary verifier passed at `d455372`; installed-plugin UI smoke pending |
+| IntelliJ IDEA with JavaScript | 2025.3.6.1 / 253.33813.55 | Binary verifier passed at `d455372`; installed-plugin UI smoke pending |
 
 The plugin declares minimum build `253.33813.27` with no upper bound. This is configuration, not a compatibility guarantee for newer IDEs. No current-stable product release is claimed as tested; any additional intended release must be explicitly added and verified before being advertised.
 

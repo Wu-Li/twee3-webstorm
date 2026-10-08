@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -38,8 +39,21 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            create(IntelliJPlatformType.WebStorm, "2025.3.6")
-            create(IntelliJPlatformType.IntellijIdea, "2025.3.6.1")
+            // CI verifies each reviewed host separately; local default verifies both.
+            val host = providers.gradleProperty("verifierHost").orNull
+            require(host == null || host in setOf("WS", "IDEA")) { "verifierHost must be WS or IDEA" }
+            if (host == null || host == "WS") create(IntelliJPlatformType.WebStorm, "2025.3.6")
+            if (host == null || host == "IDEA") create(IntelliJPlatformType.IntellijIdea, "2025.3.6.1")
         }
     }
+}
+
+// Preserve inherited attribution inside the installable plugin, not just the source checkout.
+tasks.processResources {
+    from("LICENSE", "NOTICE") { into("META-INF") }
+}
+
+tasks.withType<AbstractArchiveTask>().configureEach {
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
 }

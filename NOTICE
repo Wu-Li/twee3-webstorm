@@ -1,0 +1,11 @@
+Twee3-webstorm
+
+The inherited Twee language support, grammar and porting references are based on
+work by Cyrus Firheir, copyright (c) 2020, distributed under the MIT License.
+The full original notice and permission terms are retained in LICENSE and are
+included in the native plugin archive as META-INF/LICENSE.
+
+The repository retains inherited VS Code/Vue sources for reference and baseline
+characterization. Those runtimes are not intended to ship in the native plugin.
+Tweego and Harlowe are separately installed tools; their binaries and story
+format distributions are not bundled by this project.

@@ -1,4 +1,6 @@
-# Getting Started
+# Getting Started (inherited VS Code guide)
+
+This document is retained as a porting reference. For the native WebStorm plugin, use [the README](../README.md) and [Tweego build/run setup](tweego-run.md). Native verification remains pending.
 
 So you think you might want to use the trifecta of:
 

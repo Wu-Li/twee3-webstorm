@@ -50,3 +50,7 @@ Run check and verifyPluginProjectConfiguration, package the scaffold, and actual
 Run 37821613335 at `d455372` passed all jobs: native compilation/tests, project configuration, packaging/structure, actual ZIP inspection and both binary verifiers. The WS XML confirms 97 tests with zero failures/errors and native fixture timings; verifier API warnings remain. Historical pending statements above describe earlier execution states. Installed-host/compiler/browser and cross-platform acceptance remain pending.
 
 Added isolated Gradle 9.3.0 wrapper regeneration to CI, running generation twice and verifying the previously pinned official JAR checksum. Generated files are retained for comparison/adoption on the next execution; no automatic repository write occurs. Workflow parse and diff checks passed locally. The new job has not executed yet and wrapper regeneration is still pending.
+
+### Wrapper settings correction
+
+Run 37829317698 at `e0b44e0` passed baseline and both native jobs. The isolated wrapper job failed compiling its generated settings file because the project name used single quotes in Kotlin DSL. Corrected the shell command to emit `rootProject.name = "wrapper-verification"`. Workflow parsing, exact generated settings inspection, Bash syntax and diff checks passed locally; Gradle execution is pending CI. No wrapper artifact exists for the failed run, and no regenerated files have been adopted yet.

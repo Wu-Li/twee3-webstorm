@@ -1,0 +1,28 @@
+Preamble isn't a passage (ordinary prose).
+:: Start [startup header] {"position":"100,200"}
+(set: $value to (a: 1, true, "text", 'single'))
+(print: $value's 1st) _temp ?hook
+[[Target]] [[Label->Target]] [[Target<-Label]] [[Label|Target]]
+|named>[A hook [nested]] {collapsed whitespace}
+<!-- (unknown: $ignored) [[Ignored]] -->
+This isn't a macro (ordinary prose) &amp; <b>HTML</b>.
+(foo_bar: 1) (foo-bar: 1) (foo1: 1) ($custom:) (_custom:)
+(unknown: $undefined, nonsense) [[Missing]]
+::NoSpace
+No warning other than missing header whitespace.
+::	Tabbed
+:: Escaped\[name\]\{ok\} [tag]
+:: Script [script]
+const value = "hello";
+:: MultiScript [script extra]
+const value = "hello";
+:: Style [stylesheet]
+p { color: red; }
+:: MultiStyle [stylesheet extra]
+p { color: red; }
+:: BadMeta {nope}
+:: Bad[Tag[nested]]
+:: Recovery
+(print: "unfinished
+:: Later
+[[Start]]

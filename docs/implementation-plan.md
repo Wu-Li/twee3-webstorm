@@ -159,6 +159,8 @@ Use a user-installed Tweego executable and locally installed Harlowe 3 format. I
 
 ## Implementation order and review milestones
 
+Execution is tracked in [modular chapters](chapters/README.md). That tracker splits these milestones into smaller units without changing the scope or release gates.
+
 Complete each milestone with a small demonstrable slice. Navigation and tracing depend on the language model; the compiler integration can proceed independently after story-scope settings are defined. Tag editing depends on stable header ranges, not on completion of hierarchy.
 
 | Milestone | Changes | Completion evidence |

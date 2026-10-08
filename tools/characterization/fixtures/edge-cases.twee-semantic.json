@@ -1,0 +1,478 @@
+{
+  "tokens": [
+    {
+      "line": 1,
+      "startCharacter": 26,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 27,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 47,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 9,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 10,
+      "length": 14,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 24,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 1,
+      "startCharacter": 3,
+      "length": 5,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 10,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 10,
+      "startCharacter": 2,
+      "length": 7,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 3,
+      "length": 6,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 13,
+      "startCharacter": 25,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 13,
+      "startCharacter": 26,
+      "length": 3,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 13,
+      "startCharacter": 29,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 13,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 13,
+      "startCharacter": 3,
+      "length": 21,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 14,
+      "startCharacter": 10,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 14,
+      "startCharacter": 11,
+      "length": 6,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 14,
+      "startCharacter": 17,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 14,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 14,
+      "startCharacter": 3,
+      "length": 6,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 16,
+      "startCharacter": 15,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 16,
+      "startCharacter": 16,
+      "length": 12,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 16,
+      "startCharacter": 28,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 16,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 16,
+      "startCharacter": 3,
+      "length": 11,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 9,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 10,
+      "length": 10,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 20,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 3,
+      "length": 5,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 14,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 15,
+      "length": 16,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 31,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 3,
+      "length": 10,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 24,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 24,
+      "startCharacter": 3,
+      "length": 8,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 26,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 26,
+      "startCharacter": 3,
+      "length": 5,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    }
+  ],
+  "passages": [
+    {
+      "name": "Start",
+      "tags": [
+        "startup",
+        "header"
+      ],
+      "start": {
+        "line": 1,
+        "character": 0
+      },
+      "end": {
+        "line": 10,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 43,
+        "endHeader": 91,
+        "end": 483
+      }
+    },
+    {
+      "name": "NoSpace",
+      "tags": [],
+      "start": {
+        "line": 10,
+        "character": 0
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 484,
+        "endHeader": 493,
+        "end": 542
+      }
+    },
+    {
+      "name": "Tabbed",
+      "tags": [],
+      "start": {
+        "line": 12,
+        "character": 0
+      },
+      "end": {
+        "line": 13,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 543,
+        "endHeader": 552,
+        "end": 552
+      }
+    },
+    {
+      "name": "Escaped[name]{ok}",
+      "tags": [
+        "tag"
+      ],
+      "start": {
+        "line": 13,
+        "character": 0
+      },
+      "end": {
+        "line": 14,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 553,
+        "endHeader": 583,
+        "end": 583
+      }
+    },
+    {
+      "name": "Script",
+      "tags": [
+        "script"
+      ],
+      "start": {
+        "line": 14,
+        "character": 0
+      },
+      "end": {
+        "line": 16,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 584,
+        "endHeader": 602,
+        "end": 625
+      }
+    },
+    {
+      "name": "MultiScript",
+      "tags": [
+        "script",
+        "extra"
+      ],
+      "start": {
+        "line": 16,
+        "character": 0
+      },
+      "end": {
+        "line": 18,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 626,
+        "endHeader": 655,
+        "end": 678
+      }
+    },
+    {
+      "name": "Style",
+      "tags": [
+        "stylesheet"
+      ],
+      "start": {
+        "line": 18,
+        "character": 0
+      },
+      "end": {
+        "line": 20,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 679,
+        "endHeader": 700,
+        "end": 718
+      }
+    },
+    {
+      "name": "MultiStyle",
+      "tags": [
+        "stylesheet",
+        "extra"
+      ],
+      "start": {
+        "line": 20,
+        "character": 0
+      },
+      "end": {
+        "line": 24,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 719,
+        "endHeader": 751,
+        "end": 807
+      }
+    },
+    {
+      "name": "Recovery",
+      "tags": [],
+      "start": {
+        "line": 24,
+        "character": 0
+      },
+      "end": {
+        "line": 26,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 808,
+        "endHeader": 819,
+        "end": 839
+      }
+    },
+    {
+      "name": "Later",
+      "tags": [],
+      "start": {
+        "line": 26,
+        "character": 0
+      },
+      "end": {
+        "line": 29,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 840,
+        "endHeader": 848,
+        "end": 858
+      }
+    }
+  ]
+}

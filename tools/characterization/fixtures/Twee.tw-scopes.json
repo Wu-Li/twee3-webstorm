@@ -1,0 +1,1519 @@
+[
+  {
+    "line": 0,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 35,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 1,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 2,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 14,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 14,
+        "endIndex": 15,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 15,
+        "endIndex": 36,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 36,
+        "endIndex": 37,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 3,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 28,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 4,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 5,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 13,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 13,
+        "endIndex": 14,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 14,
+        "endIndex": 35,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 35,
+        "endIndex": 36,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 6,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 7,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 50,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 8,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 25,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 9,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 29,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 10,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 11,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 12,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 9,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 9,
+        "endIndex": 10,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 10,
+        "endIndex": 31,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 31,
+        "endIndex": 32,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 13,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 14,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 15,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 4,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      },
+      {
+        "startIndex": 4,
+        "endIndex": 95,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      },
+      {
+        "startIndex": 95,
+        "endIndex": 98,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 16,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 17,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 16,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 16,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 21,
+        "endIndex": 22,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 22,
+        "endIndex": 23,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 23,
+        "endIndex": 24,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 24,
+        "endIndex": 45,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 45,
+        "endIndex": 46,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 18,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 38,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 38,
+        "endIndex": 39,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 39,
+        "endIndex": 40,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 40,
+        "endIndex": 41,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 41,
+        "endIndex": 54,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 54,
+        "endIndex": 55,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 55,
+        "endIndex": 56,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 56,
+        "endIndex": 57,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 57,
+        "endIndex": 77,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 77,
+        "endIndex": 78,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 19,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 8,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 8,
+        "endIndex": 9,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 9,
+        "endIndex": 18,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 18,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 19,
+        "endIndex": 31,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 31,
+        "endIndex": 32,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 32,
+        "endIndex": 33,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 33,
+        "endIndex": 34,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 34,
+        "endIndex": 55,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 55,
+        "endIndex": 56,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 20,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 15,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 15,
+        "endIndex": 16,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 16,
+        "endIndex": 20,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 20,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 21,
+        "endIndex": 42,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 42,
+        "endIndex": 43,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 21,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 19,
+        "endIndex": 20,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 20,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 21,
+        "endIndex": 22,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 22,
+        "endIndex": 23,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 23,
+        "endIndex": 24,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 22,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 23,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 24,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 4,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 25,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 72,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 26,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 36,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 27,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 28,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 29,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 16,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 16,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 19,
+        "endIndex": 20,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 20,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 21,
+        "endIndex": 22,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 30,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 6,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 6,
+        "endIndex": 7,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 7,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 31,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 13,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 13,
+        "endIndex": 14,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 14,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 18,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 18,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 19,
+        "endIndex": 20,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 20,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 21,
+        "endIndex": 22,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 32,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 16,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 16,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 18,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 18,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 19,
+        "endIndex": 20,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 20,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 33,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 34,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 35,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 4,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      },
+      {
+        "startIndex": 4,
+        "endIndex": 27,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      },
+      {
+        "startIndex": 27,
+        "endIndex": 30,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "comment.block"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 36,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 37,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 18,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 18,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 19,
+        "endIndex": 25,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 25,
+        "endIndex": 26,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 26,
+        "endIndex": 27,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 27,
+        "endIndex": 28,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 28,
+        "endIndex": 48,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 48,
+        "endIndex": 49,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 38,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 42,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 39,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 40,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 18,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 18,
+        "endIndex": 28,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3"
+        ]
+      },
+      {
+        "startIndex": 28,
+        "endIndex": 29,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.hooks.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 29,
+        "endIndex": 30,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 30,
+        "endIndex": 31,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 31,
+        "endIndex": 51,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 51,
+        "endIndex": 52,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 41,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 23,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 23,
+        "endIndex": 24,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 42,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 43,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  }
+]

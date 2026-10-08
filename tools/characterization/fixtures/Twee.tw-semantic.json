@@ -1,0 +1,686 @@
+{
+  "tokens": [
+    {
+      "line": 2,
+      "startCharacter": 14,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 2,
+      "startCharacter": 15,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 2,
+      "startCharacter": 36,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 2,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 2,
+      "startCharacter": 3,
+      "length": 10,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 5,
+      "startCharacter": 13,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 5,
+      "startCharacter": 14,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 5,
+      "startCharacter": 35,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 5,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 5,
+      "startCharacter": 3,
+      "length": 9,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 9,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 10,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 31,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 12,
+      "startCharacter": 3,
+      "length": 5,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 23,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 24,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 45,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 16,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 17,
+      "length": 4,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 21,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 17,
+      "startCharacter": 3,
+      "length": 12,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 56,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 57,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 77,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 40,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 41,
+      "length": 13,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 54,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 18,
+      "startCharacter": 3,
+      "length": 36,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 33,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 34,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 55,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 18,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 19,
+      "length": 12,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 31,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 19,
+      "startCharacter": 3,
+      "length": 14,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 20,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 21,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 42,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 20,
+      "startCharacter": 3,
+      "length": 16,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 22,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 23,
+      "length": 0,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 23,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 19,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 20,
+      "length": 0,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 20,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 21,
+      "startCharacter": 3,
+      "length": 15,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 32,
+      "startCharacter": 19,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 32,
+      "startCharacter": 20,
+      "length": 0,
+      "tokenType": "passageTags",
+      "tokenModifiers": []
+    },
+    {
+      "line": 32,
+      "startCharacter": 20,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 27,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 28,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 48,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 18,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 19,
+      "length": 6,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 25,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 37,
+      "startCharacter": 3,
+      "length": 14,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 30,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 31,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 51,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 17,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 18,
+      "length": 10,
+      "tokenType": "special",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 28,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 40,
+      "startCharacter": 3,
+      "length": 13,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    }
+  ],
+  "passages": [
+    {
+      "name": "StoryTitle",
+      "tags": [],
+      "start": {
+        "line": 2,
+        "character": 0
+      },
+      "end": {
+        "line": 5,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 37,
+        "endHeader": 74,
+        "end": 103
+      }
+    },
+    {
+      "name": "StoryData",
+      "tags": [],
+      "start": {
+        "line": 5,
+        "character": 0
+      },
+      "end": {
+        "line": 12,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 104,
+        "endHeader": 140,
+        "end": 249
+      }
+    },
+    {
+      "name": "Start",
+      "tags": [],
+      "start": {
+        "line": 12,
+        "character": 0
+      },
+      "end": {
+        "line": 17,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 250,
+        "endHeader": 282,
+        "end": 384
+      }
+    },
+    {
+      "name": "Passage Name",
+      "tags": [
+        "tags"
+      ],
+      "start": {
+        "line": 17,
+        "character": 0
+      },
+      "end": {
+        "line": 18,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 385,
+        "endHeader": 431,
+        "end": 431
+      }
+    },
+    {
+      "name": "Passage - this i$ a va(l)iD_ name{",
+      "tags": [
+        "tags",
+        "multiple"
+      ],
+      "start": {
+        "line": 18,
+        "character": 0
+      },
+      "end": {
+        "line": 19,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 432,
+        "endHeader": 510,
+        "end": 510
+      }
+    },
+    {
+      "name": "Pass[age Name",
+      "tags": [
+        "tags",
+        "tag",
+        "lol"
+      ],
+      "start": {
+        "line": 19,
+        "character": 0
+      },
+      "end": {
+        "line": 20,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 511,
+        "endHeader": 567,
+        "end": 567
+      }
+    },
+    {
+      "name": "Pass}age N{ame",
+      "tags": [],
+      "start": {
+        "line": 20,
+        "character": 0
+      },
+      "end": {
+        "line": 21,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 568,
+        "endHeader": 611,
+        "end": 611
+      }
+    },
+    {
+      "name": "Passage no tags",
+      "tags": [],
+      "start": {
+        "line": 21,
+        "character": 0
+      },
+      "end": {
+        "line": 37,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 612,
+        "endHeader": 636,
+        "end": 875
+      }
+    },
+    {
+      "name": "Script passage",
+      "tags": [
+        "script"
+      ],
+      "start": {
+        "line": 37,
+        "character": 0
+      },
+      "end": {
+        "line": 40,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 876,
+        "endHeader": 925,
+        "end": 968
+      }
+    },
+    {
+      "name": "Style passage",
+      "tags": [
+        "stylesheet"
+      ],
+      "start": {
+        "line": 40,
+        "character": 0
+      },
+      "end": {
+        "line": 44,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 969,
+        "endHeader": 1021,
+        "end": 1068
+      }
+    }
+  ]
+}

@@ -1,0 +1,399 @@
+[
+  {
+    "line": 0,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 7,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 7,
+        "endIndex": 8,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 8,
+        "endIndex": 28,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 28,
+        "endIndex": 29,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 1,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 2,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 9,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 9,
+        "endIndex": 11,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "punctuation.definition.tag.begin.html"
+        ]
+      },
+      {
+        "startIndex": 11,
+        "endIndex": 14,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3"
+        ]
+      },
+      {
+        "startIndex": 14,
+        "endIndex": 16,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3",
+          "punctuation.definition.tag.begin.html"
+        ]
+      },
+      {
+        "startIndex": 16,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 19,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "punctuation.definition.tag.end.html"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 3,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 4,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 9,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 9,
+        "endIndex": 11,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "punctuation.definition.tag.begin.html"
+        ]
+      },
+      {
+        "startIndex": 11,
+        "endIndex": 15,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3"
+        ]
+      },
+      {
+        "startIndex": 15,
+        "endIndex": 17,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3",
+          "punctuation.definition.tag.begin.html"
+        ]
+      },
+      {
+        "startIndex": 17,
+        "endIndex": 22,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3"
+        ]
+      },
+      {
+        "startIndex": 22,
+        "endIndex": 24,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "punctuation.definition.tag.end.html"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 5,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 6,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 7,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 7,
+        "endIndex": 8,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 8,
+        "endIndex": 28,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 28,
+        "endIndex": 29,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 7,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 8,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 3,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 3,
+        "endIndex": 9,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 9,
+        "endIndex": 10,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      },
+      {
+        "startIndex": 10,
+        "endIndex": 30,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3"
+        ]
+      },
+      {
+        "startIndex": 30,
+        "endIndex": 31,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.harlowe.collapsed.twee3",
+          "punctuation.separator.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 9,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 1,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  },
+  {
+    "line": 10,
+    "tokens": [
+      {
+        "startIndex": 0,
+        "endIndex": 14,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      },
+      {
+        "startIndex": 14,
+        "endIndex": 16,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "punctuation.definition.tag.begin.html"
+        ]
+      },
+      {
+        "startIndex": 16,
+        "endIndex": 21,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "entity.name.function.twee3"
+        ]
+      },
+      {
+        "startIndex": 21,
+        "endIndex": 23,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3",
+          "meta.markup.underline.link.twee3",
+          "punctuation.definition.tag.end.html"
+        ]
+      },
+      {
+        "startIndex": 23,
+        "endIndex": 25,
+        "scopes": [
+          "source.harlowe-3.twee3",
+          "meta.harlowe3.passage.twee3"
+        ]
+      }
+    ]
+  }
+]

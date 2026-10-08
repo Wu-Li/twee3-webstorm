@@ -1,6 +1,6 @@
 # Project guidance
 
-Read [docs/implementation-plan.md](docs/implementation-plan.md) before starting work. It defines the reviewed behavior, intended architecture, implementation order, and acceptance criteria. Keep this guidance aligned as milestones land.
+Read [docs/implementation-plan.md](docs/implementation-plan.md) before starting work. It defines the reviewed behavior, intended architecture, implementation order, and acceptance criteria. Keep this guidance aligned as milestones land. For incremental implementation, read [docs/chapters/README.md](docs/chapters/README.md), continue the first unfinished chapter, and record actual checks and blockers there.
 
 ## Repository layout
 

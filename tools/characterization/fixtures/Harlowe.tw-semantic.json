@@ -1,0 +1,58 @@
+{
+  "tokens": [
+    {
+      "line": 0,
+      "startCharacter": 11,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 12,
+      "length": 21,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 33,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 3,
+      "length": 7,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    }
+  ],
+  "passages": [
+    {
+      "name": "Harlowe",
+      "tags": [],
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 29,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 0,
+        "endHeader": 34,
+        "end": 569
+      }
+    }
+  ]
+}

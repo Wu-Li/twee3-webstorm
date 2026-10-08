@@ -1,0 +1,11 @@
+{
+  "defs/grammar.json": "bb580b6cedeb76b86c207e1f494ddea251c2c209b835992d08d3f716eaf20e44",
+  "defs/harlowe-3/grammar.json": "26091647327aa5a718d17e689d11a2be9de749be4c27ed2f2449a92b84116443",
+  "src/parse-text.ts": "1d23b459d4ca7a896637caf7040c8d4fbdaad4da7c7d75adbecae8fde18d8b4b",
+  "src/diagnostics.ts": "90b70ab07a69b96535f101500e63ac2d3ae961f312b3748cfb2498a974228bbe",
+  "src/twee-project.ts": "25025139f3bdddd20340fca8f14d4ac9d2bca737f4b44788d3388d14c32c97e0",
+  "src/passage.ts": "19b0a92036b8fd7dcb125620eb4cb3b07e6a47a298415e40e3583871c4809de2",
+  "tests/Harlowe.tw": "dade0c4d59cbd29903502989e7f93e5b31a5fd833630cfe998daf3c4d3586999",
+  "tests/Twee.tw": "6fde84f320743814996fc0f29ae79c8e3e3f516461b12b76abef6e90596fbd7d",
+  "tests/ArrowsTest.tw": "910aa9ed4147ee8e7262624af7acd8dbe828a9ea9ac09feaf403e21691677447"
+}

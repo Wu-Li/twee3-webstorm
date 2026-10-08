@@ -1,0 +1,162 @@
+{
+  "tokens": [
+    {
+      "line": 0,
+      "startCharacter": 7,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 8,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 28,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 0,
+      "startCharacter": 3,
+      "length": 3,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 6,
+      "startCharacter": 7,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 6,
+      "startCharacter": 8,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 6,
+      "startCharacter": 28,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 6,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 6,
+      "startCharacter": 3,
+      "length": 3,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    },
+    {
+      "line": 8,
+      "startCharacter": 9,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 8,
+      "startCharacter": 10,
+      "length": 20,
+      "tokenType": "passageMeta",
+      "tokenModifiers": []
+    },
+    {
+      "line": 8,
+      "startCharacter": 30,
+      "length": 1,
+      "tokenType": "comment",
+      "tokenModifiers": []
+    },
+    {
+      "line": 8,
+      "startCharacter": 0,
+      "length": 2,
+      "tokenType": "startToken",
+      "tokenModifiers": []
+    },
+    {
+      "line": 8,
+      "startCharacter": 3,
+      "length": 5,
+      "tokenType": "passageName",
+      "tokenModifiers": []
+    }
+  ],
+  "passages": [
+    {
+      "name": "One",
+      "tags": [],
+      "start": {
+        "line": 0,
+        "character": 0
+      },
+      "end": {
+        "line": 6,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 0,
+        "endHeader": 29,
+        "end": 77
+      }
+    },
+    {
+      "name": "Two",
+      "tags": [],
+      "start": {
+        "line": 6,
+        "character": 0
+      },
+      "end": {
+        "line": 8,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 78,
+        "endHeader": 107,
+        "end": 108
+      }
+    },
+    {
+      "name": "Three",
+      "tags": [],
+      "start": {
+        "line": 8,
+        "character": 0
+      },
+      "end": {
+        "line": 11,
+        "character": 0
+      },
+      "stringRange": {
+        "start": 109,
+        "endHeader": 140,
+        "end": 165
+      }
+    }
+  ]
+}

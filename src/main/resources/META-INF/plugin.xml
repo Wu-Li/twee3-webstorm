@@ -29,5 +29,6 @@
         <stubIndex implementation="twee.index.TweePassageNameIndex"/>
         <stubIndex implementation="twee.index.TweePassageTagIndex"/>
         <stubIndex implementation="twee.index.TweeAllPassagesIndex"/>
+        <fileBasedIndex implementation="twee.relations.RelationIndex"/>
     </extensions>
 </idea-plugin>

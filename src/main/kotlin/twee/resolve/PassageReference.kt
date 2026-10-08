@@ -15,9 +15,11 @@ import twee.scope.StoryScopeService
 class PassageTargetPsi(node: ASTNode) : ASTWrapperPsiElement(node) {
     override fun getReferences(): Array<PsiReference> {
         if (!project.getService(StoryContextService::class.java).supportsHarlowe(containingFile.virtualFile)) return PsiReference.EMPTY_ARRAY
-        val target = PassageTargets.extract(node) ?: return PsiReference.EMPTY_ARRAY
-        if (target.name.isNullOrEmpty() || target.range.isEmpty) return PsiReference.EMPTY_ARRAY
-        return arrayOf(PassageReference(this, target))
+        val references = mutableListOf<PsiReference>()
+        val target = PassageTargets.extract(node)
+        if (target != null && !target.name.isNullOrEmpty() && !target.range.isEmpty) references.add(PassageReference(this, target))
+        CustomMacroReference.create(this)?.let(references::add)
+        return references.toTypedArray()
     }
     override fun getReference(): PsiReference? = references.singleOrNull()
 }

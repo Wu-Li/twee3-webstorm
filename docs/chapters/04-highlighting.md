@@ -46,3 +46,5 @@ The TSV baseline spans derive from `tools/characterization/fixtures/edge-cases.t
 - [Editor incremental restart behavior](https://github.com/JetBrains/intellij-community/blob/master/platform/editor-ui-ex/src/com/intellij/openapi/editor/ex/util/LexerEditorHighlighter.java)
 
 Chapter 08 deliberately extends bracket-link lexing to honor backslash-escaped brackets and escaped link openers, so decoded passage names can be navigated consistently with header escaping. This focused range correction still requires native highlighting/restart verification.
+
+Chapter 10 extends macro opener recognition to leading-hyphen aliases documented by Harlowe (for example `(-_-_g-o-t-o:)`). Existing name-coloring quirks remain; relation extraction uses the full opener for digit-containing names. Native parity/restart verification is pending.

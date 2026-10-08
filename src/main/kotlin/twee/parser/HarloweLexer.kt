@@ -288,7 +288,7 @@ class HarloweLexer(private val enableBody: Boolean = true, private val embeddedL
     override fun getBufferEnd() = limit
 
     companion object {
-        private val macroOpen = Regex("\\([\u0024_]?[a-zA-Z][-\\w]*:")
+        private val macroOpen = Regex("\\((?:[\u0024_]?[a-zA-Z][-\\w]*|-[-\\w]*):")
         private val macroName = Regex("[a-zA-Z_-]+:")
         private val variable = Regex("(?:[\u0024_]|\\?[\u0024_]?)[A-Za-z][A-Za-z0-9_]*\\b")
         private val namedHook = Regex("(?:\\|[a-zA-Z0-9]\\w*[>)])(?=\\[)|(?<=[\\]])[<(][a-zA-Z0-9]\\w*\\|")

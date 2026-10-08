@@ -17,7 +17,7 @@ Assets are not copied or embedded automatically. Put an asset where the generate
 
 Open `src/test/testData/run/story with spaces` as a WebStorm project. Define a story rooted at `source`, with output directory `public`. Create a Tweego run configuration with working directory `.` and output `public/index.html`. Use an installed Harlowe 3 format; exact patch equality with StoryData is not required.
 
-- Run: `Arrival` must appear first, not `Start`; follow the link to `Across files` and back.
+- Run: `Arrival` must appear first, not `Start`; confirm the startup macro greeting and Visits count, then follow the link to `Across files` and back. Inspect `$greet` candidate tracing, `$visits` Reads/Writes, and entry/destination tags using the [Chapter 15 protocol](verification/chapter15-protocol.md).
 - Confirm the purple top border (CSS), `window.tweeBuildFixtureLoaded === true` in browser developer tools (JS), and the moon image (relative SVG asset).
 - Build HTML: confirm console output and a refreshed HTML file, with no browser launch.
 - Persist/reopen the configuration; confirm story override, paths, format, environment, browser and launch preference survive.

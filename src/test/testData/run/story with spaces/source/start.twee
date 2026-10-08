@@ -7,7 +7,10 @@ Chapter 14 smoke story
 :: Start
 This is NOT the configured start passage.
 
-:: Arrival
+:: Arrival [entry]
+(set: $visits to $visits + 1)
+($greet:)
+Visits: (print: $visits)
 The configured start passage works.
 <img src="assets/moon.svg" alt="Purple moon fixture">
 [[Continue->Across files]]

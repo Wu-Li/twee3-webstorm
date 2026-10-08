@@ -1,0 +1,47 @@
+{
+  "recorded_date_utc": "2026-10-08",
+  "chapter": 15,
+  "implementation_status": "harness implemented; native evidence pending",
+  "checks": {
+    "characterization": {
+      "status": "passed",
+      "tests": 7
+    },
+    "generator_unit_tests": {
+      "status": "passed",
+      "tests": 3
+    },
+    "large_fixture_manifest": {
+      "status": "passed",
+      "files": 206,
+      "selected_passages": 10003,
+      "literal_links": 20000,
+      "manifest_sha256": "600b474669da07151d898586ec9ffea56f938cf7b2ced26cf0f33713f100a102"
+    }
+  },
+  "environment": {
+    "python": "3.12.14",
+    "node": "v24.19.0",
+    "java": "openjdk version \"17.0.20\" 2026-07-21"
+  },
+  "native_measurements": {
+    "cold_ide_indexing_ms": null,
+    "fixture_creation_ms": null,
+    "index_ready_wait_ms": null,
+    "lookup_first_ms": null,
+    "lookup_warm_median_ms": null,
+    "lookup_warm_p95_ms": null,
+    "edit_commit_ms": null,
+    "incremental_relation_query_ms": null,
+    "hierarchy_outgoing_ms": null,
+    "pre_canceled_query_ms": null,
+    "ui_responsiveness": null
+  },
+  "pending": [
+    "Gradle check and native integration/performance tests",
+    "Real Tweego/Harlowe compiler and browser smoke",
+    "Cold IDE indexing and UI responsiveness profile",
+    "Windows/macOS/Linux execution checks"
+  ],
+  "limitations": "Generator and baseline checks do not execute Kotlin, IntelliJ indexing, Tweego or a browser. No native measurements were collected."
+}

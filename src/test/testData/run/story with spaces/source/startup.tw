@@ -1,0 +1,3 @@
+:: Boot [startup setup]
+(set: $visits to 0)
+(set: $greet to (macro: [(output-data: "Hello from the startup macro")]))

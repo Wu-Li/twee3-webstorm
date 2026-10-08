@@ -7,7 +7,7 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 - Continue on `automation/implementation-chapters`; fetch and inspect remote/local changes before editing. Never overwrite unrelated work.
 - Each execution works on the first unfinished chapter whose dependencies are complete. Finish its code, meaningful tests and progress record; do not silently mark unavailable verification as passed.
 - If a chapter cannot finish, record the exact blocker and resume it on the next execution. Do not skip host verification merely to advance the table.
-- Commit each completed slice and push the branch; do not merge or publish a release automatically. Update this table and its chapter evidence in the same commit.
+- Commit each completed slice locally; remote publication requires explicit authorization after the approval-review rejection recorded below. Do not merge or publish a release automatically. Update this table and its chapter evidence in the same commit.
 - After chapter 16 and all release gates pass, stop the recurring task. Until then, retain the next chapter and limitations here.
 
 ## Progress
@@ -30,3 +30,7 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 | [14 Build HTML and Run integration](14-run-integration.md) | 7 | Pending |
 | [15 End-to-end and performance evidence](15-end-to-end.md) | 8 | Pending |
 | [16 Packaging, CI and supported hosts](16-release.md) | 8 | Pending |
+
+## Publication status
+
+Chapter 01 is committed locally on `automation/implementation-chapters` in `/workspace/scratch/eae77a660784/twee3-webstorm`. Automatic approval review rejected the GitHub push on 7 October 2026: it considered remote publication unauthorized and the remote trust/privacy status unverified. No successful push is claimed. Do not retry through another route; obtain explicit authorization or evidence satisfying the review first. Continue chapter work in this checkout, preserving local commits.

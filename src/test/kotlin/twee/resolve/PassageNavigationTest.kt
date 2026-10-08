@@ -8,6 +8,8 @@ import com.intellij.psi.util.PsiTreeUtil
 import twee.testing.StoryProjectTestCase
 import twee.psi.TweePassage
 import twee.scope.StorySettings
+import twee.scope.StoryContextService
+import com.intellij.testFramework.PlatformTestUtil
 
 class PassageNavigationTest : StoryProjectTestCase() {
     override fun setUp() {
@@ -19,11 +21,26 @@ class PassageNavigationTest : StoryProjectTestCase() {
     }
     private fun targets(file: PsiFile) = PsiTreeUtil.findChildrenOfType(file, PassageTargetPsi::class.java)
         .sortedBy { it.textOffset }
-    private fun references(file: PsiFile) = targets(file).flatMap { it.references.toList() }.filterIsInstance<PassageReference>()
-    private fun ready() { com.intellij.testFramework.IndexingTestUtil.waitUntilIndexesAreReady(project) }
+    private fun references(file: PsiFile): List<PassageReference> {
+        ready()
+        return targets(file).flatMap { it.references.toList() }.filterIsInstance<PassageReference>()
+    }
+    private fun ready() {
+        com.intellij.testFramework.IndexingTestUtil.waitUntilIndexesAreReady(project)
+        val context = project.getService(StoryContextService::class.java)
+        context.requestRefresh()
+        PlatformTestUtil.waitWithEventsDispatching("Harlowe context", {
+            context.current.storyId == "a" && context.current.format == StoryContextService.Format.HARLOWE_3
+        }, 10)
+    }
+    private fun configureStoryFile(name: String, text: String): PsiFile {
+        val file = myFixture.addFileToProject("one/$name", text)
+        myFixture.configureFromExistingVirtualFile(file.virtualFile)
+        return myFixture.file
+    }
 
     fun testFourFormsPreciseRangesCaseAndEscaping() {
-        val file = myFixture.configureByText("links.tw", ":: Start\r\n[[雪 !]][[label->雪 !]][[雪 !<-label]][[label|雪 !]][[Snow \\[雪\\]]]")
+        val file = configureStoryFile("links.tw", ":: Start\r\n[[雪 !]][[label->雪 !]][[雪 !<-label]][[label|雪 !]][[Snow \\[雪\\]]]")
         val refs = references(file)
         assertEquals(listOf("雪 !", "雪 !", "雪 !", "雪 !", "Snow [雪]"), refs.map { it.canonicalText })
         assertEquals(listOf("雪 !", "雪 !", "雪 !", "雪 !", "Snow \\[雪\\]"), refs.map { it.rangeInElement.substring(it.element.text) })
@@ -34,7 +51,7 @@ class PassageNavigationTest : StoryProjectTestCase() {
         assertEquals("A|B", PassageTargets.bracket("[[A\\|B]]")!!.name)
     }
     fun testDocumentedMacroArgumentsAndAliases() {
-        val file = myFixture.configureByText("macros.tw", """
+        val file = configureStoryFile("macros.tw", """
             :: Start
             (display: "A") (GO_TO: 'B') (redirect: "C")
             (link-goto: "label", "D") (link-goto: "E")
@@ -45,7 +62,7 @@ class PassageNavigationTest : StoryProjectTestCase() {
         assertEquals(listOf("A", "B", "C", "D", "E", "F", "G", "H"), references(file).map { it.canonicalText })
     }
     fun testComputedTargetsRemainDynamic() {
-        val file = myFixture.configureByText("dynamic.tw", """
+        val file = configureStoryFile("dynamic.tw", """
             :: Start
             [[label->${'$'}destination]] [[_destination]] [[(either: "A", "B")]]
             (go-to: "A" + "B") (display: ${'$'}name)
@@ -55,7 +72,7 @@ class PassageNavigationTest : StoryProjectTestCase() {
         assertEquals(6, targets(file).mapNotNull { PassageTargets.extract(it.node) }.count { it.name == null })
     }
     fun testExcludedContextsAndNoNewDiagnostics() {
-        val file = myFixture.configureByText("contexts.tw", """
+        val file = configureStoryFile("contexts.tw", """
             :: Start
             <!-- [[Hidden]] (go-to: "Hidden") -->
             (print: "[[Hidden]] (go-to: 'Hidden')")
@@ -81,7 +98,7 @@ class PassageNavigationTest : StoryProjectTestCase() {
         assertTrue(matches.all { it.containingFile == target && it.textOffset == it.nameIdentifier!!.textOffset })
         assertNull(refs[0].resolve())
         assertEmpty(refs[1].multiResolve(false)); assertEmpty(refs[2].multiResolve(false))
-        assertTrue(references(foreign).all { it.multiResolve(false).isEmpty() })
+        assertEmpty(references(foreign)) // A different story must not expose active-story references.
         assertSame(matches[0], target.findElementAt(matches[0].textOffset)!!.parent.parent)
     }
     fun testCommittedUnsavedRenameMoveAndDelete() {

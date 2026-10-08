@@ -6,12 +6,12 @@ Implementation is not a verified release. The project must not be merged or rele
 | --- | --- | --- |
 | Wrapper regeneration | Gradle 9.3.0 regeneration and official wrapper/distribution checksum comparison | Pending; see Chapter 02 |
 | Baseline/tooling tests | Characterization, generator and package-inspector logs | Passed locally; repeat in candidate CI |
-| Native compilation/tests | `check` test XML and reports, including Chapters 03–15 tests | Compilation passed at `b9a4aa4`; 96 tests / 47 failures in each job of run 37774291989, including 44 story-fixture setup failures |
-| Project configuration | `verifyPluginProjectConfiguration` output | Passed in both jobs of run 37774291989 at `b9a4aa4`; repeat for final candidate |
-| Plugin build and structure | `buildPlugin`, `verifyPluginStructure`, candidate ZIP/SHA-256 | Passed in both jobs of run 37774291989 at `b9a4aa4`; repeat for final candidate |
-| ZIP contents | `inspect_plugin.py` JSON report for the actual candidate ZIP | Passed for actual ZIPs in both jobs of run 37774291989 at `b9a4aa4`; repeat for final candidate |
-| WebStorm verifier | `verifyPlugin -PverifierHost=WS`, target 2025.3.6 | Compatible at `b9a4aa4` (run 37774291989); nine deprecated/nine experimental API usages; repeat for final candidate |
-| IDEA verifier | `verifyPlugin -PverifierHost=IDEA`, target 2025.3.6.1 with JavaScript dependency | Compatible at `b9a4aa4` (run 37774291989); nine deprecated/nine experimental API usages; repeat for final candidate |
+| Native compilation/tests | `check` test XML and reports, including Chapters 03–15 tests | Compilation passed at `0b49149`; 96 tests / 9 failures in each job of run 37780708802 (87 passed) |
+| Project configuration | `verifyPluginProjectConfiguration` output | Passed in both jobs of run 37780708802 at `0b49149`; repeat for final candidate |
+| Plugin build and structure | `buildPlugin`, `verifyPluginStructure`, candidate ZIP/SHA-256 | Passed in both jobs of run 37780708802 at `0b49149`; repeat for final candidate |
+| ZIP contents | `inspect_plugin.py` JSON report for the actual candidate ZIP | Passed for actual ZIPs in both jobs of run 37780708802 at `0b49149`; repeat for final candidate |
+| WebStorm verifier | `verifyPlugin -PverifierHost=WS`, target 2025.3.6 | Compatible at `0b49149` (run 37780708802); nine deprecated/nine experimental API usages; repeat for final candidate |
+| IDEA verifier | `verifyPlugin -PverifierHost=IDEA`, target 2025.3.6.1 with JavaScript dependency | Compatible at `0b49149` (run 37780708802); nine deprecated/nine experimental API usages; repeat for final candidate |
 | Installed-plugin smoke | Fresh WebStorm and IDEA test profiles, startup logs and five-feature outcomes | Pending |
 | Real compiler/browser | Tweego/Harlowe versions, effective format, custom start/links/JS/CSS/assets, fail/cancel cases | Pending |
 | Performance/UI | Raw native timings and cold-index/UI/cancellation traces | Pending |

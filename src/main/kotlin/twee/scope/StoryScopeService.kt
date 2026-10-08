@@ -12,14 +12,14 @@ import com.intellij.psi.search.GlobalSearchScope
 @Service(Service.Level.PROJECT)
 class StoryScopeService(private val project: Project) {
     /** Null override follows selection; an unknown nonnull override fails closed, never falls back. */
-    fun snapshot(overrideStoryId: String? = null): StoryScope? {
+    fun snapshot(overrideStoryId: String? = null, additionalExcludedPaths: List<String> = emptyList()): StoryScope? {
         val settings = project.getService(StorySettings::class.java).state
         val id = overrideStoryId ?: settings.selectedStoryId
         val story = settings.stories.singleOrNull { it.id == id } ?: return null
         val base = project.basePath ?: return null
         val local = project.getService(StoryLocalTools::class.java).state
         val toolPaths = local.formatDirectories + listOfNotNull(local.compilerPath.takeIf { it.isNotBlank() }?.let { java.nio.file.Path.of(it).parent?.toString() })
-        return StoryScope(project, base, story.snapshot(), settings, toolPaths)
+        return StoryScope(project, base, story.snapshot(), settings, toolPaths + additionalExcludedPaths)
     }
 }
 

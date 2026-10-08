@@ -66,6 +66,19 @@ class StoryScopeTest : BasePlatformTestCase() {
         val files = project.getService(StoryScopeService::class.java).snapshot()!!.files()
         assertEquals(listOf("site.css", "start.tw"), files.map { it.name }.sorted())
     }
+    fun testBuildExcludesResolvedToolsAndIncludesSelectedScripts() {
+        project.getService(StorySettings::class.java).loadState(options(story("a", "source")))
+        myFixture.addFileToProject("source/start.tw", ":: Start")
+        myFixture.addFileToProject("source/script.js", "window.demo = 1;")
+        myFixture.addFileToProject("source/style.css", "body{}")
+        val format = myFixture.addFileToProject("source/custom-formats/harlowe/format.js", "format source").virtualFile
+        val scopes = project.getService(StoryScopeService::class.java)
+        val plain = scopes.snapshot()!!
+        val build = scopes.snapshot(additionalExcludedPaths = listOf(format.parent.parent.path))!!
+        assertTrue(plain.contains(format)); assertFalse(build.contains(format))
+        assertEquals(listOf("script.js", "start.tw", "style.css"), build.files().map { it.name }.sorted())
+        assertTrue(plain.fingerprint != build.fingerprint)
+    }
     fun testProjectStoryDataFromClosedAndUnsavedFiles() {
         val settings = project.getService(StorySettings::class.java)
         settings.loadState(options(story("a", "one"), story("b", "two")))

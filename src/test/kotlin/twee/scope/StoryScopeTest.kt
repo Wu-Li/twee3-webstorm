@@ -31,7 +31,7 @@ class StoryScopeTest : BasePlatformTestCase() {
         assertEquals("story/file.tw", StoryPaths.normalize("story/part/../file.tw"))
     }
     fun testPersistenceCopiesAndModificationTracking() {
-        val settings = StorySettings(); val all = options(story("a", "one"), story("b", "two"))
+        val settings = StorySettings(project); val all = options(story("a", "one"), story("b", "two"))
         val before = settings.modificationCount
         settings.loadState(XmlSerializer.deserialize(XmlSerializer.serialize(all), StorySettings.Options::class.java))
         assertTrue(settings.modificationCount > before)

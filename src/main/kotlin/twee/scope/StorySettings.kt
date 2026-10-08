@@ -2,11 +2,13 @@ package twee.scope
 
 import com.intellij.openapi.components.*
 import com.intellij.openapi.util.ModificationTracker
+import com.intellij.openapi.project.Project
+import com.intellij.util.messages.Topic
 import java.util.concurrent.atomic.AtomicLong
 
 @Service(Service.Level.PROJECT)
 @State(name = "TweeStories", storages = [Storage("twee.xml")])
-class StorySettings : PersistentStateComponent<StorySettings.Options>, ModificationTracker {
+class StorySettings(private val project: Project) : PersistentStateComponent<StorySettings.Options>, ModificationTracker {
     data class Story(var id: String = "", var name: String = "", var roots: MutableList<String> = mutableListOf(),
                      var exclusions: MutableList<String> = mutableListOf(), var outputDirectory: String = "build",
                      var harlowe3WhenMissing: Boolean = false) {
@@ -19,7 +21,7 @@ class StorySettings : PersistentStateComponent<StorySettings.Options>, Modificat
     @Volatile private var options = Options()
     private val counter = AtomicLong()
     override fun getState() = options.snapshot()
-    override fun loadState(state: Options) { options = state.snapshot(); counter.incrementAndGet() }
+    override fun loadState(state: Options) { options = state.snapshot(); counter.incrementAndGet(); project.messageBus.syncPublisher(StorySettingsListener.TOPIC).changed() }
     override fun getModificationCount() = counter.get()
 }
 
@@ -33,4 +35,9 @@ class StoryLocalTools : PersistentStateComponent<StoryLocalTools.Options>, Modif
     override fun getState() = options.copy(formatDirectories = options.formatDirectories.toMutableList())
     override fun loadState(state: Options) { options = state.copy(formatDirectories = state.formatDirectories.toMutableList()); counter.incrementAndGet() }
     override fun getModificationCount() = counter.get()
+}
+
+interface StorySettingsListener {
+    fun changed()
+    companion object { val TOPIC = Topic.create("Twee story settings", StorySettingsListener::class.java) }
 }

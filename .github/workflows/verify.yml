@@ -99,6 +99,9 @@ jobs:
           bash build/wrapper-regeneration/gradlew -p build/wrapper-regeneration wrapper --gradle-version 9.3.0 --distribution-type bin --gradle-distribution-sha256-sum 0d585f69da091fc5b2beced877feab55a3064d43b8a1d46aeb07996b0915e0e0 --no-daemon
           echo 'b3a875ddc1f044746e1b1a55f645584505f4a10438c1afea9f15e92a7c42ec13  build/wrapper-regeneration/gradle/wrapper/gradle-wrapper.jar' | sha256sum --check
           sha256sum build/wrapper-regeneration/gradlew build/wrapper-regeneration/gradlew.bat build/wrapper-regeneration/gradle/wrapper/* > build/wrapper-regeneration/SHA256SUMS
+          for wrapper_file in gradlew gradlew.bat gradle/wrapper/gradle-wrapper.jar gradle/wrapper/gradle-wrapper.properties; do
+            cmp "$wrapper_file" "build/wrapper-regeneration/$wrapper_file"
+          done
       - name: Retain generated wrapper for review
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

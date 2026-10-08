@@ -4,7 +4,7 @@ Implementation is not a verified release. The project must not be merged or rele
 
 | Gate | Evidence to retain | Status |
 | --- | --- | --- |
-| Wrapper regeneration | Gradle 9.3.0 regeneration and official wrapper/distribution checksum comparison | Pending; see Chapter 02 |
+| Wrapper regeneration | Gradle 9.3.0 regeneration and official wrapper/distribution checksum comparison | Regenerated in run 37836427267; artifact/file/official JAR checksums verified and files adopted; branch CI confirmation pending |
 | Baseline/tooling tests | Characterization, generator and package-inspector logs | Passed locally; repeat in candidate CI |
 | Native compilation/tests | `check` test XML and reports, including Chapters 03–15 tests | Compilation passed at `d455372`; 97 tests passed; all jobs green in run 37821613335 |
 | Project configuration | `verifyPluginProjectConfiguration` output | Passed in both jobs of run 37821613335 at `d455372`; repeat for final candidate |

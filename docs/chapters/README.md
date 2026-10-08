@@ -15,7 +15,7 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 | Chapter | Plan milestone | State |
 | --- | --- | --- |
 | [01 Baseline fixtures](01-baseline.md) | 1 | Complete |
-| [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | CI build/tests passed; wrapper and host launch pending |
+| [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | CI build/tests and wrapper regeneration passed; host launch pending |
 | [03 Twee structure and passage PSI](03-passage-psi.md) | 2 | Implemented; native CI passed |
 | [04 Harlowe lexer and highlighting](04-highlighting.md) | 2–3 | Implemented; native CI passed, visual acceptance pending |
 | [05 Inherited checks and preferences](05-checks.md) | 3 | Implemented for analyzed files; native CI passed |
@@ -41,6 +41,6 @@ All 16 implementation slices exist. Native compilation and all 97 tests now pass
 
 ## Latest verification follow-up
 
-8 October 2026: [CI run 37829317698](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37829317698), commit `e0b44e0`, passed baseline and both native jobs, retaining the green native/build/package/verifier result. The new wrapper job failed before generation: the temporary Kotlin settings file used single quotes, which Kotlin parses as an invalid character literal. No regenerated wrapper artifact was produced.
+8 October 2026: [CI run 37836427267](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37836427267), commit `f990488`, passed all four jobs, including isolated Gradle 9.3.0 wrapper regeneration. Adopted the four generated wrapper files from artifact 11575956899. Verified the artifact SHA-256 and each generated file's recorded checksum locally; the JAR matches the pinned official checksum `b3a875ddc1f044746e1b1a55f645584505f4a10438c1afea9f15e92a7c42ec13`. Distribution version/checksum remain unchanged. Unix executable mode is preserved; batch script retains generated CRLF bytes.
 
-Corrected the shell command to emit a double-quoted Kotlin string. Locally parsed the workflow, executed the actual settings-generation command in a temporary directory and compared its exact output, checked the wrapper step's Bash syntax, and ran `git diff --check`; all passed. Actual Gradle regeneration remains pending fresh CI. Next: inspect the wrapper job, compare/adopt the generated wrapper files, then finish installed-host/compiler/browser, cold-index/UI and cross-platform acceptance. No merge or release.
+CI now also compares regenerated files byte-for-byte with the checked-in wrapper. Local shell syntax, workflow parse, checksum and diff checks passed. The newly adopted wrapper still needs the next branch CI build result. Next: inspect that result, then complete installed-host/compiler/browser, cold-index/UI and cross-platform acceptance. Native CI passing does not establish those local acceptance gates. No merge or release.

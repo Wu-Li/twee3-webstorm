@@ -27,7 +27,7 @@ The plugin declares minimum build `253.33813.27` with no upper bound. This is co
 
 ## Development and verification
 
-Use JDK 21, Gradle 9.3.0 through the wrapper, and the pinned Kotlin 2.3.20 compiler with language/API level 2.2. Wrapper regeneration is still pending as recorded in [Chapter 02](docs/chapters/02-toolchain.md).
+Use JDK 21, Gradle 9.3.0 through the wrapper, and the pinned Kotlin 2.3.20 compiler with language/API level 2.2. Wrapper regeneration and checksum evidence are recorded in [Chapter 02](docs/chapters/02-toolchain.md).
 
 ```sh
 npm ci --prefix tools/characterization

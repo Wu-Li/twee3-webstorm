@@ -60,3 +60,7 @@ Run 37829317698 at `e0b44e0` passed baseline and both native jobs. The isolated 
 Run 37836427267 at `f990488` passed all four jobs. Artifact 11575956899 contains wrapper scripts, properties and JAR generated twice by Gradle 9.3.0 in an isolated project. Its ZIP SHA-256 is `6c756aab18258c8208dbb2d843978931f1aeb3ea2f14ff037d55f2407a1f7f6e`; all four file checksums match its manifest. The JAR matches the official pinned checksum above. Adopted those exact bytes, preserving executable Unix mode and generated Windows line endings. Properties retain the pinned distribution checksum/version; obsolete hand-retained retry properties are absent from the generated defaults.
 
 Added a CI byte comparison between regenerated and checked-in files. Local `sh -n gradlew`, workflow parse, wrapper-job Bash syntax, checksums and `git diff --check` passed (CRLF is treated as end-of-line for the generated batch file). Build execution with the adopted wrapper is pending next CI; installed-host startup remains pending. Earlier notes above are historical evidence.
+
+### Adopted wrapper verified
+
+Run 37843834883 at `acec59f` passed wrapper regeneration/byte comparison and both native build/test/package/verifier jobs. Wrapper adoption is verified; installed-host startup acceptance remains pending. No additional implementation chapter remains.

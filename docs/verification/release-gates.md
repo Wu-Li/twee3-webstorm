@@ -4,17 +4,17 @@ Implementation is not a verified release. The project must not be merged or rele
 
 | Gate | Evidence to retain | Status |
 | --- | --- | --- |
-| Wrapper regeneration | Gradle 9.3.0 regeneration and official wrapper/distribution checksum comparison | Regenerated in run 37836427267; artifact/file/official JAR checksums verified and files adopted; branch CI confirmation pending |
-| Baseline/tooling tests | Characterization, generator and package-inspector logs | Passed locally; repeat in candidate CI |
-| Native compilation/tests | `check` test XML and reports, including Chapters 03–15 tests | Compilation passed at `d455372`; 97 tests passed; all jobs green in run 37821613335 |
-| Project configuration | `verifyPluginProjectConfiguration` output | Passed in both jobs of run 37821613335 at `d455372`; repeat for final candidate |
-| Plugin build and structure | `buildPlugin`, `verifyPluginStructure`, candidate ZIP/SHA-256 | Passed in both jobs of run 37821613335 at `d455372`; repeat for final candidate |
-| ZIP contents | `inspect_plugin.py` JSON report for the actual candidate ZIP | Passed for actual ZIPs in both jobs of run 37821613335 at `d455372`; repeat for final candidate |
-| WebStorm verifier | `verifyPlugin -PverifierHost=WS`, target 2025.3.6 | Compatible at `d455372` (run 37821613335); nine deprecated/nine experimental API usages; repeat for final candidate |
-| IDEA verifier | `verifyPlugin -PverifierHost=IDEA`, target 2025.3.6.1 with JavaScript dependency | Compatible at `d455372` (run 37821613335); nine deprecated/nine experimental API usages; repeat for final candidate |
+| Wrapper regeneration | Gradle 9.3.0 regeneration and official wrapper/distribution checksum comparison | Passed: generation/checksums/adoption and byte comparison in run 37843834883 at `acec59f` |
+| Baseline/tooling tests | Characterization, generator and package-inspector logs | Passed in candidate CI run 37843834883 |
+| Native compilation/tests | `check` test XML and reports, including Chapters 03–15 tests | Compilation passed at `acec59f`; 97 tests passed; all jobs green in run 37843834883 |
+| Project configuration | `verifyPluginProjectConfiguration` output | Passed in both jobs of run 37843834883 at `acec59f`; repeat for final candidate |
+| Plugin build and structure | `buildPlugin`, `verifyPluginStructure`, candidate ZIP/SHA-256 | Passed in both jobs of run 37843834883 at `acec59f`; repeat for final candidate |
+| ZIP contents | `inspect_plugin.py` JSON report for the actual candidate ZIP | Passed for actual ZIPs in both jobs of run 37843834883 at `acec59f`; repeat for final candidate |
+| WebStorm verifier | `verifyPlugin -PverifierHost=WS`, target 2025.3.6 | Compatible at `acec59f` (run 37843834883); nine deprecated/nine experimental API usages; repeat for final candidate |
+| IDEA verifier | `verifyPlugin -PverifierHost=IDEA`, target 2025.3.6.1 with JavaScript dependency | Compatible at `acec59f` (run 37843834883); nine deprecated/nine experimental API usages; repeat for final candidate |
 | Installed-plugin smoke | Fresh WebStorm and IDEA test profiles, startup logs and five-feature outcomes | Pending |
 | Real compiler/browser | Tweego/Harlowe versions, effective format, custom start/links/JS/CSS/assets, fail/cancel cases | Pending |
-| Performance/UI | Raw native timings and cold-index/UI/cancellation traces | Fixture timings and pre-query cancellation passed at `d455372`; cold-index/UI traces pending |
+| Performance/UI | Raw native timings and cold-index/UI/cancellation traces | Fixture timings recorded at `d455372`; native suite also passed at `acec59f`; cold-index/UI traces pending |
 | Cross-platform execution | Windows/macOS/Linux process, path, cancellation and promotion evidence | Pending |
 | Any additional intended stable hosts | Explicit product versions, verifier and installed-plugin evidence | None claimed; choose and verify before expanding support |
 
@@ -31,3 +31,7 @@ CI may expose compilation/API/test failures in code that has never run in this e
 The inspector opens ZIP/JAR contents without extraction. It rejects duplicate classes/archive entries, bundled Kotlin stdlib/reflect or coroutines classes/JARs, inherited JS/TypeScript/Vue/Node/storyformat runtime assets, missing native classes, incorrect plugin ID/minimum/dependencies, unsafe paths and missing inherited MIT/NOTICE attribution. It records the actual ZIP's SHA-256. This supplements the platform structure/verifier tasks; it cannot prove IDE startup, source correctness or behavior.
 
 Once gates pass, record exact commit, ZIP hash, tested host builds, OS and compiler/format versions here and in the README. Retain the open upper bound without claiming untested IDE compatibility. Merge and release still require explicit user authorization.
+
+## Current implementation candidate
+
+Candidate `acec59f92bca38f831303a5ff35693fb17626b6b` passed all CI jobs in run 37843834883 on 8 October 2026. Both native jobs produced ZIP SHA-256 `48bb31362aa9b1a78e5d492512a84cb6d7b11e610c73b8b7e12673303f0c8d5d`. This is the candidate for remaining local acceptance, not an authorized release. Subsequent documentation-only bookkeeping does not change the attribution of this evidence. Re-run gates for any changed implementation candidate.

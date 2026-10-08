@@ -48,6 +48,11 @@ class StoryDataNotifications(private val project: Project) : Disposable {
             entries[file] = Entry(stamp, messages.toList(), notices)
         }
     }
+    internal fun retainOnly(file: VirtualFile?) {
+        generation.incrementAndGet()
+        val obsolete = entries.keys.filter { it != file }
+        obsolete.forEach { entries.remove(it)?.notifications?.forEach { notice -> notice.expire() } }
+    }
     fun refreshSettings() {
         generation.incrementAndGet()
         entries.values.flatMap { it.notifications }.forEach { it.expire() }

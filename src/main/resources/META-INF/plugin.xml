@@ -22,5 +22,8 @@
         <projectConfigurable id="twee.checks" displayName="Twee checks" parentId="language"
                              instance="twee.settings.TweeChecksConfigurable"/>
         <notificationGroup id="Twee StoryData" displayType="BALLOON" isLogByDefault="true"/>
+        <projectConfigurable id="twee.stories" displayName="Twee stories" parentId="language"
+                             instance="twee.scope.StoryConfigurable"/>
+        <postStartupActivity implementation="twee.scope.StoryStartup"/>
     </extensions>
 </idea-plugin>

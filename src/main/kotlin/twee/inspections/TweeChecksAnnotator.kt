@@ -12,8 +12,6 @@ class TweeChecksAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element !is TweeFile) return
         val options = element.project.getService(TweeCheckSettings::class.java).state
-        var notifications = emptyList<String>()
-        var foundStoryData = false
         for (passage in element.passages) {
             val header = passage.headerRange.substring(element.text)
             if (options.spaceAfterStartToken && header.length > 2 && !header[2].isWhitespace()) {
@@ -28,10 +26,6 @@ class TweeChecksAnnotator : Annotator {
                 val range = if (passage.bodyRange.isEmpty) passage.nameIdentifier!!.textRange else passage.bodyRange
                 holder.newAnnotation(HighlightSeverity.ERROR, "Malformed StoryData JSON!").range(range).create()
             }
-            if (!foundStoryData) { notifications = result.messages; foundStoryData = true }
-        }
-        element.virtualFile?.let {
-            element.project.getService(StoryDataNotifications::class.java).update(it, notifications, element.modificationStamp)
         }
     }
 }

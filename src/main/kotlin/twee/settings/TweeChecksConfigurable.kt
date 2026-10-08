@@ -3,7 +3,6 @@ package twee.settings
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
-import twee.inspections.StoryDataNotifications
 import javax.swing.BoxLayout
 import javax.swing.JCheckBox
 import javax.swing.JComponent
@@ -28,7 +27,7 @@ class TweeChecksConfigurable(private val project: Project) : Configurable {
     override fun isModified() = selected() != settings.state
     override fun apply() {
         settings.loadState(selected())
-        project.getService(StoryDataNotifications::class.java).refreshSettings()
+        project.getService(twee.scope.StoryContextService::class.java).settingsChanged()
         DaemonCodeAnalyzer.getInstance(project).restart()
     }
     override fun reset() {

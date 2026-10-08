@@ -13,14 +13,14 @@ import twee.parser.HarloweLexer
 import twee.parser.HarloweTypes as H
 import twee.parser.TweeTypes as T
 
-class TweeSyntaxHighlighter(private val project: Project? = null) : SyntaxHighlighterBase() {
+class TweeSyntaxHighlighter(private val project: Project? = null, private val enableBody: Boolean = true) : SyntaxHighlighterBase() {
     private val embedded = mutableMapOf<String, SyntaxHighlighter?>()
     private fun host(extension: String): SyntaxHighlighter? = embedded.getOrPut(extension) {
         val type = FileTypeManager.getInstance().getFileTypeByExtension(extension)
         // Protect against users associating *.js/css/json with Twee.
         if (type.name == "Twee") null else SyntaxHighlighterFactory.getSyntaxHighlighter(type, project, null)
     }
-    override fun getHighlightingLexer() = HarloweLexer { host(it)?.highlightingLexer }
+    override fun getHighlightingLexer() = HarloweLexer(enableBody) { host(it)?.highlightingLexer }
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
         keys[tokenType]?.let { return arrayOf(it) }
         for (highlighter in embedded.values) {
@@ -66,5 +66,5 @@ class TweeSyntaxHighlighter(private val project: Project? = null) : SyntaxHighli
 }
 
 class TweeSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
-    override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = TweeSyntaxHighlighter(project)
+    override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = TweeSyntaxHighlighter(project, project?.getService(twee.scope.StoryContextService::class.java)?.supportsHarlowe(virtualFile) ?: true)
 }

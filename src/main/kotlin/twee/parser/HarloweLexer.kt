@@ -13,7 +13,7 @@ import com.intellij.psi.tree.IElementType
  * Embedded lexers are optional: parser PSI uses opaque embedded regions; highlighting uses
  * host lexers without creating injected files or enabling their inspections.
  */
-class HarloweLexer(private val embeddedLexer: ((String) -> Lexer?)? = null) : LexerBase(), RestartableLexer {
+class HarloweLexer(private val enableBody: Boolean = true, private val embeddedLexer: ((String) -> Lexer?)? = null) : LexerBase(), RestartableLexer {
     private data class Context(
         val stack: List<String> = emptyList(), val mode: String = "prose",
         val quote: Char = '\u0000', val embeddedState: Int = 0,
@@ -120,7 +120,7 @@ class HarloweLexer(private val embeddedLexer: ((String) -> Lexer?)? = null) : Le
             while (context.stack.lastOrNull() in listOf("hook-open", "collapsed-open")) context = pop()
         }
         currentState = state(context)
-        if (!context.active) { emit(TweeTypes.TEXT, lineEnd(position)); return }
+        if (!context.active || (!enableBody && context.mode != "json")) { emit(TweeTypes.TEXT, lineEnd(position)); return }
         if (context.mode in listOf("js", "css", "json")) { embedded(); return }
         if (context.mode == "html" || context.mode == "html-string") { htmlPart(); return }
         if (context.mode == "comment") { comment(false); return }

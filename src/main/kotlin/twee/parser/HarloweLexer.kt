@@ -263,7 +263,15 @@ class HarloweLexer(private val enableBody: Boolean = true, private val embeddedL
             }
             delegateMode = context.mode
             delegate = embeddedInstances.getOrPut(context.mode) { embeddedLexer?.invoke(context.mode) }
-            delegate?.start(buffer, position, delegateEnd, context.embeddedState)
+            delegate?.let { host ->
+                // Host highlighting lexers may have layered context not captured by their
+                // integer state (notably JavaScript). Replay this region from a clean start.
+                host.start(buffer, embeddedRegionStart(), delegateEnd, 0)
+                while (host.tokenType != null && host.tokenEnd <= position) {
+                    ProgressManager.checkCanceled()
+                    host.advance()
+                }
+            }
         }
         val lexer = delegate
         if (lexer == null || lexer.tokenType == null) {
@@ -274,6 +282,27 @@ class HarloweLexer(private val enableBody: Boolean = true, private val embeddedL
         lexer.advance()
         emit(token, end, context.copy(embeddedState = if (lexer.tokenType == null) 0 else lexer.state))
     }
+    private fun embeddedRegionStart(): Int {
+        // Passage headers reset lexical context. Reconstruct only the current passage,
+        // using the opaque scanner so this cannot recursively instantiate host lexers.
+        var anchor = lineStart(position)
+        while (anchor > 0 && headerAt(anchor) == null) {
+            ProgressManager.checkCanceled()
+            anchor = lineStart(anchor - 1)
+        }
+        val opaque = HarloweLexer(enableBody)
+        opaque.start(buffer, anchor, limit, 0)
+        while (opaque.tokenType != null) {
+            ProgressManager.checkCanceled()
+            if (opaque.tokenStart <= position && position < opaque.tokenEnd) {
+                check(opaque.tokenType == HarloweTypes.EMBEDDED) { "Expected embedded region at $position" }
+                return opaque.tokenStart
+            }
+            opaque.advance()
+        }
+        error("Missing embedded region at $position")
+    }
+
     override fun advance() {
         position = finish; context = after
         headerLexer?.advance()

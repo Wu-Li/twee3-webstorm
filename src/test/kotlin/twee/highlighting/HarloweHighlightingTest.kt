@@ -59,6 +59,25 @@ class HarloweHighlightingTest : BasePlatformTestCase() {
             }
         }
     }
+    fun testEmbeddedRegionsRestartIndependently() {
+        val text = ":: A\n<script>const first = /ab+/g;</script> prose " +
+            "<script>const second = 'value';</script><style>p { color: red; }</style>\n" +
+            ":: Code [script]\nconst third = 3;\n:: Data\n[[A]]"
+        val lexer = TweeSyntaxHighlighter(project).highlightingLexer
+        val full = tokens(lexer, text)
+        for (index in full.indices) {
+            val token = full[index]
+            assertEquals("Restart at ${token.start}", shape(full.drop(index)),
+                shape(tokens(lexer, text, token.start, token.state)))
+        }
+        val changedAt = text.indexOf("second")
+        val anchor = full.last { it.start <= changedAt }
+        val edited = text.replace("second", "renamed")
+        assertEquals(shape(tokens(TweeSyntaxHighlighter(project).highlightingLexer, edited)
+            .filter { it.start >= anchor.start }),
+            shape(tokens(lexer, edited, anchor.start, anchor.state)))
+    }
+
     fun testRestartAfterEditMatchesFreshLexing() {
         for ((old, replacement) in listOf("multiline" to "modified", "_temp" to "(max: 2, 3)", "comment -->" to "comment still open", "color: red" to "color: blue")) {
             val lexer = TweeSyntaxHighlighter(project).highlightingLexer

@@ -4,8 +4,7 @@
     <vendor url="https://github.com/Wu-Li/twee3-webstorm">Wu-Li</vendor>
     <description><![CDATA[
         <p>Native Twee and Harlowe 3 support for WebStorm, under development.</p>
-        <p>Includes structural Twee support, Harlowe 3 highlighting, inherited checks and project check settings, scoped passage navigation and a Passages window with tag editing, and static Find Usages. Further planned features are
-        hierarchy views and HTML build and run through Tweego.</p>
+        <p>Includes structural Twee support, Harlowe 3 highlighting, inherited checks and project check settings, scoped passage navigation and a Passages window with tag editing, static Find Usages and hierarchy views. HTML build and run through Tweego remain planned.</p>
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
@@ -37,5 +36,6 @@
         <elementDescriptionProvider implementation="twee.usages.TweeElementDescriptionProvider"/>
         <usageTypeProvider implementation="twee.usages.TweeUsageTypeProvider"/>
         <readWriteAccessDetector implementation="twee.usages.TweeReadWriteAccessDetector"/>
+        <callHierarchyProvider language="Twee" implementationClass="twee.hierarchy.TweeHierarchyProvider"/>
     </extensions>
 </idea-plugin>

@@ -119,6 +119,7 @@ class StoryContextService(private val project: Project) : Disposable {
     }
     private fun publish(snapshot: Snapshot, stamp: Long) {
         val before = current; current = snapshot
+        if (before != snapshot) project.messageBus.syncPublisher(StoryContextListener.TOPIC).changed()
         val notices = project.getService(StoryDataNotifications::class.java)
         notices.retainOnly(snapshot.source)
         snapshot.source?.let { notices.update(it, snapshot.messages, stamp) }
@@ -144,4 +145,9 @@ class StoryContextService(private val project: Project) : Disposable {
 
 class StoryStartup : ProjectActivity {
     override suspend fun execute(project: Project) { project.getService(StoryContextService::class.java).requestRefresh() }
+}
+
+interface StoryContextListener {
+    fun changed()
+    companion object { val TOPIC = com.intellij.util.messages.Topic.create("Twee story context", StoryContextListener::class.java) }
 }

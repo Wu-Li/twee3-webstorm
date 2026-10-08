@@ -125,13 +125,20 @@ class StoryContextService(private val project: Project) : Disposable {
         snapshot.source?.let { notices.update(it, snapshot.messages, stamp) }
         if (refreshHighlighters || before.format != snapshot.format || before.storyId != snapshot.storyId) {
             refreshHighlighters = false
+            // No story before or after means the effective language selection did not change.
+            // VFS activity alone must not restart analysis in unrelated/scratch editors.
+            if (before.storyId == null && snapshot.storyId == null) return
             val factory = com.intellij.openapi.editor.highlighter.EditorHighlighterFactory.getInstance()
+            var refreshed = false
             for (editor in EditorFactory.getInstance().allEditors) {
                 if (editor.project != project || editor !is com.intellij.openapi.editor.ex.EditorEx) continue
                 val file = FileDocumentManager.getInstance().getFile(editor.document) ?: continue
-                if (file.extension?.lowercase() in setOf("tw", "twee")) editor.highlighter = factory.createEditorHighlighter(project, file)
+                // Nonlocal scratch files always enable Harlowe, independently of story selection.
+                if (file.fileSystem.protocol != "file" || file.extension?.lowercase() !in setOf("tw", "twee")) continue
+                editor.highlighter = factory.createEditorHighlighter(project, file)
+                refreshed = true
             }
-            DaemonCodeAnalyzer.getInstance(project).restart()
+            if (refreshed) DaemonCodeAnalyzer.getInstance(project).restart()
         }
     }
     fun supportsHarlowe(file: VirtualFile?): Boolean {

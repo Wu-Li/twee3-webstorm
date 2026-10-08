@@ -7,12 +7,13 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiNameIdentifierOwner
+import com.intellij.psi.StubBasedPsiElement
 import com.intellij.util.IncorrectOperationException
 import twee.language.TweeFileType
 import twee.parser.TweeHeader
 import twee.parser.TweeTypes
 
-class TweePassage : StubBasedPsiElementBase<TweePassageStub>, PsiNameIdentifierOwner {
+class TweePassage : StubBasedPsiElementBase<TweePassageStub>, StubBasedPsiElement<TweePassageStub>, PsiNameIdentifierOwner {
     constructor(node: ASTNode) : super(node)
     constructor(stub: TweePassageStub) : super(stub, TweeTypes.PASSAGE)
     private val header get() = node.findChildByType(TweeTypes.HEADER)!!

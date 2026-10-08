@@ -4,8 +4,8 @@
     <vendor url="https://github.com/Wu-Li/twee3-webstorm">Wu-Li</vendor>
     <description><![CDATA[
         <p>Native Twee and Harlowe 3 support for WebStorm, under development.</p>
-        <p>Includes structural Twee support, Harlowe 3 highlighting, inherited checks and project check settings, scoped passage navigation and a Passages window with tag editing. Further planned features are
-        static source tracing and HTML build and run through Tweego.</p>
+        <p>Includes structural Twee support, Harlowe 3 highlighting, inherited checks and project check settings, scoped passage navigation and a Passages window with tag editing, and static Find Usages. Further planned features are
+        hierarchy views and HTML build and run through Tweego.</p>
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
@@ -30,5 +30,12 @@
         <stubIndex implementation="twee.index.TweePassageTagIndex"/>
         <stubIndex implementation="twee.index.TweeAllPassagesIndex"/>
         <fileBasedIndex implementation="twee.relations.RelationIndex"/>
+        <lang.findUsagesProvider language="Twee" implementationClass="twee.usages.TweeFindUsagesProvider"/>
+        <lang.targetElementEvaluator language="Twee" implementationClass="twee.usages.TweeTargetEvaluator"/>
+        <findUsagesHandlerFactory implementation="twee.usages.TweeFindUsagesHandlerFactory"/>
+        <referencesSearch implementation="twee.usages.TweeReferencesSearch"/>
+        <elementDescriptionProvider implementation="twee.usages.TweeElementDescriptionProvider"/>
+        <usageTypeProvider implementation="twee.usages.TweeUsageTypeProvider"/>
+        <readWriteAccessDetector implementation="twee.usages.TweeReadWriteAccessDetector"/>
     </extensions>
 </idea-plugin>

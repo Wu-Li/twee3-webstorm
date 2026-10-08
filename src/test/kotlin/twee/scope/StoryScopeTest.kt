@@ -3,11 +3,11 @@ package twee.scope
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.psi.PsiDocumentManager
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import com.intellij.util.xmlb.XmlSerializer
 import twee.parser.HarloweLexer
 
-class StoryScopeTest : BasePlatformTestCase() {
+class StoryScopeTest : StoryProjectTestCase() {
     private fun story(id: String, vararg roots: String) = StorySettings.Story(id, id, roots.toMutableList())
     private fun options(vararg stories: StorySettings.Story) = StorySettings.Options(stories.toMutableList(), stories.first().id)
     fun testSpecificOwnershipExclusionsAndAmbiguity() {

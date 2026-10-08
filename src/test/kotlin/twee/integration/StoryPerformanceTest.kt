@@ -8,7 +8,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.testFramework.IndexingTestUtil
 import com.intellij.testFramework.PlatformTestUtil
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import twee.hierarchy.TweeHierarchyModel
 import twee.index.PassageQueryService
 import twee.psi.TweeFile
@@ -17,7 +17,7 @@ import twee.scope.StoryContextService
 import twee.scope.StorySettings
 
 /** Reports actual native timings when executed; has no fabricated or machine-dependent speed threshold. */
-class StoryPerformanceTest : BasePlatformTestCase() {
+class StoryPerformanceTest : StoryProjectTestCase() {
     fun testIndexedLookupIncrementalEditHierarchyAndCancellation() {
         val fileCount = System.getenv("TWEE_PERF_FILES")?.toInt() ?: 20
         val perFile = System.getenv("TWEE_PERF_PASSAGES")?.toInt() ?: 50

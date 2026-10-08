@@ -4,12 +4,12 @@ import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.psi.PsiDocumentManager
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import twee.parser.TweeTypes
 import twee.psi.TweeFile
 import twee.scope.StorySettings
 
-class PassageIndexTest : BasePlatformTestCase() {
+class PassageIndexTest : StoryProjectTestCase() {
     override fun setUp() {
         super.setUp()
         project.getService(StorySettings::class.java).loadState(StorySettings.Options(mutableListOf(

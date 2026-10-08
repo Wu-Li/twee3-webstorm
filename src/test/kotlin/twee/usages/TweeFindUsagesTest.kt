@@ -12,14 +12,14 @@ import com.intellij.psi.search.LocalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.testFramework.PlatformTestUtil
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import com.intellij.usageView.UsageInfo
 import com.intellij.util.Processor
 import twee.psi.TweeFile
 import twee.scope.StoryContextService
 import twee.scope.StorySettings
 
-class TweeFindUsagesTest : BasePlatformTestCase() {
+class TweeFindUsagesTest : StoryProjectTestCase() {
     override fun setUp() {
         super.setUp()
         project.getService(StorySettings::class.java).loadState(StorySettings.Options(mutableListOf(

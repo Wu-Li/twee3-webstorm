@@ -5,11 +5,11 @@ import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import twee.psi.TweePassage
 import twee.scope.StorySettings
 
-class PassageNavigationTest : BasePlatformTestCase() {
+class PassageNavigationTest : StoryProjectTestCase() {
     override fun setUp() {
         super.setUp()
         project.getService(StorySettings::class.java).loadState(StorySettings.Options(mutableListOf(

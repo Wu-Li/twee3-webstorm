@@ -4,14 +4,14 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.testFramework.PlatformTestUtil
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import twee.scope.StoryContextService
 import twee.scope.StorySettings
 import com.intellij.psi.util.PsiTreeUtil
 import twee.resolve.PassageTargetPsi
 import twee.resolve.CustomMacroReference
 
-class RelationQueryTest : BasePlatformTestCase() {
+class RelationQueryTest : StoryProjectTestCase() {
     override fun setUp() {
         super.setUp()
         project.getService(StorySettings::class.java).loadState(StorySettings.Options(mutableListOf(

@@ -10,7 +10,8 @@ import twee.psi.TweeFile
 class TweeStructureTest : BasePlatformTestCase() {
     private fun parse(text: String, filename: String = "story.twee"): TweeFile {
         val file = myFixture.configureByText(filename, text) as TweeFile
-        assertEquals(text, file.text)
+        // The IDE normalizes document line separators; raw lexer coverage below keeps CRLF input.
+        assertEquals(text.replace("\r\n", "\n").replace("\r", "\n"), file.text)
         assertEmpty(PsiTreeUtil.findChildrenOfType(file, PsiErrorElement::class.java))
         return file
     }
@@ -21,14 +22,15 @@ class TweeStructureTest : BasePlatformTestCase() {
         }
     }
     fun testRangesAndEscapedUnicodeNames() {
-        val text = "preamble\r\n:: Café \\[east\\] [one script] {\"position\":\"1,2\"}\r\nbody\r\n::End"
-        val file = parse(text)
+        val input = "preamble\r\n:: Café \\[east\\] [one script] {\"position\":\"1,2\"}\r\nbody\r\n::End"
+        val file = parse(input)
+        val text = file.text
         assertEquals(listOf("Café [east]", "End"), file.passages.map { it.name })
         val passage = file.passages.first()
         assertEquals("Café \\[east\\]", passage.rawName)
         assertEquals("[one script]", passage.tagsRange!!.substring(text))
         assertEquals("{\"position\":\"1,2\"}", passage.metadataRange!!.substring(text))
-        assertEquals("body\r\n", passage.bodyRange.substring(text))
+        assertEquals("body\n", passage.bodyRange.substring(text))
         assertEquals(":: Café \\[east\\] [one script] {\"position\":\"1,2\"}", passage.headerRange.substring(text))
         assertEquals(listOf("one", "script"), passage.tags)
         assertEquals(text.indexOf("Café"), passage.textOffset)
@@ -50,7 +52,7 @@ class TweeStructureTest : BasePlatformTestCase() {
         val file = parse(":: Before [one two] {\"x\":1}\r\nbody")
         WriteCommandAction.runWriteCommandAction(project) { file.passages.single().setName("After [雪]\\path") }
         assertEquals("After [雪]\\path", file.passages.single().name)
-        assertEquals(":: After \\[雪\\]\\\\path [one two] {\"x\":1}\r\nbody", file.text)
+        assertEquals(":: After \\[雪\\]\\\\path [one two] {\"x\":1}\nbody", file.text)
     }
     fun testLiveMalformedHeaderThenRepair() {
         val file = parse(":: First\nbody\n:: Next\nend")

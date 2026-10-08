@@ -6,7 +6,7 @@ import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.IndexingTestUtil
 import com.intellij.testFramework.PlatformTestUtil
-import com.intellij.testFramework.fixtures.BasePlatformTestCase
+import twee.testing.StoryProjectTestCase
 import twee.hierarchy.TweeHierarchyModel
 import twee.index.PassageQueryService
 import twee.psi.TweeFile
@@ -22,7 +22,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 /** Integration across live scope, references, static tracing, tagging and committed unsaved edits. */
-class StoryWorkflowTest : BasePlatformTestCase() {
+class StoryWorkflowTest : StoryProjectTestCase() {
     fun testSharedSmokeStoryNavigationTracingTagsAndEdit() {
         project.getService(StorySettings::class.java).loadState(StorySettings.Options(mutableListOf(
             StorySettings.Story("smoke", "Smoke", mutableListOf("story")),

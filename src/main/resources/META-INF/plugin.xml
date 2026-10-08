@@ -32,7 +32,7 @@
         <stubIndex implementation="twee.index.TweeAllPassagesIndex"/>
         <fileBasedIndex implementation="twee.relations.RelationIndex"/>
         <lang.findUsagesProvider language="Twee" implementationClass="twee.usages.TweeFindUsagesProvider"/>
-        <lang.targetElementEvaluator language="Twee" implementationClass="twee.usages.TweeTargetEvaluator"/>
+        <targetElementEvaluator language="Twee" implementationClass="twee.usages.TweeTargetEvaluator"/>
         <findUsagesHandlerFactory implementation="twee.usages.TweeFindUsagesHandlerFactory"/>
         <referencesSearch implementation="twee.usages.TweeReferencesSearch"/>
         <elementDescriptionProvider implementation="twee.usages.TweeElementDescriptionProvider"/>

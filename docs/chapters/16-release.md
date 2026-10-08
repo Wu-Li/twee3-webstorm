@@ -39,3 +39,11 @@ Changed the copy rule to pass one list source to the configurable `from` overloa
 [Run 37747311541](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37747311541) at `81eef11` passed baseline checks and completed `processResources` and `verifyPluginProjectConfiguration` in both native jobs. The earlier Gradle-script failure is resolved. Both jobs reached `compileKotlin` and reported one error: `FileHyperlinkInfo` cannot be constructed because it is an interface.
 
 Changed the console filter to instantiate the public `OpenFileHyperlinkInfo` implementation with the same file and zero-based line. Reviewed its constructor in JetBrains source. `git diff --check` passed; native compilation and all downstream tests/package/verifier gates require the new CI result. No actual ZIP inspection or host compatibility pass is claimed.
+
+### CI follow-up: stub registration and descriptor name
+
+[Run 37753983982](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37753983982) at `bb68654` confirms native source and test compilation succeeds in both matrix jobs. Both built the plugin ZIP and passed the custom package inspector. Each native test execution reported 96 tests, 80 failed; compatibility verification rejected the display name `Twee3-webstorm`. This is not a passing test suite or a verified installable plugin.
+
+Removed `externalIdPrefix` from the Kotlin object stub holder registration. [Platform source](https://github.com/JetBrains/intellij-community/blob/idea/253.32098.37/platform/core-api/src/com/intellij/psi/stubs/StubElementTypeHolderEP.java) requires an interface for that optimization and asserts at line 65, matching the repeated CI failures. Without the attribute, the platform initializes the holder class and registers its existing serializers normally; external IDs and serialized schemas are unchanged. Changed the display name to `Twee3` to satisfy the observed descriptor rule; plugin ID and repository identity remain unchanged.
+
+Local XML parsing and `git diff --check` passed. Existing native index/hierarchy tests and platform verification must rerun in CI. The initial hierarchy null-target failure may be independent and remains explicitly unresolved until fresh evidence arrives. No assertions or release gates were removed.

@@ -44,3 +44,5 @@ The TSV baseline spans derive from `tools/characterization/fixtures/edge-cases.t
 - [IntelliJ lexer requirements](https://plugins.jetbrains.com/docs/intellij/implementing-lexer.html)
 - [Highlighter and color settings registration](https://plugins.jetbrains.com/docs/intellij/syntax-highlighter-and-color-settings-page.html)
 - [Editor incremental restart behavior](https://github.com/JetBrains/intellij-community/blob/master/platform/editor-ui-ex/src/com/intellij/openapi/editor/ex/util/LexerEditorHighlighter.java)
+
+Chapter 08 deliberately extends bracket-link lexing to honor backslash-escaped brackets and escaped link openers, so decoded passage names can be navigated consistently with header escaping. This focused range correction still requires native highlighting/restart verification.

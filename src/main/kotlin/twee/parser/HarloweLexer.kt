@@ -127,18 +127,18 @@ class HarloweLexer(private val enableBody: Boolean = true, private val embeddedL
         if (context.mode == "string") { string(false); return }
         if (context.mode == "link") {
             when {
-                starts("]]" ) -> emit(HarloweTypes.LINK_CLOSE, position + 2, context.copy(mode = "prose"))
+                starts("]]" ) && !escaped(position) -> emit(HarloweTypes.LINK_CLOSE, position + 2, context.copy(mode = "prose"))
                 starts("->") || starts("<-") -> emit(HarloweTypes.PUNCTUATION, position + 2)
                 else -> {
                     var i = position + 1
-                    while (i < limit && buffer[i - 1] != '\n' && !starts("]]", i) && !starts("->", i) && !starts("<-", i)) i++
+                    while (i < limit && buffer[i - 1] != '\n' && (escaped(i) || (!starts("]]", i) && !starts("->", i) && !starts("<-", i)))) i++
                     emit(HarloweTypes.LINK_TEXT, i)
                 }
             }
             return
         }
         if (starts("<!--")) { comment(true); return }
-        if (starts("[[") && linkEnds()) { emit(HarloweTypes.LINK_OPEN, position + 2, context.copy(mode = "link")); return }
+        if (starts("[[") && !escaped(position) && linkEnds()) { emit(HarloweTypes.LINK_OPEN, position + 2, context.copy(mode = "link")); return }
         match(namedHook)?.let { emit(HarloweTypes.HOOK_NAME, position + it.length); return }
         if (starts("<")) {
             match(html)?.let { tag ->
@@ -192,9 +192,16 @@ class HarloweLexer(private val enableBody: Boolean = true, private val embeddedL
         while (i < limit && buffer[i - 1] != '\n' && buffer[i] !in "()[]{}<$ _?'\"|&" && !expression()) i++
         emit(TweeTypes.TEXT, i)
     }
+    private fun escaped(at: Int): Boolean {
+        var i = at - 1
+        while (i >= 0 && buffer[i] == '\\') i--
+        return (at - i - 1) % 2 != 0
+    }
     private fun linkEnds(): Boolean {
         var i = position + 2
-        while (i < limit && buffer[i] != '\n' && buffer[i] != '[') {
+        while (i < limit && buffer[i] != '\n') {
+            if (buffer[i] == '\\') { i += 2; continue }
+            if (buffer[i] == '[') return false
             if (starts("]]", i)) return true
             i++
         }

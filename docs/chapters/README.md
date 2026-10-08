@@ -21,8 +21,8 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 | [05 Inherited checks and preferences](05-checks.md) | 3 | Implemented for analyzed files; native verification pending |
 | [06 Shared story scopes](06-story-scopes.md) | 4 | Implemented; native verification pending |
 | [07 Passage stubs and indexes](07-indexes.md) | 4 | Implemented; native verification pending |
-| [08 Passage navigation](08-navigation.md) | 4 | Next |
-| [09 Passages window and tag editing](09-tags.md) | 5 | Pending |
+| [08 Passage navigation](08-navigation.md) | 4 | Implemented; native/UI verification pending |
+| [09 Passages window and tag editing](09-tags.md) | 5 | Next |
 | [10 Static symbols and relations](10-relations.md) | 6 | Pending |
 | [11 Native Find Usages](11-usages.md) | 6 | Pending |
 | [12 Native hierarchy browser](12-hierarchy.md) | 6 | Pending |
@@ -37,4 +37,4 @@ Chapter 01 is committed locally on `automation/implementation-chapters` in `/wor
 
 ## Deferred verification
 
-The user authorized continued implementation on 7 October 2026 despite missing local verification prerequisites. Chapter 02 still needs wrapper regeneration, Gradle checks and a real WebStorm launch. Chapter 03 has structural language implementation and native tests; those tests cannot yet run here. Chapter 04 adds Harlowe highlighting and tests, with native/visual verification pending. Chapter 05 adds inherited checks/settings and per-file notification lifecycle, with native verification pending. Chapter 06 adds shared scopes, project StoryData selection and background notification refresh; native/UI verification is pending. Chapter 07 adds passage stubs/indexes and live scoped queries, with native verification pending. Continue with Chapter 08 while preserving this verification backlog. Do not merge or release until the deferred checks pass.
+The user authorized continued implementation on 7 October 2026 despite missing local verification prerequisites. Chapter 02 still needs wrapper regeneration, Gradle checks and a real WebStorm launch. Chapter 03 has structural language implementation and native tests; those tests cannot yet run here. Chapter 04 adds Harlowe highlighting and tests, with native/visual verification pending. Chapter 05 adds inherited checks/settings and per-file notification lifecycle, with native verification pending. Chapter 06 adds shared scopes, project StoryData selection and background notification refresh; native/UI verification is pending. Chapter 07 adds passage stubs/indexes and live scoped queries, with native verification pending. Chapter 08 adds soft polyvariant passage navigation and shared literal/dynamic target extraction, with native/UI verification pending. Continue with Chapter 09 while preserving this verification backlog. Do not merge or release until the deferred checks pass.

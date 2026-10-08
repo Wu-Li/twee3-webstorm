@@ -11,6 +11,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import twee.psi.TweeFile
 import twee.psi.TweePassage
+import twee.resolve.PassageTargetPsi
 
 class TweeParser : PsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
@@ -67,6 +68,7 @@ class TweeParserDefinition : ParserDefinition {
     override fun createFile(viewProvider: FileViewProvider) = TweeFile(viewProvider)
     override fun createElement(node: ASTNode) = when (node.elementType) {
         TweeTypes.PASSAGE -> TweePassage(node)
+        HarloweTypes.LINK, HarloweTypes.MACRO -> PassageTargetPsi(node)
         else -> ASTWrapperPsiElement(node)
     }
 }

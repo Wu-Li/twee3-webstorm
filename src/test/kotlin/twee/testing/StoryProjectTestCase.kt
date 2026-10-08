@@ -20,7 +20,9 @@ abstract class StoryProjectTestCase : BasePlatformTestCase() {
         val factory = IdeaTestFixtureFactory.getFixtureFactory()
         val directory = factory.createTempDirTestFixture()
         val root = Path.of(directory.tempDirPath)
-        val builder = factory.createFixtureBuilder(javaClass.name + "." + name, root, true)
+        // The builder appends its sanitized name to the supplied parent directory.
+        // Reuse the already-created safe temporary basename so both roots are identical.
+        val builder = factory.createFixtureBuilder(root.fileName.toString(), root.parent, true)
         builder.addModule(EmptyModuleFixtureBuilder::class.java).addSourceContentRoot(root.toString())
         return factory.createCodeInsightFixture(builder.fixture, directory)
     }

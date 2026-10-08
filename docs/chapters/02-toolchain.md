@@ -29,7 +29,7 @@ Run check and verifyPluginProjectConfiguration, package the scaffold, and actual
 - Checks passed: `npm test --prefix tools/characterization` (7/7), XML parsing of plugin.xml, and `git diff --check`.
 - Attempted `./gradlew check verifyPluginProjectConfiguration buildPlugin verifyPluginStructure --no-daemon`: exit 1 during distribution download with `java.net.SocketException: Network is unreachable`. None of these Gradle tasks executed. No plugin ZIP or successful build is claimed.
 - Environment inspection found OpenJDK 17 only under `/usr/lib/jvm`, no cached Gradle distribution, no installed WebStorm under `/opt`, and no `Xvfb` command. A direct distribution connectivity check also timed out after redirecting to GitHub.
-- Sandbox launch and plugin verifier were not run. A working JDK 21 environment with Gradle/dependency/IDE downloads (or preinstalled equivalents) and a display-capable WebStorm sandbox is required. Remote publication additionally remains subject to the recorded approval restriction.
+- Sandbox launch and plugin verifier were not run. A working JDK 21 environment with Gradle/dependency/IDE downloads (or preinstalled equivalents) and a display-capable WebStorm sandbox is required. The earlier remote publication restriction was subsequently resolved by the user’s explicit authorization to push this implementation branch on 7 October 2026.
 
 ### Resume steps
 

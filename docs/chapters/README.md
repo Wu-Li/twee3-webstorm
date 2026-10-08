@@ -17,8 +17,8 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 | [01 Baseline fixtures](01-baseline.md) | 1 | Complete |
 | [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | Implemented configuration; verification and wrapper regeneration pending |
 | [03 Twee structure and passage PSI](03-passage-psi.md) | 2 | Implemented; native verification pending |
-| [04 Harlowe lexer and highlighting](04-highlighting.md) | 2–3 | Next |
-| [05 Inherited checks and preferences](05-checks.md) | 3 | Pending |
+| [04 Harlowe lexer and highlighting](04-highlighting.md) | 2–3 | Implemented; native/visual verification pending |
+| [05 Inherited checks and preferences](05-checks.md) | 3 | Next |
 | [06 Shared story scopes](06-story-scopes.md) | 4 | Pending |
 | [07 Passage stubs and indexes](07-indexes.md) | 4 | Pending |
 | [08 Passage navigation](08-navigation.md) | 4 | Pending |
@@ -37,4 +37,4 @@ Chapter 01 is committed locally on `automation/implementation-chapters` in `/wor
 
 ## Deferred verification
 
-The user authorized continued implementation on 7 October 2026 despite missing local verification prerequisites. Chapter 02 still needs wrapper regeneration, Gradle checks and a real WebStorm launch. Chapter 03 has structural language implementation and native tests; those tests cannot yet run here. Continue with Chapter 04, preserving this verification backlog. Do not merge or release until the deferred checks pass.
+The user authorized continued implementation on 7 October 2026 despite missing local verification prerequisites. Chapter 02 still needs wrapper regeneration, Gradle checks and a real WebStorm launch. Chapter 03 has structural language implementation and native tests; those tests cannot yet run here. Chapter 04 adds Harlowe highlighting and tests, with native/visual verification pending. Continue with Chapter 05, preserving this verification backlog. Do not merge or release until the deferred checks pass.

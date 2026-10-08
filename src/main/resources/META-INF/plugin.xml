@@ -4,8 +4,8 @@
     <vendor url="https://github.com/Wu-Li/twee3-webstorm">Wu-Li</vendor>
     <description><![CDATA[
         <p>Native Twee and Harlowe 3 support for WebStorm, under development.</p>
-        <p>Includes structural Twee file and passage support. Further planned features are
-        highlighting and inherited checks, passage navigation, static source tracing,
+        <p>Includes structural Twee file and passage support and Harlowe 3 highlighting. Further planned features are
+        inherited checks, passage navigation, static source tracing,
         passage tags, and HTML build and run through Tweego.</p>
     ]]></description>
     <depends>com.intellij.modules.platform</depends>
@@ -15,5 +15,8 @@
         <fileType name="Twee" language="Twee" implementationClass="twee.language.TweeFileType"
                   fieldName="INSTANCE" extensions="twee;tw"/>
         <lang.parserDefinition language="Twee" implementationClass="twee.parser.TweeParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Twee" implementationClass="twee.highlighting.TweeSyntaxHighlighterFactory"/>
+        <annotator language="Twee" implementationClass="twee.highlighting.TweeHeaderAnnotator"/>
+        <colorSettingsPage implementation="twee.highlighting.TweeColorSettingsPage"/>
     </extensions>
 </idea-plugin>

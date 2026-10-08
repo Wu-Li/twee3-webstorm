@@ -25,7 +25,29 @@ class TweeParser : PsiParser {
             if (builder.tokenType == TweeTypes.NEWLINE) builder.advanceLexer()
             if (!builder.eof() && builder.tokenType != TweeTypes.MARKER) {
                 val body = builder.mark()
-                while (!builder.eof() && builder.tokenType != TweeTypes.MARKER) builder.advanceLexer()
+                val stack = mutableListOf<Pair<PsiBuilder.Marker, IElementType>>()
+                while (!builder.eof() && builder.tokenType != TweeTypes.MARKER) {
+                    val type = builder.tokenType
+                    val open = HarloweTypes.opens[type]
+                    val close = HarloweTypes.closes[type]
+                    if (open != null) stack.add(builder.mark() to open)
+                    if (close != null) {
+                        val matching = stack.indexOfLast { it.second == close }
+                        if (matching >= 0) {
+                            // Tolerate incomplete inner forms without synthesizing error nodes.
+                            while (stack.lastIndex > matching) {
+                                val (marker, kind) = stack.removeAt(stack.lastIndex); marker.done(kind)
+                            }
+                            builder.advanceLexer()
+                            val (marker, kind) = stack.removeAt(stack.lastIndex); marker.done(kind)
+                            continue
+                        }
+                    }
+                    builder.advanceLexer()
+                }
+                while (stack.isNotEmpty()) {
+                    val (marker, kind) = stack.removeAt(stack.lastIndex); marker.done(kind)
+                }
                 body.done(TweeTypes.BODY)
             }
             passage.done(TweeTypes.PASSAGE)
@@ -36,7 +58,7 @@ class TweeParser : PsiParser {
 }
 
 class TweeParserDefinition : ParserDefinition {
-    override fun createLexer(project: Project?) = TweeLexer()
+    override fun createLexer(project: Project?) = HarloweLexer()
     override fun createParser(project: Project?) = TweeParser()
     override fun getFileNodeType() = TweeTypes.FILE
     override fun getWhitespaceTokens() = TokenSet.EMPTY

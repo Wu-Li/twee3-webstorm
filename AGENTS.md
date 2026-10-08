@@ -4,7 +4,7 @@ Read [docs/implementation-plan.md](docs/implementation-plan.md) before starting 
 
 ## Repository layout
 
-This repository combines an IntelliJ plugin scaffold with the inherited VS Code extension. The Kotlin scaffold currently provides sample functionality; the plan describes work still to be built.
+This repository combines an IntelliJ plugin scaffold with the inherited VS Code extension. The native scaffold targets WebStorm; language functionality remains to be built. Chapter 02 tracks outstanding build and launch verification.
 
 - Native plugin code: `src/main/kotlin`.
 - Resources and extension registrations: `src/main/resources`, including `META-INF/plugin.xml`.
@@ -42,7 +42,7 @@ Use JDK 21 and the toolchain configuration specified by the plan. Plugin develop
 ./gradlew verifyPlugin
 ```
 
-Use `gradlew.bat` on Windows. `runIde` launches a development sandbox, not a story; the current scaffold targets IntelliJ IDEA until the planned WebStorm configuration is implemented.
+Use `gradlew.bat` on Windows. `runIde` launches a development sandbox, not a story; the configured development host is WebStorm 2025.3.6. Use JDK 21, Gradle 9.3.0, and Kotlin 2.3.20 with language/API level 2.2. These configured targets are not verified support claims.
 
 Run the smallest meaningful checks for each change. Add focused regression tests where behavior changes. Complete packaging and host verification before claiming release compatibility.
 

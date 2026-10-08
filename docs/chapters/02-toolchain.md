@@ -1,6 +1,6 @@
 # Chapter 02: WebStorm scaffold and toolchain
 
-Status: Pending
+Status: Blocked — configuration implemented; build and sandbox verification outstanding
 
 Plan milestone: 1. Dependencies: 01.
 
@@ -18,4 +18,29 @@ Run check and verifyPluginProjectConfiguration, package the scaffold, and actual
 
 ## Execution evidence
 
-Not yet executed.
+### 7 October 2026
+
+- Fetched origin successfully; `origin/master` remains at `77f9522`. Preserved the existing local chapter commits on `automation/implementation-chapters`.
+- Configured WebStorm 2025.3.6 and JavaScript dependency; verifier targets WebStorm 2025.3.6 and unified IntelliJ IDEA 2025.3.6.1.
+- Retained Kotlin 2.3.20 and IntelliJ Platform Gradle plugin 2.19.0. Set JDK/JVM 21 and Kotlin language/API 2.2; disabled the separately bundled Kotlin stdlib.
+- Pinned the distribution to Gradle 9.3.0 and its official SHA-256 (`0d585f69da091fc5b2beced877feab55a3064d43b8a1d46aeb07996b0915e0e0`). The wrapper JAR/scripts have **not** been regenerated; this remains part of the chapter.
+- Removed the sample random-number tool window and its unused message bundle. Replaced placeholder metadata, retained plugin ID/name/group/version and existing notices, and declared platform/lang/JavaScript dependencies.
+- Set minimum build 253.33813.27 without an upper bound; this is configured compatibility, not verified host support.
+- Checks passed: `npm test --prefix tools/characterization` (7/7), XML parsing of plugin.xml, and `git diff --check`.
+- Attempted `./gradlew check verifyPluginProjectConfiguration buildPlugin verifyPluginStructure --no-daemon`: exit 1 during distribution download with `java.net.SocketException: Network is unreachable`. None of these Gradle tasks executed. No plugin ZIP or successful build is claimed.
+- Environment inspection found OpenJDK 17 only under `/usr/lib/jvm`, no cached Gradle distribution, no installed WebStorm under `/opt`, and no `Xvfb` command. A direct distribution connectivity check also timed out after redirecting to GitHub.
+- Sandbox launch and plugin verifier were not run. A working JDK 21 environment with Gradle/dependency/IDE downloads (or preinstalled equivalents) and a display-capable WebStorm sandbox is required. Remote publication additionally remains subject to the recorded approval restriction.
+
+### Resume steps
+
+1. Provide the required build environment; retain this local branch and its commits.
+2. Regenerate wrapper files using Gradle 9.3.0 (`./gradlew wrapper --gradle-version 9.3.0 --distribution-type bin`, twice to update the scripts/JAR), retaining the distribution checksum. Verify the wrapper JAR against the official checksum `b3a875ddc1f044746e1b1a55f645584505f4a10438c1afea9f15e92a7c42ec13`.
+3. Run the chapter's Gradle gates and fix any actual configuration/build failures; inspect the resulting ZIP for duplicate runtime libraries.
+4. Launch `./gradlew runIde` in a display-capable environment, record actual WebStorm startup/plugin load evidence, and only then mark Chapter 02 complete. Do not start Chapter 03 before these gates pass.
+
+### Configuration references
+
+- [Official Gradle checksums](https://gradle.org/release-checksums/)
+- [IntelliJ Platform extension and verifier configuration](https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html)
+- [IDE product types](https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-types.html)
+- [Kotlin support](https://plugins.jetbrains.com/docs/intellij/using-kotlin.html)

@@ -15,7 +15,7 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 | Chapter | Plan milestone | State |
 | --- | --- | --- |
 | [01 Baseline fixtures](01-baseline.md) | 1 | Complete |
-| [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | Next |
+| [02 WebStorm scaffold and toolchain](02-toolchain.md) | 1 | Blocked: build environment / sandbox |
 | [03 Twee structure and passage PSI](03-passage-psi.md) | 2 | Pending |
 | [04 Harlowe lexer and highlighting](04-highlighting.md) | 2–3 | Pending |
 | [05 Inherited checks and preferences](05-checks.md) | 3 | Pending |
@@ -34,3 +34,7 @@ The authoritative scope and design remain in [implementation-plan.md](../impleme
 ## Publication status
 
 Chapter 01 is committed locally on `automation/implementation-chapters` in `/workspace/scratch/eae77a660784/twee3-webstorm`. Automatic approval review rejected the GitHub push on 7 October 2026: it considered remote publication unauthorized and the remote trust/privacy status unverified. No successful push is claimed. Do not retry through another route; obtain explicit authorization or evidence satisfying the review first. Continue chapter work in this checkout, preserving local commits.
+
+## Current execution blocker
+
+Chapter 02 configuration is implemented locally, but its Gradle tasks cannot start because the distribution download fails with `Network is unreachable`. JDK 21 and a display-capable WebStorm sandbox are also unavailable in the inspected environment. Pause recurring execution until these prerequisites are provided; resume Chapter 02 verification before advancing. See its execution evidence for exact checks and recovery steps.

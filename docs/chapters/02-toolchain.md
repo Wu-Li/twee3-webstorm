@@ -1,6 +1,6 @@
 # Chapter 02: WebStorm scaffold and toolchain
 
-Status: Blocked — configuration implemented; build and sandbox verification outstanding
+Status: Configuration implemented — verification and wrapper regeneration deferred by user authorization
 
 Plan milestone: 1. Dependencies: 01.
 
@@ -36,7 +36,7 @@ Run check and verifyPluginProjectConfiguration, package the scaffold, and actual
 1. Provide the required build environment; retain this local branch and its commits.
 2. Regenerate wrapper files using Gradle 9.3.0 (`./gradlew wrapper --gradle-version 9.3.0 --distribution-type bin`, twice to update the scripts/JAR), retaining the distribution checksum. Verify the wrapper JAR against the official checksum `b3a875ddc1f044746e1b1a55f645584505f4a10438c1afea9f15e92a7c42ec13`.
 3. Run the chapter's Gradle gates and fix any actual configuration/build failures; inspect the resulting ZIP for duplicate runtime libraries.
-4. Launch `./gradlew runIde` in a display-capable environment, record actual WebStorm startup/plugin load evidence, and only then mark Chapter 02 complete. Do not start Chapter 03 before these gates pass.
+4. Launch `./gradlew runIde` in a display-capable environment, record actual WebStorm startup/plugin load evidence, and only then mark Chapter 02 complete. The user subsequently authorized continuing implementation before these gates pass; they remain required before merge/release.
 
 ### Configuration references
 

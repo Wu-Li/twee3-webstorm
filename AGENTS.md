@@ -1,10 +1,10 @@
 # Project guidance
 
-Read [docs/implementation-plan.md](docs/implementation-plan.md) before starting work. It defines the reviewed behavior, intended architecture, implementation order, and acceptance criteria. Keep this guidance aligned as milestones land. For incremental implementation, read [docs/chapters/README.md](docs/chapters/README.md), continue the first unfinished chapter, and record actual checks and blockers there.
+Read [docs/implementation-plan.md](docs/implementation-plan.md) before starting work. It defines the reviewed behavior, intended architecture, implementation order, and acceptance criteria. Keep this guidance aligned as milestones land. For incremental implementation, read [docs/chapters/README.md](docs/chapters/README.md), continue the next unimplemented chapter, and record actual checks and blockers there. The user authorized continued implementation on 7 October 2026 while build/native/UI verification is deferred; keep those checks outstanding until executed and require them before merge/release.
 
 ## Repository layout
 
-This repository combines an IntelliJ plugin scaffold with the inherited VS Code extension. The native scaffold targets WebStorm; language functionality remains to be built. Chapter 02 tracks outstanding build and launch verification.
+This repository combines an IntelliJ plugin scaffold with the inherited VS Code extension. The native scaffold targets WebStorm; structural Twee passage PSI is implemented; Harlowe body support and other language features remain to be built. Chapter 02 tracks outstanding build and launch verification.
 
 - Native plugin code: `src/main/kotlin`.
 - Resources and extension registrations: `src/main/resources`, including `META-INF/plugin.xml`.

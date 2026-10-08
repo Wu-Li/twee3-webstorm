@@ -81,11 +81,16 @@ class StoryPerformanceTest : StoryProjectTestCase() {
             model.children(model.at(files.first().passages.first())!!, TweeHierarchyModel.View.OUTGOING)
         }
         assertTrue(rows.rows.any { it.label.contains("Unresolved") })
-        val canceled = EmptyProgressIndicator().also { it.cancel() }
+        val canceled = EmptyProgressIndicator()
         var observed = false
         timed("pre_canceled_query_ms") {
             try {
                 ProgressManager.getInstance().runProcess(Runnable {
+                    // runProcess starts the indicator, which clears any earlier cancellation.
+                    // Cancel the active process before entering the query.
+                    canceled.cancel()
+                    assertTrue("Query must receive a canceled indicator", canceled.isCanceled)
+                    assertSame(canceled, ProgressManager.getInstance().progressIndicator)
                     passages.query(PassageQueryService.Request(PassageQueryService.Kind.ALL))
                 }, canceled)
             } catch (_: ProcessCanceledException) { observed = true }

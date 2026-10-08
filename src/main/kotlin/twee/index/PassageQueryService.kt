@@ -31,6 +31,7 @@ class PassageQueryService(private val project: Project) {
     /** Caller holds a read action. Does not commit documents, wait for indexes or retain PSI trees. */
     fun query(request: Request): Result {
         ApplicationManager.getApplication().assertReadAccessAllowed()
+        ProgressManager.checkCanceled()
         val scope = project.getService(StoryScopeService::class.java).snapshot(request.storyOverride) ?: return Result(State.NO_STORY)
         if (DumbService.isDumb(project)) return Result(State.INDEXING)
         val documents = PsiDocumentManager.getInstance(project)

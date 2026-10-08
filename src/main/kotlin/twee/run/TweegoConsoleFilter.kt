@@ -1,6 +1,6 @@
 package twee.run
 
-import com.intellij.execution.filters.FileHyperlinkInfo
+import com.intellij.execution.filters.OpenFileHyperlinkInfo
 import com.intellij.execution.filters.Filter
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
@@ -18,7 +18,7 @@ internal class TweegoConsoleFilter(private val project: Project, private val sto
         val scope = project.getService(StoryScopeService::class.java).snapshot(storyId) ?: return null
         if (!scope.contains(file)) return null
         val base = entireLength - line.length
-        return Filter.Result(base + location.start, base + location.end, FileHyperlinkInfo(project, file, location.line - 1))
+        return Filter.Result(base + location.start, base + location.end, OpenFileHyperlinkInfo(project, file, location.line - 1))
     }
     data class Location(val path: String, val line: Int, val start: Int, val end: Int)
     companion object {

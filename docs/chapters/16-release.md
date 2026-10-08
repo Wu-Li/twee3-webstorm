@@ -33,3 +33,9 @@ All implementation chapters now have their code/tooling slices. Next work is ver
 [Run 37741113409](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37741113409), commit `b748fdd`, passed the baseline job. Both native jobs ran with JDK 21/Gradle 9.3.0 but stopped during Kotlin build-script compilation: the `processResources.from("LICENSE", "NOTICE")` vararg overload cannot accept the trailing configuration lambda. No native source compilation, tests, ZIP creation or verifier tasks completed. The subsequent missing-distribution inspection failures were consequences of that configuration error.
 
 Changed the copy rule to pass one list source to the configurable `from` overload, retaining both notices under META-INF. `git diff --check` passed. Local Gradle execution remains unavailable; the corrected script requires a fresh CI result before this failure is considered verified fixed. No release gate was relaxed.
+
+### CI follow-up: console hyperlink API
+
+[Run 37747311541](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37747311541) at `81eef11` passed baseline checks and completed `processResources` and `verifyPluginProjectConfiguration` in both native jobs. The earlier Gradle-script failure is resolved. Both jobs reached `compileKotlin` and reported one error: `FileHyperlinkInfo` cannot be constructed because it is an interface.
+
+Changed the console filter to instantiate the public `OpenFileHyperlinkInfo` implementation with the same file and zero-based line. Reviewed its constructor in JetBrains source. `git diff --check` passed; native compilation and all downstream tests/package/verifier gates require the new CI result. No actual ZIP inspection or host compatibility pass is claimed.

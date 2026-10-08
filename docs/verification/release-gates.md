@@ -7,7 +7,7 @@ Implementation is not a verified release. The project must not be merged or rele
 | Wrapper regeneration | Gradle 9.3.0 regeneration and official wrapper/distribution checksum comparison | Pending; see Chapter 02 |
 | Baseline/tooling tests | Characterization, generator and package-inspector logs | Passed locally; repeat in candidate CI |
 | Native compilation/tests | `check` test XML and reports, including Chapters 03–15 tests | Pending |
-| Project configuration | `verifyPluginProjectConfiguration` output | Pending |
+| Project configuration | `verifyPluginProjectConfiguration` output | Passed in both jobs of run 37747311541 at `81eef11`; repeat for final candidate |
 | Plugin build and structure | `buildPlugin`, `verifyPluginStructure`, candidate ZIP/SHA-256 | Pending |
 | ZIP contents | `inspect_plugin.py` JSON report for the actual candidate ZIP | Pending; only inspector regression fixtures checked locally |
 | WebStorm verifier | `verifyPlugin -PverifierHost=WS`, target 2025.3.6 | Pending |

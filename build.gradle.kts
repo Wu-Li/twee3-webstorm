@@ -50,7 +50,7 @@ intellijPlatform {
 
 // Preserve inherited attribution inside the installable plugin, not just the source checkout.
 tasks.processResources {
-    from("LICENSE", "NOTICE") { into("META-INF") }
+    from(listOf("LICENSE", "NOTICE")) { into("META-INF") }
 }
 
 tasks.withType<AbstractArchiveTask>().configureEach {

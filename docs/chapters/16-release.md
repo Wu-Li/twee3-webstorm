@@ -27,3 +27,9 @@ No local Gradle gate, real distribution inspection, verifier run, IDE launch, in
 WebStorm 2025.3.6 and IDEA 2025.3.6.1 remain **configured, unverified targets**. No current-stable or newer version is claimed as tested. Minimum build remains 253.33813.27 with no upper bound; this does not guarantee newer-host compatibility.
 
 All implementation chapters now have their code/tooling slices. Next work is verification and fixes within the existing chapters: inspect CI, resolve actual build/API/test failures, complete Chapter 02 wrapper/build/launch evidence and Chapters 15–16 native/compiler/browser/performance/release gates. Do not mark the plan complete, merge or release until required verification passes. Do not add placeholder chapters to bypass those gates.
+
+### CI follow-up: 8 October 2026
+
+[Run 37741113409](https://github.com/Wu-Li/twee3-webstorm/actions/runs/37741113409), commit `b748fdd`, passed the baseline job. Both native jobs ran with JDK 21/Gradle 9.3.0 but stopped during Kotlin build-script compilation: the `processResources.from("LICENSE", "NOTICE")` vararg overload cannot accept the trailing configuration lambda. No native source compilation, tests, ZIP creation or verifier tasks completed. The subsequent missing-distribution inspection failures were consequences of that configuration error.
+
+Changed the copy rule to pass one list source to the configurable `from` overload, retaining both notices under META-INF. `git diff --check` passed. Local Gradle execution remains unavailable; the corrected script requires a fresh CI result before this failure is considered verified fixed. No release gate was relaxed.

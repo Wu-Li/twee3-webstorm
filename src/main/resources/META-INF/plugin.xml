@@ -25,5 +25,9 @@
         <projectConfigurable id="twee.stories" displayName="Twee stories" parentId="language"
                              instance="twee.scope.StoryConfigurable"/>
         <postStartupActivity implementation="twee.scope.StoryStartup"/>
+        <stubElementTypeHolder class="twee.parser.TweeTypes" externalIdPrefix="twee."/>
+        <stubIndex implementation="twee.index.TweePassageNameIndex"/>
+        <stubIndex implementation="twee.index.TweePassageTagIndex"/>
+        <stubIndex implementation="twee.index.TweeAllPassagesIndex"/>
     </extensions>
 </idea-plugin>

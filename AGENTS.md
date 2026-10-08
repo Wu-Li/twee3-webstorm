@@ -4,7 +4,7 @@ Read [docs/implementation-plan.md](docs/implementation-plan.md) before starting 
 
 ## Repository layout
 
-This repository combines an IntelliJ plugin scaffold with the inherited VS Code extension. The native scaffold targets WebStorm; structural Twee passage/body PSI and Harlowe highlighting are implemented with native verification pending; inherited checks/settings and per-file validation notifications are implemented; shared story selection and project StoryData refresh are implemented with native verification pending; navigation, tracing, tagging and build/run remain to be built. Chapter 02 tracks outstanding build and launch verification.
+This repository combines an IntelliJ plugin scaffold with the inherited VS Code extension. The native scaffold targets WebStorm; structural Twee passage/body PSI and Harlowe highlighting are implemented with native verification pending; inherited checks/settings and per-file validation notifications are implemented; shared story selection and project StoryData refresh are implemented with native verification pending; passage stubs/indexes and live scoped queries are implemented with native verification pending; navigation, tracing, tagging and build/run remain to be built. Chapter 02 tracks outstanding build and launch verification.
 
 - Native plugin code: `src/main/kotlin`.
 - Resources and extension registrations: `src/main/resources`, including `META-INF/plugin.xml`.
